@@ -54,6 +54,13 @@ All generated code and config files require human review before
 execution. Present files for inspection; do not auto-run infrastructure
 or destructive commands (droplet changes, DNS changes, deploys).
 
+**Always pause and request review before `git commit`, and separately
+before `git push`** — confirmed explicitly 2026-09-30, after Claude
+committed scaffolding work without pausing first under a general
+"adelante"/go-ahead. A broad go-ahead for a phase of work does NOT cover
+git commit/push individually; each one gets its own explicit pause, every
+time, even mid-task.
+
 ## Collaboration on impactful design decisions
 
 Surface architecture/design forks as explicit questions rather than

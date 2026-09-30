@@ -43,6 +43,17 @@ is the rationale/mapping record, not duplicated instruction text.
 | `pymarkdown`/`ruff`/`shellcheck` as a hard-gated multi-tool suite | A smaller, static-site-appropriate set: HTML validator, internal link checker, color-contrast checker, readability checker, i18n completeness check, plus the Frozen-Flask build itself (fails on template errors) | Different artifact shape — no Python application logic to lint beyond the (thin) build scripts themselves; the real content-correctness risks here are broken links/markup/contrast/readability, not application bugs. |
 | Technical-debt TOML | Not carried over (not requested, and would be the first piece of schema/tooling overhead in an otherwise deliberately schema-free docs setup) | Flagging as available if wanted later — a plain `planning/tech-debt.md` list would be the lightweight equivalent, not proposed unprompted. |
 
+## Added 2026-09-30, stricter than originally specified
+
+- **Always pause for explicit review before `git commit`, and separately
+  before `git push`.** Surfaced when Claude committed the initial
+  scaffolding work without pausing first, under a general "adelante"
+  go-ahead for the whole phase — that wasn't sufficient authorization for
+  the commit specifically. A phase-level go-ahead does not extend to
+  individual git operations; each commit and each push needs its own
+  explicit review pause, regardless of how much prior authorization was
+  given for the surrounding work.
+
 ## Carried over unchanged (same spirit, not relaxed)
 
 - **Human review before any generated code/config gets executed** —

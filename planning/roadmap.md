@@ -114,8 +114,25 @@ longer a constraint on anything in this phase).
 suggested.** Proving the infra skeleton (can we stand up and tear down a
 droplet, repeatably) before any real site content is a good instinct — it
 validates the riskiest, hardest-to-debug-later part first, while nothing
-real is riding on it yet. **All blocking decisions are now resolved —
-1a-1f are ready to execute.**
+real is riding on it yet.
+
+**Progress, 2026-09-30 afternoon:** 1a (repo skeleton, minus the actual
+GitHub repo itself), 1b (Poetry project, all deps installed clean on
+3.14), 1c (pre-build-check.sh's wired-up checks), and 1d (the check
+script itself) are done — first commit made (`77a1bdd`). 1e
+(backup-to-laptop.sh) is written, not yet run for real. Blocked on two
+things, both needing David:
+
+- **`nginx` and `gh` CLI — done 2026-09-30.** David ran the install
+  himself (both available directly from Ubuntu's own repos, no custom
+  GitHub apt repo needed — simplified `init-dev-host.sh` accordingly).
+  Confirmed: `gh 2.46.0`, `nginx/1.28.3`.
+- **GitHub repo visibility — confirmed 2026-09-30: public.**
+
+1f (OpenTofu/Ansible/new-droplet tooling) not started yet — genuinely the
+biggest, highest-stakes remaining piece; per `CLAUDE.md`'s human-review
+rule, any generated infra config gets presented before anything is
+actually applied.
 
 ## Phase 2 — raw-material import (new, proposed by David 2026-09-30)
 

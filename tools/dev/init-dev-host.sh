@@ -15,25 +15,14 @@
 
 set -euo pipefail
 
-echo "[1/3] nginx (local dev vhost-per-site, mirrors prod)"
+echo "[1/2] nginx (local dev vhost-per-site, mirrors prod) + gh CLI (GitHub repo automation)"
+# Both are available straight from Ubuntu's own repos on 26.04 (checked
+# 2026-09-30: gh 2.46.0-4 is in universe) — no need for GitHub's own apt
+# repo/keyring dance.
 sudo apt-get update -qq
-sudo apt-get install -y nginx
+sudo apt-get install -y gh nginx
 
-echo "[2/3] gh CLI (GitHub repo automation)"
-if ! command -v gh >/dev/null; then
-    type -p wget >/dev/null || sudo apt-get install -y wget
-    sudo mkdir -p -m 755 /etc/apt/keyrings
-    out=$(mktemp)
-    wget -nv -O "$out" https://cli.github.com/packages/githubcli-archive-keyring.gpg
-    sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg < "$out" > /dev/null
-    sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" \
-        | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
-    sudo apt-get update -qq
-fi
-sudo apt-get install -y gh
-
-echo "[3/3] poetry, shellcheck — already present on ubuvm as of 2026-09-30, skipping"
+echo "[2/2] poetry, shellcheck — already present on ubuvm as of 2026-09-30, skipping"
 # poetry:    /home/dave/.local/bin/poetry (2.4.1)
 # checker:   /usr/bin/shellcheck (0.11.0)
 # Python: system /usr/bin/python3 (3.14.x) used directly — no pyenv for

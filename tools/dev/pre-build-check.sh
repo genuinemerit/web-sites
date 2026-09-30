@@ -29,11 +29,13 @@ run_check "ruff format" \
 run_check "shellcheck" \
     shellcheck -S warning tools/*/*.sh
 
-# planning/ is deliberately excluded — it's the frozen pre-build
-# discussion archive (see design/README.md), not actively maintained
-# content. design/ is the active equivalent and does get linted.
+# planning/ and design/ are both excluded — David's call 2026-09-30,
+# "more noise than we need for this project." Both are discussion/
+# decision-record docs, not user-facing content; only README.md,
+# CLAUDE.md, and docs/ (the actual pandoc guides/changelog output) get
+# linted.
 run_check "pymarkdown" \
-    poetry run pymarkdown --config .pymarkdown scan README.md CLAUDE.md design/ docs/
+    poetry run pymarkdown --config .pymarkdown scan README.md CLAUDE.md docs/
 
 # --- Checks below are not wired up yet — no site content/templates
 # exist to check yet (Phase 1 scaffolding only). Add each as its
