@@ -67,7 +67,12 @@ and readability linting, see `architecture.md`'s Testing section) —
 subjective visual judgment stays manual by design, the automation is a
 floor, not a replacement for David's own review.
 
-Remaining open questions moved to `open-questions.md` (consolidated list).
+**Visual reference points — resolved 2026-10-01.** Rather than naming
+specific external sites/print-design examples up front, David's answer
+was structural: the recurring dev-cycle checkpoints above *are* the
+mechanism — each one explicitly reviews style/look-and-feel/alignment
+against the "calm" design model in the governing brief below, rather
+than needing a separate reference-site list as a one-time deliverable.
 
 ## Governing design brief — adopted 2026-09-30
 

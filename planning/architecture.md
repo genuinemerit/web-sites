@@ -3,8 +3,8 @@
 Confirmed 2026-09-30 across two rounds of discussion. Covers everything
 except aesthetics/look-and-feel (its own file, `design-aesthetics.md` —
 explicitly called out as deserving separate treatment) and build
-order/sequencing (still open, deferred until this and the aesthetics
-discussion settle).
+order/sequencing (its own file, `roadmap.md` — confirmed and now
+executing, see that file for current status).
 
 ## Site architecture — confirmed
 
@@ -148,14 +148,28 @@ by category:
 ## Image/sound optimization — confirmed requirement, not yet designed
 
 David is actively building skills here and wants automated resizing/
-compression for both images and audio/video worked into the pipeline,
-plus a settled small set of standard formats/thresholds. **Existing
-precedent worth adapting**: `sask/tools/studio/build_assets.py` already
-does exactly this shape of thing — generates hashed WebP variants at
-multiple resolution tiers (1920x1080/960x540/480x270/thumb), enforces a
-size budget (≤1MiB/file), maintains aspect ratio. Not copied, just a
-concrete reference point. Formats/thresholds/tooling choice still open —
-David's own area of active interest, not something to prescribe for him.
+compression for both images and audio/video worked into the pipeline.
+**Confirmed 2026-10-01:**
+
+- **Images**: working assumption is the same cleanup `sask` already
+  uses (`sask/tools/studio/build_assets.py` — hashed WebP variants at
+  multiple resolution tiers, size budget enforced, aspect ratio
+  maintained), with the option to modify or skip it per-image/per-site
+  if it doesn't fit a particular case. Not a rigid mandate, a default.
+- **Audio**: defaults to `.wav`. Worth knowing as a tradeoff, not a
+  pushback: WAV is uncompressed and considerably larger than a
+  compressed format like MP3/Opus, so audio-heavy pages (`music`
+  especially) will carry more weight than a compressed default would —
+  presumably an intentional fidelity-over-size choice given David's own
+  music work, flagging only so it's a known tradeoff, not a surprise
+  later.
+- **Size gate at deploy time**: a configurable max-size threshold for
+  video/audio files, checked at deploy time — deploying anything over
+  the configured threshold requires explicit user permission (ties
+  directly into the existing "human review before infrastructure/
+  deploy actions" rule). The actual threshold number is still TBD — to
+  be set when the deploy tooling itself gets built (1f), not a blocker
+  now.
 
 ## Internationalization — confirmed required from the start, model proposed
 
@@ -351,21 +365,20 @@ be developed inside the `sask` project first and imported into
 ## Docs — confirmed: local Markdown + pandoc, not GitHub wiki
 
 Reasoning already agreed: wiki is a separate git history, invisible to PR
-review, cuts against the doc-in-repo pattern `sask` already uses. First
-`.net` content is likely to be exactly this — references/guides/change
-logs, rendered to static HTML via pandoc and possibly deployed. Whether
-public deployment is actually wanted (vs. GitHub's native `.md` rendering
-being sufficient) — flagged, not yet answered by David directly, but his
-"first `.net` content" framing suggests deployment is intended.
+review, cuts against the doc-in-repo pattern `sask` already uses.
 
-## Analytics — confirmed desired, mechanism proposed not yet decided
+**Public deployment — resolved 2026-10-01: belayed for now.** David:
+leave guides/references/changelog content in the dev tree (backed up via
+`tools/dev/backup-to-laptop.sh` to Dropbox) rather than deploying them
+anywhere public at this time. Logged as a `design/tech-debt.md` item —
+revisit later, not abandoned, just not now.
 
-David: "would love to have something... perhaps this is our real first
-`.net` effort... simple, straightforward would be key." See discussion in
-chat 2026-09-30 — GoAccess (reads existing nginx access logs directly, no
-client-side JS/tracking, no server process to maintain) proposed as the
-lean starting option, consistent with avoiding another `mint`-style
-orphanable live service. Not yet confirmed by David.
+## Analytics — confirmed: GoAccess
+
+David: "Yes. Let's try GoAccess." Reads existing nginx access logs
+directly, no client-side JS/tracking, no server process to maintain —
+consistent with avoiding another `mint`-style orphanable live service.
+Not yet built (no site content to generate logs from yet).
 
 ## Design-decision record — confirmed
 

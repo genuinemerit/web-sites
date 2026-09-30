@@ -6,6 +6,7 @@ docs grows. Resolved items move to the relevant topic file's own record
 (`architecture.md`, `design-aesthetics.md`, `target-sites.md`,
 `roadmap.md`), not kept here.
 
-Empty as of 2026-09-30 — all 5 scaffolding-blocking decisions (git
-identity, Python version, droplet region/size, SSH key, Phase 2 media
-pull) are resolved in `roadmap.md`. Ready to begin executing Phase 1.
+Empty as of 2026-10-01 — the 4-item sweep (image/sound formats,
+analytics, docs public deployment, aesthetics reference points) is fully
+resolved; see `architecture.md`, `design-aesthetics.md`, and
+`design/tech-debt.md` for where each landed.

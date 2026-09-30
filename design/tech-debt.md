@@ -9,6 +9,14 @@ record of what got done.
 
 ## Open
 
+- **Public deployment of guides/references/changelog docs.** Confirmed
+  2026-10-01: belayed for now. Content stays as local Markdown in the
+  dev tree (pandoc-rendered when needed, not deployed), backed up via
+  `tools/dev/backup-to-laptop.sh` to Dropbox — same treatment as
+  everything else, just not published anywhere public. Revisit once
+  there's an actual reason to (e.g. the `.net` admin/editor tooling
+  becoming real, or wanting these genuinely public). See
+  `planning/architecture.md`'s Docs section.
 - **Replace the default nginx welcome page on `ubuvm`.** Currently the
   stock `/var/www/html/index.nginx-debian.html` "Welcome to nginx!" page
   still serves for any request to `ubuvm`'s nginx that doesn't match one

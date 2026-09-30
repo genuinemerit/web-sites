@@ -51,10 +51,10 @@ that never actually went live.
    aspirational/unused, **removed**.
 4. **`mint.genuinemerit.net` DNS record** — **removed** (site
    decommissioned).
-5. **`genuinemerit.info`'s overall fate** — confirmed (planning session,
-   see `planning/target-sites.md`): auto-renew **cancelled**, domain
-   expires **2026-11-07** and will lapse. No longer an open question —
-   don't add anything new there, nothing should depend on it.
+5. **`genuinemerit.info`'s overall fate** — resolved: auto-renew
+   **cancelled**, then **2026-10-01, actively deleted** (domain and all
+   records removed from the DO account entirely, ahead of its would-be
+   Nov 7 expiry). No longer part of the account.
 
 ## Domain plan for the rebuild
 

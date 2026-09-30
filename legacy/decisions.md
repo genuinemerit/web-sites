@@ -49,9 +49,10 @@ on `genuinemerit.info`.
 
 **Resolved 2026-09-30 (domain planning session):**
 
-- `genuinemerit.info` — auto-renew cancelled by David; expires
-  **2026-11-07** and will lapse rather than be actively torn down.
-  Resolves the long-open "keep or drop this domain" question. See
+- `genuinemerit.info` — auto-renew cancelled by David; then, **2026-10-01,
+  actively deleted** (DNS records and the domain itself removed from the
+  DO account, ahead of its Nov 7 natural expiry). Resolves the long-open
+  "keep or drop this domain" question. See
   `planning/target-sites.md` for the full new-site domain assignment
   (`davidstitt.net` for personal/private sites, `genuinemerit.org` as
   public-facing primary, `.com` redirecting, `.net` reserved for future

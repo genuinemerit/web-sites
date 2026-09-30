@@ -1,10 +1,11 @@
 # DigitalOcean resource status
 
 Snapshot as of 2026-09-29, via the DO API (`doctl`, using the token at
-`~/.config/sask/infra.env`). This is the account-wide picture — most of it
-is out of scope for this project but recorded here for context per David's
-request, since understanding the overall DO layout matters even where the
-individual resource belongs to a different project.
+`~/.config/sask/infra.env`), updated 2026-10-01. This is the account-wide
+picture — most of it is out of scope for this project but recorded here
+for context per David's request, since understanding the overall DO
+layout matters even where the individual resource belongs to a different
+project.
 
 ## Account
 
@@ -17,7 +18,12 @@ David Stitt (`david.stitt@pm.me`), team "Genuine Merit", 25-droplet limit.
 | `gmerit-nyc2` | 162.243.111.56 | nyc2 | active | 2GB | 1 | 70GB | **This project** — legacy static sites, migration target. |
 | `sask-droplet` | 104.248.22.105 | fra1 | active | 1GB | 1 | 25GB | `sask` — active, operational, out of scope here. |
 
-## Domains (5 total, all on DO nameservers)
+## Domains (4 total, all on DO nameservers)
+
+**`genuinemerit.info` is gone entirely** — David let it lapse (auto-renew
+cancelled), then deleted the DNS records and the domain itself from the
+DO account 2026-10-01, ahead of its natural Nov 7 expiry. Removed from
+the table below; no longer part of the account at all.
 
 | Domain | In use by | Live subdomains |
 |---|---|---|
@@ -25,7 +31,6 @@ David Stitt (`david.stitt@pm.me`), team "Genuine Merit", 25-droplet limit.
 | `genuinemerit.com` | This project | `taiji`, `sandwichopenmic`, `qigong` → `gmerit-nyc2`, all live. |
 | `genuinemerit.org` | This project | `sfp` → `gmerit-nyc2`, live. `admin`/`auth` removed 2026-09-29 (confirmed aspirational/unused). |
 | `genuinemerit.net` | This project (formerly) | Now empty — only NS/SOA/A boilerplate. `mint` CNAME removed 2026-09-30 (site decommissioned). |
-| `genuinemerit.info` | Undecided | Now empty — only NS/SOA/A boilerplate. `story`/`wiki`/`docs` CNAMEs removed 2026-09-30, confirmed aspirational/unused. Whether this domain continues to be used at all is deferred — David's call, not yet made. |
 
 ## Full DNS record detail (as of 2026-09-30, post-cleanup)
 
@@ -57,19 +62,16 @@ repeating it 5 times; only the domain-specific records are listed.
 
 **`genuinemerit.net`** — no domain-specific records remaining.
 
-**`genuinemerit.info`** — no domain-specific records remaining.
-
 All CNAMEs point at `@` (i.e. resolve through the domain's own `A` record)
 rather than being independent A/AAAA records — consistent, simple setup,
 nothing irregular about the pattern itself.
 
-## Still open (not resolved this session)
+## Resolved (no longer open)
 
-- **`genuinemerit.info`'s future** — David said he'll decide later whether
-  to keep supporting this domain at all. No action needed until he does.
-- **`sfp/docs/cool_scripts.html` vs. `sfp/cool_scripts.html`** — two
-  different files with the same name; see `content-inventory.md`.
-- **`sfp/saskan/` asset tree** — very likely dead weight from the retired
-  `saskan-app-alt` prototype, not the live `sask` app; see
-  `content-inventory.md` for the evidence. Not removed, needs an explicit
-  answer.
+- **`genuinemerit.info`** — resolved 2026-10-01: deleted entirely (domain
+  and all records removed from the DO account), not just left to lapse.
+- **`sfp/docs/cool_scripts.html` vs. `sfp/cool_scripts.html`** — resolved
+  2026-09-30, see `decisions.md`/`content-inventory.md`: the top-level
+  duplicate was deleted, `docs/cool_scripts.html` is the one that remains.
+- **`sfp/saskan/` asset tree** — resolved 2026-09-30, see `decisions.md`:
+  confirmed dead weight from an unrelated dev project, deleted.

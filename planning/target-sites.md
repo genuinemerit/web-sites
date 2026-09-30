@@ -21,9 +21,11 @@ order are explicitly deferred (see below).
 
 **Single GitHub repo, `web-sites`**, covering all properties, used as a
 simple archive (not a CI/CD trigger) — large media files handled
-separately from the repo (mechanism TBD — see open questions). This
-directly answers the long-open "one repo vs. per-site" question from
-earlier in the project.
+separately from the repo. This directly answers the long-open "one repo
+vs. per-site" question from earlier in the project. *(The "mechanism
+TBD" note this section used to have is stale — resolved in
+`architecture.md`'s Backup/rollback section: media stays un-versioned,
+not in git at all, covered by the Dropbox backup instead.)*
 
 ## Deploy approach — confirmed
 
@@ -47,11 +49,12 @@ Two-group split, by domain "family":
     likely mainly under `play`, possibly others. Not an immediate build
     need, just a namespace reservation for later.
 
-**`genuinemerit.info`'s fate is now decided:** auto-renew has been
-cancelled; it expires **2026-11-07** and will lapse rather than be
-actively dropped/transferred. Resolves the long-open question from
-`legacy/domain-audit.md`/`decisions.md` — nothing further to do here, no
-new records should be added to it in the meantime.
+**`genuinemerit.info`'s fate is now fully resolved:** auto-renew was
+cancelled first, then **2026-10-01, David actively deleted the domain
+and all its records from the DO account** rather than waiting out the
+Nov 7 natural expiry. Resolves the long-open question from
+`legacy/domain-audit.md`/`decisions.md` completely — it's no longer part
+of the account at all.
 
 **All other domains** (`davidstitt.net`, `genuinemerit.com/.org/.net`)
 are set to auto-renew — no lapse risk to plan around.
