@@ -1,0 +1,8 @@
+---
+# Host referenced by its SSH alias only, never by IP — the alias (written by
+# infra/tofu/ssh-config.tf into ~/.ssh/config.d/web-sites) is the single
+# place an IP is ever resolved, so it stays valid across destroy/recreate
+# cycles.
+all:
+  hosts:
+    web-sites-droplet: {}

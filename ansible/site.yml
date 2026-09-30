@@ -1,0 +1,7 @@
+---
+- name: Configure the web-sites platform
+  hosts: web-sites-droplet
+  become: true
+  roles:
+    - base
+    - nginx

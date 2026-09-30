@@ -1,0 +1,60 @@
+---
+# No sask equivalent to adapt from (sask uses Caddy for its single app;
+# web-sites needs nginx to match the legacy droplet's pattern and the
+# local dev vhosts already built in tools/dev/setup-local-nginx.sh).
+# Platform-level hardening only at this stage — see
+# legacy/nginx-review.md/legacy/security-review.md for the findings this
+# directly addresses. No per-site vhosts here yet: those come from later,
+# separate "new site bring-up" tooling once a site's Frozen-Flask build
+# actually exists (planning/architecture.md's Deploy/ops tooling section).
+
+- name: Install nginx
+  ansible.builtin.apt:
+    name: nginx
+    state: present
+
+# legacy/nginx-review.md: "server_tokens build" leaks the nginx
+# version/build tag. The stock Ubuntu config's own comment says to turn
+# it off; this does that.
+- name: Disable server_tokens (version/build disclosure)
+  ansible.builtin.lineinfile:
+    path: /etc/nginx/nginx.conf
+    regexp: "^\\s*server_tokens\\s"
+    line: "\tserver_tokens {{ nginx_server_tokens }};"
+    validate: "nginx -t -c %s"
+  notify: Reload nginx
+
+# legacy/nginx-review.md: "No global security headers set anywhere...
+# across every vhost, not just missing from one." A baseline snippet,
+# included from the http block, applies to every vhost including future
+# per-site ones without needing to repeat it per-site.
+- name: Install the baseline security-headers snippet
+  ansible.builtin.copy:
+    dest: /etc/nginx/snippets/security-headers.conf
+    content: |
+      # Managed by Ansible (roles/nginx). Baseline security headers -
+      # applied globally via the http block's include, not per-vhost.
+      add_header X-Content-Type-Options "nosniff" always;
+      add_header X-Frame-Options "SAMEORIGIN" always;
+      add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload nginx
+
+- name: Include the security-headers snippet from the http block
+  ansible.builtin.lineinfile:
+    path: /etc/nginx/nginx.conf
+    insertafter: "^http \\{"
+    line: "\tinclude /etc/nginx/snippets/security-headers.conf;"
+    validate: "nginx -t -c %s"
+  notify: Reload nginx
+
+- name: Apply nginx changes immediately
+  ansible.builtin.meta: flush_handlers
+
+- name: Enable and start nginx
+  ansible.builtin.systemd:
+    name: nginx
+    enabled: true
+    state: started

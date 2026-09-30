@@ -128,16 +128,66 @@ longer a constraint on anything in this phase).
   David; he judged the difference otherwise immaterial). Incidental nice
   alignment: `sask-droplet` is also in `fra1` — both projects' droplets
   end up in the same DC, though that wasn't the deciding factor.
-- **SSH key strategy — confirmed 2026-09-30: reuse the `genuinemerit`
-  key.** Traced precisely rather than assumed: local
-  `~/.ssh/gm_ed25519` (comment `from_ubuvm`) has fingerprint
-  `MD5:5f:c9:9d:00:40:43:f7:6b:47:fd:8f:8d:53:fd:9e:08`, which matches
-  DigitalOcean's already-registered SSH key **`ubuvm_gm`** (ID
-  `59687099`) exactly — that's the DO SSH-key resource ID the new
-  droplet's OpenTofu config will reference.
+- **SSH key strategy — revised 2026-10-01: dedicated key, not reused.**
+  The 2026-09-30 choice to reuse the `genuinemerit` key
+  (`ubuvm_gm`/`gm_ed25519`) was reconsidered — generated a **new**
+  keypair instead, `~/.ssh/ws_ed25519`, registered with DigitalOcean as
+  **`ubuvm_ws`** (ID `59722532`, fingerprint
+  `MD5:fa:11:67:04:a7:71:5b:20:64:20:06:fd:89:4f:7c:8d`, confirmed
+  matching via `doctl compute ssh-key list`). SSH config alias file:
+  `~/.ssh/config.d/ubuvm_ws`. Updated everywhere the old key was
+  referenced: `infra/tofu/{variables,main}.tf`,
+  `terraform.tfvars.example`, `README.md`, `ansible/group_vars/all.yml`.
+  Re-ran `tofu validate` + a read-only `tofu plan` afterward — the new
+  key's data-source lookup resolves correctly (plan showed a clean
+  5-resources-to-add with no errors); nothing created yet.
 - Initial pass: actually stand up and tear down a test droplet to prove
   the pipeline works end-to-end, before any real site content depends on
   it.
+- **Drafted and validated 2026-10-01 — not yet applied to real
+  infrastructure, awaiting David's review per `CLAUDE.md`'s human-review
+  rule.** Read `sask`'s actual `infra/tofu/`, `ansible/`, and `tools/ops/`
+  in full before adapting anything (not from memory/summary). Key
+  findings and adaptations, not a blind copy:
+  - **`sask` uses Caddy, not nginx** (fits its single-app-behind-a-
+    reverse-proxy shape) — wrote a new `nginx` role instead, no Caddy
+    equivalent needed.
+  - **No live app service exists for `web-sites`** (Frozen-Flask means
+    static output only) — dropped `sask`'s `app_user`/`app_group`/
+    gunicorn/systemd-service machinery entirely from the `base` role;
+    kept only genuine platform hardening (sshd config matching
+    `legacy/security-review.md`'s findings exactly, `fail2ban`,
+    unattended-upgrades, journald caps).
+  - **SSH key looked up, not created** — `data "digitalocean_ssh_key"`
+    referencing the already-registered `ubuvm_gm` (confirmed above),
+    not `sask`'s pattern of registering a fresh key each time.
+  - **Droplet size slug traced precisely**: `s-1vcpu-2gb-70gb-intel`,
+    confirmed via `doctl compute droplet get gmerit-nyc2` against the
+    real legacy droplet, not guessed from its RAM/disk numbers.
+  - **Ubuntu image**: `ubuntu-26-04-x64`, confirmed available via
+    `doctl compute image list-distribution`.
+  - **nginx role hardening**: `server_tokens off` (confirmed the stock
+    Ubuntu 26.04 nginx package really does ship `server_tokens build`
+    by checking `ubuvm`'s own freshly-installed nginx, not assumed from
+    the legacy droplet alone) + a baseline security-headers snippet
+    (`X-Content-Type-Options`, `X-Frame-Options`,
+    `Referrer-Policy`) included globally — addresses the exact gaps
+    `legacy/nginx-review.md` found. No per-site vhosts yet — that's
+    later, separate "new site bring-up" tooling once a real site build
+    exists.
+  - **DNS deliberately NOT wired up** — unlike `sask`'s `main.tf` (which
+    creates a DNS record in the same `apply`), this config creates no
+    DNS records at all. The production domains still point at the
+    *legacy* droplet serving real live sites; pointing a domain at this
+    new droplet is a separate, later, deliberately-reviewed step once
+    an actual site (`taiji` first) is ready to go live. See
+    `infra/tofu/README.md`.
+  - **Validated, not yet run for real**: `tofu init -backend=false` +
+    `tofu validate` — config is syntactically/internally valid.
+    `ansible-playbook --syntax-check` on both `bootstrap.yml` and
+    `site.yml` — both valid. None of this has touched DigitalOcean or
+    created any real resource; `tofu apply`/`ansible-playbook` (the
+    actual execution) awaits explicit review and go-ahead.
 
 **Claude's feedback on the phase as a whole: sound, no structural changes
 suggested.** Proving the infra skeleton (can we stand up and tear down a

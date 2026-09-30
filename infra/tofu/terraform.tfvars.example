@@ -1,0 +1,12 @@
+# Copy to terraform.tfvars (gitignored) only if you need to override a
+# default — every variable below already has a sensible default in
+# variables.tf, so an empty/missing terraform.tfvars is normal.
+
+# region                = "fra1"
+# droplet_size          = "s-1vcpu-2gb-70gb-intel"
+# droplet_image         = "ubuntu-26-04-x64"
+# droplet_name          = "web-sites-droplet"
+# ssh_key_name          = "ubuvm_ws"
+# ssh_private_key_name  = "ws_ed25519"
+# ssh_admin_user        = "dave"
+# ssh_config_path       = "~/.ssh/config.d/ubuvm_ws"

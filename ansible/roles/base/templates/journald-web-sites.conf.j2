@@ -1,0 +1,5 @@
+# Managed by Ansible (roles/base). Bounds total persistent journal
+# size/age so no unit's journal output can grow unbounded on this droplet.
+[Journal]
+SystemMaxUse={{ journald_system_max_use }}
+MaxRetentionSec={{ journald_max_retention }}
