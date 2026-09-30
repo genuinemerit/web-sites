@@ -47,9 +47,29 @@ longer a constraint on anything in this phase).
 
 ### 1c. Dev environment
 
-- Local nginx on `ubuvm`, vhost-per-site pattern mirroring prod (per
-  `architecture.md`'s Dev environment section).
-- `.python-version` pin once 1b's version decision is made.
+- **Done 2026-09-30.** Local nginx on `ubuvm`, vhost-per-site pattern
+  mirroring prod. `setup-local-nginx.sh` run successfully (after one
+  fix — see below) and verified: all 7 vhosts in `sites-available`/
+  `sites-enabled`, all 7 `/etc/hosts` entries present, nginx active,
+  `curl http://taiji.web-sites.test/` returns `404` as expected (no
+  build output yet, but the full DNS → nginx → filesystem chain is
+  confirmed working). Full detail in `architecture.md`'s Dev environment
+  section.
+  - **Bug found and fixed mid-run**: the script originally piped two
+    separate `sudo` calls together (`sudo sed ... | sudo tee ...`) —
+    `sed` never needed `sudo` at all (just reading a file David owns).
+    Bash starts both sides of a pipe concurrently, so this produced two
+    overlapping password prompts on one terminal, which is what caused
+    the "stuck," "asked twice," and "displayed in plain text" symptoms
+    David hit. Fixed to a single `sudo` call per site. Separately, two
+    genuinely-wrong password attempts also happened around the same
+    time (confirmed via `/var/log/auth.log` — `unix_chkpwd: password
+    check failed`, not a script artifact) — likely Caps Lock or a
+    terminal-reconnect-related keyboard hiccup, resolved once he
+    re-typed carefully. Checked `pam_faillock`/`pam_tally` first — not
+    configured on `ubuvm`, so no lockout risk from the retries.
+- No `.python-version` needed — this project uses system Python
+  directly, no `pyenv` (see 1b above).
 - **Environment/install tracking — added 2026-09-30, David's request.**
   Mirror `sask`'s `tools/dev/init-dev-host.sh` (dev-host bootstrap
   script: apt prereqs, etc. — safe to commit, no secrets) — same
@@ -71,6 +91,11 @@ longer a constraint on anything in this phase).
 
 ### 1e. Laptop backup script
 
+- **Tested end-to-end 2026-09-30 — done.** Dry-run previewed correctly
+  (full tree, `.git/` excluded, `sites/*/media/` included per design),
+  then a real run confirmed landing at `wingchun:/home/dave/Dropbox/
+  Code/web_sites/` — verified directly on `wingchun` afterward (full
+  tree present, `.git/` correctly absent).
 - **Destination path confirmed 2026-09-30**: `/home/dave/Dropbox/Code/
   web_sites` on `wingchun` — set as `tools/dev/backup-to-laptop.sh`'s
   default `DEST`.

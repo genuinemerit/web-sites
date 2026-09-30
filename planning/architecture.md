@@ -38,6 +38,18 @@ CSS custom properties (color, spacing, type scale) that each site's own
 CSS draws from, for visual family resemblance without a framework. Overall
 look-and-feel approach is its own discussion — see `design-aesthetics.md`.
 
+## Build-output path convention — confirmed 2026-09-30
+
+`sites/<site>/build/` — Frozen-Flask's generated output for each site
+lands here. Already anticipated in `.gitignore` from the first commit
+(`sites/*/build/`), now made explicit rather than just implied. Same
+per-site-nested shape as `heirloom/`/`static/`/`media/` — logical (one
+more sibling folder in an already-established pattern), robust (no
+shared/global build directory for sites to collide in), and extendable
+(a new site automatically gets the same shape with zero extra
+convention-inventing). Both the eventual Flask app's `freeze()` config
+and the local nginx dev vhosts (see below) point here.
+
 ## Dev environment (`ubuvm`) — confirmed
 
 Already Ubuntu 26.04 LTS, matching the droplet target. Add local nginx
@@ -48,7 +60,24 @@ Let's Encrypt or UFW/fail2ban locally (plain HTTP on localhost is fine for
 dev) — matches David's "mimic without going too nuts" framing. Python
 version pinned via `pyenv`, mirroring `sask`'s own pattern, for
 consistency across David's projects (not strictly required, just
-convenient/familiar).
+convenient/familiar). *(Superseded above: this project ended up using
+system Python 3.14 directly, no `pyenv` — see the confirmed decision
+earlier in this doc.)*
+
+**Local nginx vhosts — scaffolded 2026-09-30, not yet enabled.**
+`tools/dev/nginx-site.conf.template` + `tools/dev/setup-local-nginx.sh`
+generate and enable one vhost per site, server-name-based
+(`<site>.web-sites.test` → `127.0.0.1`, `.test` per RFC 2606 rather than
+`.local`, which mDNS/Avahi can intercept) rather than port-based, to
+mirror prod's actual domain-routing behavior. Idempotent and
+extendable — the site list lives as one array at the top of the script;
+adding a new property later is a one-line addition. Needs `sudo`
+(writes `/etc/nginx/`, `/etc/hosts`), so David runs it directly, same as
+`init-dev-host.sh`. **Run and verified 2026-09-30** (full detail, including a mid-run script
+bug fix, in `roadmap.md`) — all 7 vhosts live, `/etc/hosts` entries in
+place, nginx active, confirmed 404 on a test `curl` (correct — nginx is
+wired up end-to-end, there's just no Frozen-Flask build output yet for
+any site).
 
 ## Deploy/ops tooling — confirmed, adapted from `sask`
 

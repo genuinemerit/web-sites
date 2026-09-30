@@ -1,0 +1,21 @@
+# Local dev vhost template for web-sites. Generated per site by
+# tools/dev/setup-local-nginx.sh — do not edit the generated files by
+# hand, edit this template and re-run the script instead.
+#
+# Mirrors prod's server-name-based routing (see legacy/nginx-review.md)
+# rather than port-based dev routing, so redirect/vhost behavior here is
+# representative of what deploy will actually do.
+
+server {
+    listen 80;
+    server_name SITE_NAME.web-sites.test;
+
+    root REPO_ROOT/sites/SITE_NAME/build;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    error_page 404 /404.html;
+}
