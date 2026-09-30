@@ -18,7 +18,7 @@ set -euo pipefail
 cd "$(dirname "$0")/../.." || exit 1
 
 REMOTE="${REMOTE:-wingchun}"
-DEST="${DEST:-~/Dropbox/backups/web-sites-ubuvm/}"
+DEST="${DEST:-/home/dave/Dropbox/Code/web_sites/}"
 
 RSYNC_FLAGS="-avz --delete --exclude=.git/ --exclude=__pycache__/ --exclude=.venv/ --exclude=.pytest_cache/ --exclude=.ruff_cache/"
 

@@ -71,6 +71,10 @@ longer a constraint on anything in this phase).
 
 ### 1e. Laptop backup script
 
+- **Destination path confirmed 2026-09-30**: `/home/dave/Dropbox/Code/
+  web_sites` on `wingchun` — set as `tools/dev/backup-to-laptop.sh`'s
+  default `DEST`.
+
 - SSH alias `ubuvm` → laptop (`wingchun` — David's laptop, name
   confirmed 2026-09-30; matches the `dave@wingchun` key already
   registered in the DO account, ID `59627849`, so the key side may
@@ -127,7 +131,10 @@ things, both needing David:
   himself (both available directly from Ubuntu's own repos, no custom
   GitHub apt repo needed — simplified `init-dev-host.sh` accordingly).
   Confirmed: `gh 2.46.0`, `nginx/1.28.3`.
-- **GitHub repo visibility — confirmed 2026-09-30: public.**
+- **GitHub repo — done 2026-09-30.** Public, created via `gh repo create`
+  (`gh` authenticated as `genuinemerit`, SSH protocol). Live at
+  https://github.com/genuinemerit/web-sites. `main` pushed (2 commits,
+  `77a1bdd` + `f5073d1`), tracking set up. **1a is now fully complete.**
 
 1f (OpenTofu/Ansible/new-droplet tooling) not started yet — genuinely the
 biggest, highest-stakes remaining piece; per `CLAUDE.md`'s human-review
