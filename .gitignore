@@ -1,0 +1,20 @@
+# Large, un-versioned per-site media (see planning/architecture.md)
+sites/*/media/
+
+# Frozen-Flask generated output (a build artifact, never hand-edited)
+build/
+sites/*/build/
+
+# Python / Poetry
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# Secrets never live in the tree, but belt-and-braces
+secrets/*.env
+secrets/*infra.env
+
+# Editor/OS cruft
+.DS_Store

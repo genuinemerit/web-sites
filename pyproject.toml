@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "web-sites"
+version = "0.1.0"
+description = "web-sites — David's static-site properties (taiji, spain, comunidad, movement, play, music, callejerez), rebuilt on Frozen-Flask"
+authors = ["David <david.stitt@pm.me>"]
+license = "MIT"
+readme = "README.md"
+packages = [{ include = "websites", from = "src" }]
+
+[tool.poetry.dependencies]
+python            = ">=3.14"
+flask             = ">=3.0"
+frozen-flask      = ">=1.0"
+markdown          = ">=3.6"
+python-frontmatter = ">=1.1"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "*"
+pymarkdownlnt = "*"
+textstat = "*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 88
+target-version = "py314"
