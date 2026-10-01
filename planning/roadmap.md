@@ -350,7 +350,13 @@ f. `music` → g. `callejerez`
   management.
 - **`spain` second exercises i18n on real content early** — good, since
   problems with the localization approach are cheaper to catch before
-  five more sites are built on the same pattern.
+  five more sites are built on the same pattern. **Update, 2026-10-01**:
+  `spain` ended up with no legacy content staged at all (both intended
+  sources redirected to `comunidad` during the Phase 2 pull — see
+  `target-sites.md`) — left deliberately TBD. David floated that this
+  could make `spain` the first real test of the "add a new site" workflow
+  too, not just the i18n test case — built fresh rather than migrated.
+  Not decided, worth keeping in mind when its turn comes up.
 - **One small heads-up, not a reordering suggestion**: `callejerez`'s
   source content lives in the legacy `music/videos/` folder, but `music`
   itself gets rebuilt 6th, one step *before* `callejerez` (7th, last).
