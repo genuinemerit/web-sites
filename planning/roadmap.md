@@ -189,6 +189,51 @@ longer a constraint on anything in this phase).
     created any real resource; `tofu apply`/`ansible-playbook` (the
     actual execution) awaits explicit review and go-ahead.
 
+**Droplet created 2026-10-01** — David gave explicit permission, `tofu
+apply` ran. Hit a real provider-level hiccup worth recording: the
+droplet and firewall created cleanly, but the `digitalocean_reserved_ip`
+resource errored with "Provider produced inconsistent result after
+apply" (a known category of DO-provider read-after-write flakiness, not
+a config mistake). Checked ground truth via `doctl` rather than
+retrying blind: the reserved IP (`67.207.74.138`, `fra1`) **had**
+actually been created, just unassigned and dropped from tofu's state.
+Fixed with `tofu import digitalocean_reserved_ip.web_sites
+67.207.74.138` (recovers the orphaned real resource into state) rather
+than re-applying, which would have created a *second*, wasted reserved
+IP. `tofu plan` after the import showed a clean 2-remaining-resources
+diff; applied cleanly.
+
+**Result**: droplet `605039711` (`web-sites-droplet`), reserved IP
+`67.207.74.138`, firewall `web-sites-firewall`, SSH alias written to
+`~/.ssh/config.d/ubuvm_ws`. Verified directly: `ssh -o User=root
+web-sites-droplet` works immediately (confirmed `whoami`/`hostname`/
+`uname -a`); the plain `ssh web-sites-droplet` alias correctly fails
+with "Permission denied" since it assumes `dave`, who doesn't exist
+until `tools/ops/deploy.sh`'s bootstrap play runs. David is doing a
+manual check via the DO web console and SSH before deciding next steps.
+
+**Recreate test passed, 2026-10-01** — David confirmed both manual
+checks green (DO web console + `ssh -o User=root web-sites-droplet`),
+then asked to test `tools/ops/recreate-droplet.sh`. Ran cleanly, no
+provider issues this time: old droplet (`605039711`) destroyed, new one
+created (`605042626`), **same reserved IP** (`67.207.74.138`)
+automatically reassigned, firewall recreated. Verified SSH immediately
+after: `ssh -o User=root web-sites-droplet` connected cleanly with
+`Warning: Permanently added` (not "changed"/refused) — confirms the
+stale-`known_hosts`-purge design (documented in `infra/tofu/
+ssh-config.tf`) works exactly as intended. This is the core guarantee
+the reserved-IP pattern exists for, now proven, not just designed.
+
+**Incidental side note, not acted on**: while checking ground truth,
+confirmed `sask-droplet`'s reserved IP (`46.101.68.21`) is correctly
+assigned to it — fully explains the "stale-looking"
+`sask.davidstitt.net` DNS record flagged all the way back in
+`legacy/domain-audit.md` on 2026-09-29. It was never stale; it's been
+correctly pointing at `sask`'s reserved IP the whole time, which simply
+differs from the droplet's own separate default public IP shown by
+`doctl droplet list`. Not this project's concern, just closing the loop
+on an old open thread.
+
 **Claude's feedback on the phase as a whole: sound, no structural changes
 suggested.** Proving the infra skeleton (can we stand up and tear down a
 droplet, repeatably) before any real site content is a good instinct — it
