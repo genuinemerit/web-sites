@@ -45,6 +45,40 @@ than quietly ballooning into a grand redesign. Mechanism, applied from
   ritual — the start of each site's turn in the Phase 3 build order is
   a natural moment to ask whether anything parked is worth pulling in.
 
+## Division of labor, added 2026-10-01
+
+David's proposal, maps cleanly onto the Phase B/C split above:
+
+- **David's domain**: Phase B's creative decisions — favicon design,
+  error-page copy/imagery, investigating/doing manual media
+  compression. May involve specialized AI tools (image generators/
+  editors, etc.) outside this session entirely, not just manual work.
+- **Claude's domain**: Phase C implementation — templates, i18n
+  plumbing, Frozen-Flask wiring, the more obvious technical work, plus
+  a first pass at tokenization and full-page translations. David
+  reviews code and test results rather than writing the implementation
+  himself.
+- **Translation drafts specifically**: always reviewed before shipping,
+  never auto-published — same discipline `sask`'s own i18n design
+  already established (DD-0022's human-reviewed-draft step), just
+  applied here for the first time.
+- **Real but limited coupling, named honestly**: Claude can *start*
+  Phase C with placeholders standing in for favicon/error-page content/
+  compressed media — nothing blocks beginning the coding work. The
+  truly finished build needs David's actual pieces, though — Claude
+  flags explicitly if a placeholder genuinely can't stand in any
+  longer, rather than guessing at creative content.
+- **Handoff locations**: favicon → `sites/<site>/static/` (small,
+  versioned); compressed media → `sites/<site>/media/` (large,
+  gitignored, can replace or sit alongside `heirloom/` originals);
+  error-page text/imagery → either told directly or edited straight
+  into `sites/heirloom/404.html`/`50x.html`.
+- **Checkpoints**: no new ceremony — the existing review-checkpoint
+  rhythm (`CLAUDE.md`) already covers this; file-change notifications
+  already surface either side's edits to the other automatically.
+- **Expected to get refined as we actually do it** — David's own
+  framing, recorded rather than treated as a final, fixed protocol.
+
 ## Phase A — Scope (per-site, before any detail work)
 
 Deliberately abstract — this is where the MVP-vs-parking-lot discipline
