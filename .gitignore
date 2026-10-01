@@ -1,6 +1,12 @@
 # Large, un-versioned per-site media (see planning/architecture.md)
 sites/*/media/
 
+# Raw legacy-droplet content staged for reference during rebuild - not
+# worth versioning (some very large, backed up to Dropbox separately via
+# tools/dev/backup-to-laptop.sh, see planning/roadmap.md Phase 2)
+sites/*/heirloom/
+sites/heirloom/
+
 # Frozen-Flask generated output (a build artifact, never hand-edited)
 build/
 sites/*/build/
