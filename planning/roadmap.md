@@ -336,31 +336,39 @@ come up yet. Disk space was never the only reason for this design.
 
 ## Phase 3 — site build order (David's A2)
 
-a. `taiji` → b. `spain` → c. `comunidad` → d. `movement` → e. `play` →
-f. `music` → g. `callejerez`
+**Revised 2026-10-01**: a. `taiji` → b. `comunidad` → c. `movement` →
+d. `play` → e. `music` → f. `callejerez` → g. `spain`
+
+`spain` moved from 2nd to last — David's call, consistent with it being
+left deliberately TBD (no legacy content staged, possibly the first
+"add a new site from scratch" test case — see `target-sites.md`).
+Explicit instruction alongside this move: proceed "turtle-slow," one
+step at a time, considering each element carefully with the bigger
+picture in mind — not a race through the list.
 
 **Claude's feedback:**
 
-- **`taiji` first is the right call**, and for a good reason beyond
-  "it's simple": it's also the one site with a real external stakeholder
-  (Louise's class) depending on continuity, and content-wise it's the
-  lowest-risk of the seven. Building the *entire* pipeline (Frozen-Flask,
-  i18n scaffold, deploy tooling, DNS/redirect, TLS) against the safest
-  content first, before anything unexpected happens, is sound risk
-  management.
-- **`spain` second exercises i18n on real content early** — good, since
-  problems with the localization approach are cheaper to catch before
-  five more sites are built on the same pattern. **Update, 2026-10-01**:
-  `spain` ended up with no legacy content staged at all (both intended
-  sources redirected to `comunidad` during the Phase 2 pull — see
-  `target-sites.md`) — left deliberately TBD. David floated that this
-  could make `spain` the first real test of the "add a new site" workflow
-  too, not just the i18n test case — built fresh rather than migrated.
-  Not decided, worth keeping in mind when its turn comes up.
+- **`taiji` first is still the right call**, and for a good reason
+  beyond "it's simple": it's also the one site with a real external
+  stakeholder (Louise's class) depending on continuity, and content-wise
+  it's the lowest-risk of the seven. Building the *entire* pipeline
+  (Frozen-Flask, i18n scaffold, deploy tooling, DNS/redirect, TLS)
+  against the safest content first, before anything unexpected happens,
+  is sound risk management.
+- **Real tradeoff worth naming, not objecting to**: the original reason
+  `spain` was 2nd was to exercise i18n against real bilingual content
+  early, while problems are still cheap to fix. Moving it to last means
+  the i18n *machinery* (path-prefix routing, config-driven locale list,
+  `<html lang>`, the switcher) still gets built starting with `taiji`
+  (required for every site regardless of actual content language per
+  the confirmed i18n decision), but genuine EN/ES *content* authoring
+  won't get exercised for real until site #7. Acceptable given David's
+  explicit "turtle-slow, no rush" framing — just flagging the
+  consequence rather than letting it pass silently.
 - **One small heads-up, not a reordering suggestion**: `callejerez`'s
   source content lives in the legacy `music/videos/` folder, but `music`
-  itself gets rebuilt 6th, one step *before* `callejerez` (7th, last).
-  That's fine — rebuilding `music` doesn't require `callejerez`'s site to
+  itself gets rebuilt 5th, one step *before* `callejerez` (6th). That's
+  fine — rebuilding `music` doesn't require `callejerez`'s site to
   already exist, it just means the Calle Jerez material needs to be set
   aside somewhere (not simply left out and lost) when `music` gets
   rebuilt, pending `callejerez`'s own turn. Worth keeping in mind when you

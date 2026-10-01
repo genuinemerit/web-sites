@@ -7,6 +7,36 @@ One entry per item: what it is, why it's deferred, when to revisit.
 Mark `[resolved 2026-...]` in place rather than deleting, so there's a
 record of what got done.
 
+**Distinct from each site's "Future ideas / parking lot" section**
+(e.g. `design/taiji.md`) — this file is for known imperfections to
+eventually fix (bug-like: cert handling, video compression, cosmetic
+cleanup). Parking lots are for exciting-but-not-now scope expansions
+(feature-like: "broaden this site's whole content focus"). See
+`planning/site-build-checklist.md`'s MVP-vs-big-ideas section for the
+reasoning behind keeping these separate.
+
+**Two tiers, added 2026-10-01**: `High priority` vs. `Open` — kept
+deliberately simple (just two headings, no numeric scoring/schema) per
+the same lightweight principle as everything else here.
+
+## High priority
+
+- **Media-processing tooling: size checking, compression, format/size
+  normalization for images/video/sound.** Raised to high priority
+  2026-10-01, during `taiji`'s MVP scoping — David wants this to stay
+  visible, not quietly sink to the bottom of an undifferentiated list.
+  Consolidates three previously-separate notes into one real ask:
+  automated checking of file size/format, applying compression, and
+  normalizing to a standard set (originally logged piecemeal as "video
+  compression options" and the "1GB-per-file media routing rule" — both
+  superseded by this single, clearer item). **Deliberately NOT built
+  for `taiji`** — its one image and two videos were compressed by hand
+  with simple one-off commands instead, specifically to avoid building
+  generalized tooling before we've done the manual version enough times
+  to know what it actually needs to do. Revisit once 2-3 sites' media
+  has been handled manually and the real patterns are clear — that's
+  when this tooling should actually get designed, not before.
+
 ## Open
 
 - **Certificate handling strategy for the new droplet/architecture —
@@ -25,21 +55,6 @@ record of what got done.
   redirect over HTTPS), `.net` reserved for later. Worth a dedicated
   design pass once we're building the actual deploy/nginx-per-site
   tooling, not now.
-- **Video compression options.** Noted 2026-10-01 while pulling `taiji`'s
-  ~1.9GB of legacy video over the network (slow enough to prompt the
-  thought). Worth investigating once the pipeline work reaches
-  image/sound optimization (`planning/architecture.md`'s Image/sound
-  optimization section) — that section currently leans on `sask`'s
-  `build_assets.py` approach for images specifically; video compression
-  is a related but distinct question not yet covered there.
-- **1GB-per-file media routing rule, for the future build pipeline.**
-  David's idea (2026-10-01, during the legacy content pull): once the
-  real pipeline exists, any individual image/sound/video file over 1GB
-  should route to `sites/<site>/media/` rather than wherever smaller
-  files land, as an automated categorization rule. Explicitly **not**
-  applied during the Phase 2 raw-material pull itself — everything
-  pulled there goes into `sites/<site>/heirloom/` regardless of size,
-  this is a note for later pipeline design, not a rule in effect now.
 - **Public deployment of guides/references/changelog docs.** Confirmed
   2026-10-01: belayed for now. Content stays as local Markdown in the
   dev tree (pandoc-rendered when needed, not deployed), backed up via
@@ -53,9 +68,12 @@ record of what got done.
   still serves for any request to `ubuvm`'s nginx that doesn't match one
   of the 7 site vhosts (e.g. plain `http://localhost/` or `http://
   127.0.0.1/`). David wants to swap in something more fun. Not urgent —
-  purely cosmetic, local-dev-only. To do it: create `/var/www/html/
-  index.html` (needs `sudo`, that directory is root-owned) — nginx's
-  `index` directive checks `index.html` before falling back to the
-  stock `index.nginx-debian.html`, so a new file there takes over
+  purely cosmetic, local-dev-only, explicitly **not** part of `taiji`'s
+  MVP (descoped 2026-10-01 — it has zero bearing on any site going
+  live, pulling it in would've been an unrelated item riding along for
+  no reason). To do it: create `/var/www/html/index.html` (needs
+  `sudo`, that directory is root-owned) — nginx's `index` directive
+  checks `index.html` before falling back to the stock
+  `index.nginx-debian.html`, so a new file there takes over
   automatically, no need to touch or delete the original. No nginx
   reload needed, just a static file change.
