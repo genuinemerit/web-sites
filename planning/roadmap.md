@@ -6,8 +6,18 @@ the preceding design discussion. Explicitly invited feedback.
 
 ## Phase 1 — scaffolding (David's A1, expanded into concrete tasks 2026-09-30)
 
-`ubuvm` storage: **done** (392G total, 362G available — see below, no
-longer a constraint on anything in this phase).
+**PHASE 1 COMPLETE as of 2026-10-01.** All six sub-tasks done: 1a (repo +
+GitHub, public, pushed), 1b (Poetry on system Python 3.14), 1c (local
+nginx dev vhosts, all 7 sites, verified), 1d (`pre-build-check.sh`), 1e
+(`backup-to-laptop.sh`, tested end-to-end), 1f (OpenTofu + Ansible for
+the new droplet — provision, recreate, and full destroy all proven
+working against real DigitalOcean infrastructure, including recovering
+from a real provider bug along the way). `ubuvm` storage: **done** (392G
+total, 362G available — no longer a constraint on anything in this
+phase). No `web-sites` droplet currently exists — last state is fully
+torn down, clean. Next: Phase 2 (raw-material import) or deciding to
+first run `deploy.sh` against a freshly-provisioned droplet to validate
+the Ansible layer before moving on — not yet decided, David's call.
 
 ### 1a. Repo skeleton
 
@@ -223,6 +233,25 @@ after: `ssh -o User=root web-sites-droplet` connected cleanly with
 stale-`known_hosts`-purge design (documented in `infra/tofu/
 ssh-config.tf`) works exactly as intended. This is the core guarantee
 the reserved-IP pattern exists for, now proven, not just designed.
+
+**Full teardown test passed, 2026-10-01 (second session)** — David
+asked to test the full `destroy.sh` specifically (distinct from the
+recreate-only test above, which he'd initially misremembered as not yet
+done — clarified before proceeding). Ran cleanly, no errors this time:
+all 4 remaining resources (droplet, firewall, reserved IP, local SSH
+config file) destroyed. Verified via ground truth, not just tofu's own
+output: `doctl` confirms `web-sites-droplet`, its reserved IP, and its
+firewall are all gone (only `gmerit-nyc2` and `sask-droplet`'s resources
+remain); local `~/.ssh/config.d/ubuvm_ws` removed; `known_hosts` entries
+for both the old IP and the alias correctly purged (`ssh-keygen -F`
+finds nothing for either). Confirmed the `ubuvm_ws` SSH key
+**registration itself persisted** (not a Terraform-managed resource,
+by design — meant to survive droplet lifecycles so future provisioning
+doesn't need to re-register it). **This completes full validation of
+1f**: provision, recreate, and destroy have all now been proven working
+end-to-end, including a real recovery from an actual DO-provider bug
+along the way. No droplet currently exists — `tofu state list` is
+empty, no billable `web-sites` resources remain.
 
 **Incidental side note, not acted on**: while checking ground truth,
 confirmed `sask-droplet`'s reserved IP (`46.101.68.21`) is correctly
