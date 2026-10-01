@@ -5,6 +5,14 @@
 # Mirrors prod's server-name-based routing (see legacy/nginx-review.md)
 # rather than port-based dev routing, so redirect/vhost behavior here is
 # representative of what deploy will actually do.
+#
+# ubuvm has no GUI - view these from wingchun (the laptop) instead:
+#   1. On wingchun, add the same SITE_NAME.web-sites.test entries this
+#      script adds to ubuvm's /etc/hosts, but pointed at 127.0.0.1.
+#   2. On wingchun: ssh -L 8080:localhost:80 <your ubuvm ssh alias> -N
+#   3. Browse http://SITE_NAME.web-sites.test:8080/ on wingchun - nginx
+#      matches server_name by hostname, so the :8080 in the Host header
+#      doesn't break routing.
 
 server {
     listen 80;
@@ -17,5 +25,21 @@ server {
         try_files $uri $uri/ =404;
     }
 
+    # Large per-site media (video, etc.) is gitignored and never passes
+    # through Flask/Frozen-Flask - served directly here, same as prod
+    # will, so large files never get duplicated into the frozen build
+    # output. See .gitignore's sites/*/media/ rule.
+    location /media/ {
+        alias REPO_ROOT/sites/SITE_NAME/media/;
+    }
+
+    # Nothing in this static-only vhost can organically produce a 500 -
+    # there's no proxy_pass/upstream to fail. Hit this path directly to
+    # preview the 50x page: http://SITE_NAME.web-sites.test:8080/__trigger-500
+    location = /__trigger-500 {
+        return 500;
+    }
+
     error_page 404 /404.html;
+    error_page 500 502 503 504 /50x.html;
 }

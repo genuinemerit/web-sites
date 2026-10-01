@@ -1,0 +1,50 @@
+/* Shared base styles for every web-sites property - resets, font
+   stack, and the link-state rules keyed off a small set of custom-
+   property names. Extracted 2026-10-02 from taiji's splash/404/50x
+   pages, confirmed as the new standard (sunsetting each legacy site's
+   own styles.css) - see design/taiji.md.
+
+   This file does NOT set a universal color palette: each page defines
+   its own :root values for --background/--surface/--text/--muted/
+   --accent/--line (and an optional --accent-hover), since different
+   pages intentionally use different moods (taiji's calm greens vs. the
+   404 page's dark "abyss" theme) while sharing the same mechanism. */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family:
+    "Atkinson Hyperlegible",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  line-height: 1.55;
+  color: var(--text);
+  background: var(--background);
+}
+
+a {
+  color: var(--accent);
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
+}
+
+a:hover {
+  color: var(--accent-hover, var(--accent));
+}
+
+a:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 2px;
+}

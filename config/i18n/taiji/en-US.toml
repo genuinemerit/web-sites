@@ -1,0 +1,10 @@
+# Localization catalog: base locale (completeness floor) for taiji.
+# Every tag any other locale uses must exist here - see
+# src/websites/common/i18n.py.
+
+[tags]
+"site.title" = "Taiji for Balance"
+"lang.en-US" = "English"
+"lang.es-ES" = "Español"
+"nav.taiji_for_balance" = "Taiji for Balance"
+"splash.title" = "Taiji"

@@ -1,0 +1,18 @@
+# Localization catalog: es-ES (Iberian Spanish) for taiji.
+# Reviewed and approved by David, 2026-10-01 (same discipline as sask's
+# DD-0022 - translations ship only after human review).
+
+[tags]
+# "Taiji for Balance" kept as-is (proper noun / class name) rather than
+# translated - a real judgment call, not a mechanical choice, flagging
+# for review rather than deciding silently.
+"site.title" = "Taiji for Balance"
+# Language-switcher labels are each language's own name for itself -
+# intentionally IDENTICAL to en-US.toml's values, not translated (a
+# language's name doesn't change based on which locale is viewing it).
+"lang.en-US" = "English"
+"lang.es-ES" = "Español"
+"nav.taiji_for_balance" = "Taiji for Balance"
+# "Taiji" is a transliteration already used as-is in Spanish - not an
+# English word being left untranslated, same loanword in both languages.
+"splash.title" = "Taiji"

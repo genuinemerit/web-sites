@@ -6,7 +6,13 @@ same relationship `sask/CLAUDE.md` has to its own design docs.
 
 ## Environment (intended; not yet scaffolded)
 
-- Dev host: **`ubuvm`**, Ubuntu 26.04 LTS (392G disk, 362G free).
+- Dev host: **`ubuvm`**, Ubuntu 26.04 LTS (392G disk, 362G free),
+  **server-only — no GUI/browser**, a VM under libvirt/VMM
+  (`192.168.122.173`, reachable from `wingchun` via `ssh ubuvm`).
+  Viewing a local build happens from David's laptop (**`wingchun`**)
+  over an SSH port-forward into `ubuvm`'s nginx — full setup and
+  per-session steps in `docs/local-dev-testing.md`, confirmed working
+  2026-10-02.
 - Single Poetry-managed venv for all sites in this repo (Frozen-Flask —
   see `planning/architecture.md`). Python: system `/usr/bin/python3`
   directly (`>=3.14`, currently 3.14.4) — **no `pyenv`**, unlike `sask`

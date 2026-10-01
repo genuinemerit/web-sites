@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="{{ locale }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>{{ meta.get("title", t(locale, "nav.taiji_for_balance")) }}</title>
+  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  <link rel="stylesheet" href="/shared/tokens.css">
+
+  <style>
+    :root {
+      --background: #f4f3ee;
+      --surface: #fbfaf7;
+      --text: #252724;
+      --muted: #62665f;
+      --accent: #496653;
+      --accent-hover: #334b3b;
+      --line: #d8dad3;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --background: #171a18;
+        --surface: #1d211e;
+        --text: #eeefe9;
+        --muted: #b9beb6;
+        --accent: #a8c5af;
+        --accent-hover: #c6dbc9;
+        --line: #3b413c;
+      }
+    }
+
+    body {
+      min-height: 100vh;
+      font-size: 1.0625rem;
+
+      background:
+        linear-gradient(
+          color-mix(in srgb, var(--background) 55%, transparent),
+          color-mix(in srgb, var(--background) 55%, transparent)
+        ),
+        url("{{ url_for('static', filename='img/taiji-tree.webp') }}")
+          center / cover no-repeat fixed;
+    }
+
+    .page {
+      width: min(100% - 2.5rem, 68rem);
+      margin: 0 auto;
+      padding: 1.5rem 0 4rem;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      min-height: 4rem;
+    }
+
+    header a {
+      font-weight: 700;
+    }
+
+    .languages {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .languages a {
+      color: inherit;
+    }
+
+    .languages a[aria-current="page"] {
+      color: var(--text);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .separator {
+      margin: 0 0.55rem;
+      color: var(--line);
+    }
+
+    main {
+      margin-top: 2rem;
+      padding: 2rem clamp(1.5rem, 4vw, 3rem);
+
+      max-width: 42rem;
+      background: color-mix(in srgb, var(--surface) 92%, transparent);
+      border-radius: 0.5rem;
+    }
+
+    h1 {
+      margin: 0 0 1.5rem;
+
+      font-size: clamp(2rem, 5vw, 2.75rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+    }
+
+    main p,
+    main ul {
+      margin: 0 0 1.25rem;
+    }
+
+    main strong {
+      color: var(--text);
+    }
+
+    @media (max-width: 35rem) {
+      .page {
+        width: min(100% - 2rem, 68rem);
+      }
+
+      main {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+
+    <header>
+      <a href="{{ url_for('splash', locale=locale) }}">{{ t(locale, "splash.title") }}</a>
+
+      <nav class="languages" aria-label="Language">
+        {% for loc in locales %}
+        {% if loc == locale %}
+        <a href="{{ url_for('taiji_for_balance', locale=loc) }}" lang="{{ loc }}" aria-current="page">{{ t(loc, "lang." ~ loc) }}</a>
+        {% else %}
+        <a href="{{ url_for('taiji_for_balance', locale=loc) }}" lang="{{ loc }}">{{ t(loc, "lang." ~ loc) }}</a>
+        {% endif %}
+        {% if not loop.last %}
+        <span class="separator" aria-hidden="true">|</span>
+        {% endif %}
+        {% endfor %}
+      </nav>
+    </header>
+
+    <main>
+      <h1>{{ meta.get("title", "") }}</h1>
+      {{ body_html | safe }}
+    </main>
+
+  </div>
+</body>
+</html>

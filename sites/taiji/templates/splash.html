@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="{{ locale }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>{{ t(locale, "splash.title") }}</title>
+  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  <link rel="stylesheet" href="/shared/tokens.css">
+
+  <style>
+    :root {
+      --background: #f4f3ee;
+      --surface: #fbfaf7;
+      --text: #252724;
+      --muted: #62665f;
+      --accent: #496653;
+      --accent-hover: #334b3b;
+      --line: #d8dad3;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --background: #171a18;
+        --surface: #1d211e;
+        --text: #eeefe9;
+        --muted: #b9beb6;
+        --accent: #a8c5af;
+        --accent-hover: #c6dbc9;
+        --line: #3b413c;
+      }
+    }
+
+    body {
+      min-height: 100vh;
+      font-size: 1.125rem;
+      background:
+        radial-gradient(
+          circle at 12% 18%,
+          color-mix(in srgb, var(--accent) 10%, transparent) 0,
+          transparent 28rem
+        ),
+        radial-gradient(
+          circle at 88% 82%,
+          color-mix(in srgb, var(--accent) 7%, transparent) 0,
+          transparent 32rem
+        ),
+        var(--background);
+    }
+
+    .page {
+      width: min(100% - 2.5rem, 68rem);
+      min-height: 100vh;
+      margin: 0 auto;
+
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    header {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      min-height: 5rem;
+    }
+
+    .languages {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .languages a {
+      color: inherit;
+    }
+
+    .languages a[aria-current="page"] {
+      color: var(--text);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .separator {
+      margin: 0 0.55rem;
+      color: var(--line);
+    }
+
+    main {
+      display: grid;
+      place-items: center;
+      padding: 4rem 0 8rem;
+    }
+
+    .intro {
+      width: min(100%, 42rem);
+    }
+
+    h1 {
+      margin: 0 0 1rem;
+
+      font-size: clamp(3.5rem, 11vw, 7rem);
+      font-weight: 700;
+      line-height: 0.95;
+      letter-spacing: -0.045em;
+    }
+
+    .rule {
+      width: 4rem;
+      height: 3px;
+      margin: 2rem 0;
+
+      border: 0;
+      background: var(--accent);
+    }
+
+    .primary-link {
+      display: inline-block;
+      padding: 0.75rem 0;
+
+      font-size: clamp(1.35rem, 3vw, 1.75rem);
+      font-weight: 700;
+    }
+
+    footer {
+      min-height: 3rem;
+    }
+
+    @media (max-width: 35rem) {
+      .page {
+        width: min(100% - 2rem, 68rem);
+      }
+
+      header {
+        min-height: 4rem;
+      }
+
+      main {
+        align-items: start;
+        padding-top: 20vh;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+
+    <header>
+      <nav class="languages" aria-label="Language">
+        {% for loc in locales %}
+        {% if loc == locale %}
+        <a href="{{ url_for('splash', locale=loc) }}" lang="{{ loc }}" aria-current="page">{{ t(loc, "lang." ~ loc) }}</a>
+        {% else %}
+        <a href="{{ url_for('splash', locale=loc) }}" lang="{{ loc }}">{{ t(loc, "lang." ~ loc) }}</a>
+        {% endif %}
+        {% if not loop.last %}
+        <span class="separator" aria-hidden="true">|</span>
+        {% endif %}
+        {% endfor %}
+      </nav>
+    </header>
+
+    <main>
+      <section class="intro" aria-labelledby="site-title">
+
+        <h1 id="site-title">{{ t(locale, "splash.title") }}</h1>
+
+        <hr class="rule">
+
+        <a class="primary-link" href="{{ url_for('taiji_for_balance', locale=locale) }}">
+          {{ t(locale, "nav.taiji_for_balance") }}
+        </a>
+
+      </section>
+    </main>
+
+    <footer></footer>
+
+  </div>
+</body>
+</html>
