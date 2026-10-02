@@ -121,6 +121,14 @@ python3 tools/ops/smoke_test.py --staging --only genuinemerit davidstitt default
 python3 tools/ops/smoke_test.py --staging --only taiji --resolve NEW_IP   # taiji's .com still on legacy
 ```
 
+**Done 2026-10-02 ~18:15 UTC** — by David's choice without the 12-hour wait (taiji's user base is small). The
+predicted effect did show up, but only on David's own ISP resolver: it still held the old 12-hour CNAME, so on his
+network taiji resolved to the new droplet (TLS refused there until Stage 3). Authoritative and public resolvers
+(Cloudflare, Google, Quad9) returned the pinned legacy address throughout. Staging certificates issued for all
+three sites, taiji's `.com` via the legacy forward; smoke tests passed. Legacy original config saved at
+`/root/taiji.conf.pre-cutover-20261002`. Note: this machine's own upstream resolver lagged up to an hour on the
+bare-domain change, so the deploy's reachability check needed that cache to expire first.
+
 ## Stage 3 — production certificates (any time)
 
 1. Set `acme_staging: false` in `ansible/vhosts.yml`; `bash tools/ops/deploy.sh` replaces the staging
@@ -135,6 +143,9 @@ python3 tools/ops/smoke_test.py --staging --only taiji --resolve NEW_IP   # taij
 3. Optional: browse it from `wingchun` before switching, by adding `NEW_IP taiji.genuinemerit.com` to
    `wingchun`'s `/etc/hosts` temporarily.
 
+**Done 2026-10-02 ~18:20 UTC**: real certificates (issuer `YE1`, 89 days) for all three; smoke tests pass without
+`--staging`; `certbot renew --dry-run` succeeds for every certificate (taiji's `.com` still via the forward).
+
 ## Stage 4 — switch taiji (in the window)
 
 1. Point `taiji.genuinemerit.com`'s A record at `NEW_IP`. With TTL 300, most visitors move within ~5 minutes.
@@ -145,6 +156,13 @@ python3 tools/ops/smoke_test.py --staging --only taiji --resolve NEW_IP   # taij
 
 **Rollback** (any time up to legacy teardown): point `taiji.genuinemerit.com` back at `162.243.111.56`;
 legacy is untouched and still has its own valid certificate until 2026-12-11.
+
+**Done 2026-10-02 18:22 UTC** (14:22 New York — outside the window, by David's choice; Louise informed). The record
+flip reached every checked resolver by 18:25:45 UTC (all three DigitalOcean nameservers, Cloudflare, Google, Quad9,
+OpenDNS); during those three minutes visitors got either the legacy site or the new one, both with valid
+certificates — no gap. Legacy `taiji.conf` restored to its exact pre-cutover original (forward removed; the
+forward version is kept at `/root/taiji.conf.with-forward-20261002`). Full smoke test through public DNS: 69/69
+checks pass.
 
 ## Stage 5 — settle in (a few days later)
 

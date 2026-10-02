@@ -22,7 +22,7 @@
 # Let's Encrypt staging (untrusted test certs, generous rate limits)
 # until a site is ready for real visitors. Flip to false for production;
 # deploy then replaces staging certs automatically.
-acme_staging: true
+acme_staging: false
 
 # Strict-Transport-Security max-age in seconds; 0 = header not sent.
 # Raised in steps only after sites are verified over real HTTPS
