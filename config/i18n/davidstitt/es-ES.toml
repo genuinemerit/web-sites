@@ -1,0 +1,16 @@
+# Localization catalog: es-ES (Iberian Spanish) for the davidstitt.net
+# hub page. DRAFT 2026-10-02 - awaiting David's review.
+
+[tags]
+# Domain name - not translated.
+"hub.title" = "davidstitt.net"
+"hub.coming_soon" = "próximamente"
+"nav.language" = "Idioma"
+"nav.sites" = "Sitios"
+"lang.en-US" = "English"
+"lang.es-ES" = "Español"
+"site.music" = "Música"
+# A street name - unchanged.
+"site.callejerez" = "Calle Jerez"
+"site.movement" = "Movimiento"
+"image.alt" = "Un divertido perro salchicha vestido de etiqueta tocando el saxofón"

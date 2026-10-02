@@ -27,9 +27,19 @@ actionable version.
   copied into every build.
 - `config/i18n/<site>/<locale>.toml` — short UI-string catalogs; `en-US`
   is the completeness floor.
+- Sites that aren't content sites: `genuinemerit` and `davidstitt` (hub
+  pages for the bare domains, sharing `sites/_shared/templates/hub.html`
+  and `/shared/hub.css`) and `default` (the page for requests naming none
+  of our hostnames). One-page bilingual apps built with
+  `websites.common.single_page`.
+- `ansible/vhosts.yml` — **every hostname the droplet serves**: canonical
+  names, aliases, legacy redirects, locales, plus the `acme_staging`,
+  `hsts_max_age` and `media_max_mb` switches. Domain rules:
+  `design/domains.md`; certificates: `design/certificates.md`.
 - `infra/tofu/`, `ansible/`, `tools/ops/` — droplet provisioning
-  (OpenTofu), configuration (Ansible `base` + `nginx`), and the scripts
-  that drive them.
+  (OpenTofu), configuration (Ansible roles `base`, `nginx`, `sites`), and
+  the scripts that drive them. `tools/ops/smoke_test.py` verifies a live
+  deploy; `docs/cutover-runbook.md` is the switch-over procedure.
 - `tools/dev/` — dev-host setup, checks, backup. `init-dev-host.sh` is
   the record of every apt install on `ubuvm`; add to it as packages are
   added.
@@ -113,8 +123,14 @@ Every check must pass. In order: ruff lint + format, shellcheck,
 pymarkdown (`README.md`, `CLAUDE.md`, `docs/` only), i18n completeness
 (catalogs + content pages, all locales), the Frozen-Flask build of every
 site, HTML/CSS validity (W3C vnu), internal links (including `/media/`),
-WCAG AA colour contrast on every page's tokens in light and dark mode.
-Not yet wired: readability scoring (see `design/tech-debt.md`).
+WCAG AA colour contrast on every page's tokens in light and dark mode,
+and the droplet's real nginx config served locally
+(`tools/dev/test-nginx-local.sh`) and smoke-tested — every redirect,
+header and certificate name in `ansible/vhosts.yml`. Not yet wired:
+readability scoring (see `design/tech-debt.md`).
+
+`tools/ops/deploy.sh` runs this script itself before publishing anything,
+then `python3 tools/ops/smoke_test.py` checks the live result.
 
 Colour tokens (`--text`, `--muted`, `--accent`, `--accent-hover`,
 `--background`, `--surface`) must be literal hex values so the contrast

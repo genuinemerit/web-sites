@@ -1,0 +1,15 @@
+# Localization catalog: base locale (completeness floor) for the
+# genuinemerit.com hub page. See src/websites/common/i18n.py.
+
+[tags]
+"hub.title" = "genuinemerit.com"
+"hub.coming_soon" = "coming soon"
+"nav.language" = "Language"
+"nav.sites" = "Sites"
+"lang.en-US" = "English"
+"lang.es-ES" = "Español"
+"site.taiji" = "Taiji"
+"site.play" = "Play"
+"site.spain" = "Spain"
+"site.comunidad" = "Comunidad"
+"image.alt" = "A whimsical walrus sitting beside the water and holding a drink"

@@ -1,0 +1,20 @@
+# Localization catalog: es-ES (Iberian Spanish) for the genuinemerit.com
+# hub page. DRAFT 2026-10-02 - awaiting David's review (translations
+# ship only after review).
+
+[tags]
+# Domain name - not translated.
+"hub.title" = "genuinemerit.com"
+"hub.coming_soon" = "próximamente"
+"nav.language" = "Idioma"
+"nav.sites" = "Sitios"
+# Each language's own name for itself - identical in every catalog.
+"lang.en-US" = "English"
+"lang.es-ES" = "Español"
+# Site names: translated where they're ordinary words (review: "Juegos"
+# for Play, "España" for Spain); Taiji and Comunidad unchanged.
+"site.taiji" = "Taiji"
+"site.play" = "Juegos"
+"site.spain" = "España"
+"site.comunidad" = "Comunidad"
+"image.alt" = "Una divertida morsa sentada junto al agua con una bebida en la mano"

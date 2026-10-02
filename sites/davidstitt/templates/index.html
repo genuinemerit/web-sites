@@ -1,0 +1,30 @@
+{% extends "hub.html" %}
+{% block palette %}
+    :root {
+      --background: #f5efe5;
+      --text: #282522;
+      --muted: #675f58;
+      --accent: #8a5725;
+      --accent-hover: #633b18;
+      --line: #d8c9b7;
+      --focus: #6d4b28;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --background: #191817;
+        --text: #f1ece5;
+        --muted: #c5bbb0;
+        --accent: #d9a55e;
+        --accent-hover: #efc17f;
+        --line: #48413a;
+        --focus: #e5b66e;
+      }
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 88% 20%, rgb(138 87 37 / 0.08), transparent 30rem),
+        var(--background);
+    }
+{% endblock %}

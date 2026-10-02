@@ -1,0 +1,15 @@
+# Managed by Ansible (roles/nginx). TLS settings for every HTTPS server,
+# at the http level on purpose: nginx negotiates protocol and session
+# parameters before it knows which vhost (SNI) was asked for, so
+# per-server overrides are unreliable.
+#
+# Mozilla "intermediate" profile. ssl_protocols (TLSv1.2 TLSv1.3) and
+# ssl_prefer_server_ciphers (off) are already set that way in Ubuntu
+# 26.04's own nginx.conf - roles/nginx asserts them rather than
+# redefining them here (a second definition is a config error). DHE
+# suites are omitted so no dhparam file is needed. No OCSP stapling:
+# Let's Encrypt no longer runs OCSP.
+ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305;
+ssl_session_timeout 1d;
+ssl_session_cache shared:WebSitesTLS:10m;
+ssl_session_tickets off;

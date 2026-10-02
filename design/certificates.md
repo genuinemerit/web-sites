@@ -1,6 +1,7 @@
 # TLS certificates on the new droplet — proposal for discussion
 
-2026-10-02. Status: **proposed, not decided.** Picks up the "thorough
+2026-10-02. Status: **decided 2026-10-02 — option A, all sub-points
+accepted** (see "Decisions" at the end). Picks up the "thorough
 discussion on cert handling" item from `design/tech-debt.md`. Constraint
 from David: the legacy droplet will be destroyed, so everything —
 issuance, renewal, redirects — must live on the new droplet, with no
@@ -21,15 +22,13 @@ lasting dependency on the old one.
 
 ## Names that need certificates
 
-From `planning/target-sites.md`:
-
-- Public, on `genuinemerit.org` with a `.com` twin that redirects:
-  `taiji`, `comunidad`, `play`, `spain` — 8 names.
-- Personal, on `davidstitt.net`: `music`, `movement`, `callejerez` — 3
-  names.
-- **Undecided** (questions below): the bare apex domains, and the
-  legacy names being retired (`sandwichopenmic.genuinemerit.com`,
-  `qigong.genuinemerit.com`, `sfp.genuinemerit.org`).
+As decided (`design/domains.md`): the public sites at
+`<site>.genuinemerit.com`, each with a `<site>.genuinemerit.org` alias
+that redirects to it; the personal sites at `<site>.davidstitt.net`; and
+the bare domains `genuinemerit.com` (+ `.org` alias) and
+`davidstitt.net`. A site gets its certificate when it's listed in
+`ansible/vhosts.yml`. (The first draft of this section assumed `.org`
+primary — reversed the same day.)
 
 ## Options considered
 
@@ -113,6 +112,9 @@ dependency (it's off whenever the laptop is).
 
 ## Cutover, per name
 
+The concrete, step-by-step version (with the domain decisions applied) is
+`docs/cutover-runbook.md`; this section is the original reasoning.
+
 - **Brand-new names** (e.g. `taiji.genuinemerit.org`, `comunidad…`):
   point DNS at the new droplet, issue the certificate, and verify over
   real HTTPS before anyone uses them. No effect on the legacy sites.
@@ -131,15 +133,38 @@ dependency (it's off whenever the laptop is).
   - Proposal: no-gap for `taiji.genuinemerit.com` (Louise's class),
     simple for `music.davidstitt.net`.
 
-## Questions for David
+## Decisions (David, 2026-10-02)
 
-1. **A or B?** nginx + certbot (recommended) or Caddy.
-2. **Apex domains** (`genuinemerit.org/.com/.net`, `davidstitt.net`):
-   what should the bare domain serve once legacy is gone — a small
-   landing page, a redirect somewhere, or nothing (remove the record)?
-3. **Retired legacy names** (`sandwichopenmic`, `qigong`, `sfp`):
-   redirect to their new homes (`comunidad`, `movement`, `play`) — which
-   means keeping certificates for them indefinitely — or let them lapse?
-4. **Recurring expiry check**: is the post-deploy check enough, or do you
-   want a weekly check as well (e.g. a free external monitor, or a timer
-   on the droplet)?
+1. **Option A, nginx + certbot**, on condition that the recurring expiry
+   check is automated — "no maintenance task every two months". All nine
+   design points above accepted.
+2. **Bare domains get certificates** and hub pages (`design/domains.md`).
+3. **Legacy names retire** — no certificates or redirects for
+   `sandwichopenmic`, `qigong`, `sfp`. Only the new architecture.
+4. **Recurring expiry check: an external monitor**, Red Sift Certificates
+   Lite (free, recommended by Let's Encrypt itself). It checks the sites
+   from outside on its own schedule and emails David well before any
+   certificate expires — independent of the droplet, so it also notices
+   a dead droplet or a broken renewal. One-time sign-up by David once
+   the sites are on production certificates; nothing to maintain after.
+   Primary renewal stays certbot's timer; the smoke test
+   (`tools/ops/smoke_test.py`, fails under 21 days) runs after every
+   deploy.
+
+Not covered by the original questions, decided the same day: `.com` is
+canonical and `.org` redirects to it (reversing the earlier plan), and
+`genuinemerit.net` stays unresolved — both in `design/domains.md`.
+
+## Implementation (2026-10-02)
+
+- `ansible/vhosts.yml` — every hostname, redirect and the staging/HSTS
+  switches in one file.
+- `roles/nginx` — TLS settings, security headers, the port-80 catch-all
+  (ACME + HTTPS redirect) and the port-443 unknown-host reject.
+- `roles/sites` — content sync, the media size gate, certificate
+  requests (after checking each hostname really reaches the droplet),
+  vhosts enabled only once their certificate exists, renewal hook.
+- `tools/dev/test-nginx-local.sh` — the same templates served locally
+  with throwaway certificates and smoke-tested; part of
+  `pre-build-check.sh`.
+- Switch-over steps: `docs/cutover-runbook.md`.

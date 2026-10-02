@@ -1,0 +1,102 @@
+# Managed by Ansible (roles/sites) from ansible/vhosts.yml - edit that
+# file, not this one. Site: {{ vhost.name }}
+{% set root_dir = web_root ~ '/' ~ vhost.name %}
+{% set cert_dir = cert_live_dir ~ '/' ~ vhost.name %}
+{% set lang_var = 'lang_' ~ (vhost.name | replace('-', '_')) %}
+{% set locales = vhost.locales | default([]) %}
+{% set default_locale = 'en-US' if 'en-US' in locales else (locales[0] if locales else '') %}
+{% if locales %}
+
+# Visitor's first-choice browser language -> one of this site's
+# locales; anything else falls back to {{ default_locale }}. Only the
+# first-listed language is considered (nginx can't rank q-values).
+map $http_accept_language ${{ lang_var }} {
+    default {{ default_locale }};
+{% for locale in locales %}
+    ~*^{{ locale.split('-')[0] }}\b {{ locale }};
+{% endfor %}
+}
+{% endif %}
+
+server {
+    listen {{ https_port }} ssl;
+    listen [::]:{{ https_port }} ssl;
+    http2 on;
+    server_name {{ vhost.canonical }};
+    # Relative Location headers ("/en-US/", not "http://host/en-US/"):
+    # nginx would otherwise build the URL from its own listen port, which
+    # is wrong behind a tunnel or proxy (found 2026-10-02 via the
+    # wingchun -> ubuvm port-forward). Browsers resolve relative
+    # redirects against the URL they're on, host and port included.
+    absolute_redirect off;
+
+    ssl_certificate {{ cert_dir }}/fullchain.pem;
+    ssl_certificate_key {{ cert_dir }}/privkey.pem;
+    include {{ nginx_conf_dir }}/snippets/security-headers.conf;
+
+    root {{ root_dir }}/build;
+    index index.html;
+    access_log {{ nginx_log_dir }}/{{ vhost.name }}.access.log;
+
+    error_page 404 /404.html;
+    error_page 500 502 503 504 /50x.html;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    # Browsers ask for /favicon.ico at the root regardless of the page's
+    # <link rel="icon">; serve the site's own copy.
+    location = /favicon.ico {
+        try_files /favicon.ico /static/favicon.ico =404;
+        log_not_found off;
+    }
+{% if vhost.media is defined %}
+
+    # Large media lives outside the frozen build (gitignored, synced
+    # separately) - same layout as tools/dev/nginx-site.conf.template.
+    location /media/ {
+        alias {{ root_dir }}/media/;
+    }
+{% endif %}
+{% if locales %}
+
+    # First visit: follow the browser's language. Temporary (302) and
+    # Vary, because the answer depends on who is asking.
+    location = / {
+        include {{ nginx_conf_dir }}/snippets/security-headers.conf;
+        add_header Vary "Accept-Language" always;
+        return 302 /${{ lang_var }}/;
+    }
+{% endif %}
+{% for r in vhost.redirects | default([]) %}
+
+    location = {{ r.from }} {
+{% if '{lang}' in r.to %}
+        include {{ nginx_conf_dir }}/snippets/security-headers.conf;
+        add_header Vary "Accept-Language" always;
+        return 302 {{ r.to | replace('{lang}', '$' ~ lang_var) }};
+{% else %}
+        return 301 {{ r.to }};
+{% endif %}
+    }
+{% endfor %}
+}
+{% if vhost.aliases | default([]) %}
+
+# Aliases: same certificate, permanent path-preserving redirect to the
+# canonical name (design/domains.md: .org mirrors .com this way).
+server {
+    listen {{ https_port }} ssl;
+    listen [::]:{{ https_port }} ssl;
+    http2 on;
+    server_name {{ vhost.aliases | join(' ') }};
+
+    ssl_certificate {{ cert_dir }}/fullchain.pem;
+    ssl_certificate_key {{ cert_dir }}/privkey.pem;
+    include {{ nginx_conf_dir }}/snippets/security-headers.conf;
+    access_log {{ nginx_log_dir }}/{{ vhost.name }}.access.log;
+
+    return 301 https://{{ vhost.canonical }}$request_uri;
+}
+{% endif %}

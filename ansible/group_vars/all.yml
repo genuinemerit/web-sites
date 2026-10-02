@@ -19,8 +19,15 @@ apt_cache_valid_time: 3600
 journald_system_max_use: 200M
 journald_max_retention: 14day
 
-# --- nginx (platform-level hardening only at this stage — no per-site
-# vhosts here yet; those get added by later, separate "new site bring-up"
-# tooling once a site's Frozen-Flask build actually exists, see
-# planning/architecture.md's Deploy/ops tooling section) --------------
+# --- nginx (platform level; per-site settings live in vhosts.yml) ------
 nginx_server_tokens: "off"
+
+# --- paths and ports (overridden by render-local.yml, which renders the
+# same templates into a scratch directory for the local nginx test) ---
+nginx_conf_dir: /etc/nginx
+nginx_log_dir: /var/log/nginx
+acme_webroot: /var/www/acme
+web_root: /var/www/web-sites
+cert_live_dir: /etc/letsencrypt/live
+http_port: 80
+https_port: 443

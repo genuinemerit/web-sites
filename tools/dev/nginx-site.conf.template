@@ -17,9 +17,22 @@
 server {
     listen 80;
     server_name SITE_NAME.web-sites.test;
+    # Relative Location headers ("/en-US/", not "http://host/en-US/"):
+    # nginx would otherwise build the URL from its own listen port, which
+    # is wrong behind a tunnel or proxy (found 2026-10-02 via exactly
+    # this wingchun -> ubuvm port-forward). Browsers resolve relative
+    # redirects against the URL they're on, host and port included.
+    absolute_redirect off;
 
     root REPO_ROOT/sites/SITE_NAME/build;
     index index.html;
+
+    # Every site is multi-locale (planning/architecture.md): "/" opens
+    # English here; prod picks from Accept-Language (tested by
+    # tools/dev/test-nginx-local.sh).
+    location = / {
+        return 302 /en-US/;
+    }
 
     location / {
         try_files $uri $uri/ =404;

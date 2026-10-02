@@ -1,0 +1,151 @@
+---
+# Publishes every site in ansible/vhosts.yml: content, certificates,
+# nginx vhosts. Design: design/certificates.md (option A, nginx +
+# certbot HTTP-01 webroot) and design/domains.md.
+
+# Content is published for every vhost plus the default page; only
+# vhosts get certificates (the default page is plain-HTTP only).
+- name: List everything to publish
+  ansible.builtin.set_fact:
+    published_sites: "{{ vhosts + [default_site] }}"
+
+- name: Check every site has build output (run pre-build-check.sh first)
+  ansible.builtin.stat:
+    # Every build has 404.html at its root (websites.common.freeze copies
+    # the shared error pages in); an empty placeholder build/ doesn't.
+    path: "{{ repo_root }}/{{ item.source }}/404.html"
+  loop: "{{ published_sites }}"
+  loop_control:
+    label: "{{ item.name }}"
+  delegate_to: localhost
+  become: false
+  register: build_index
+
+- name: Stop if any site has not been built
+  ansible.builtin.assert:
+    that: build_index.results | rejectattr('stat.exists') | list | length == 0
+    fail_msg: >-
+      No build output for:
+      {{ build_index.results | rejectattr('stat.exists') | map(attribute='item.name') | join(', ') }}.
+      Run tools/dev/pre-build-check.sh, which builds every site.
+    quiet: true
+
+# Deploy-time size gate (planning/architecture.md): large media needs
+# an explicit go-ahead, every time.
+- name: Find media files over the size gate ({{ media_max_mb }} MB)
+  ansible.builtin.find:
+    paths: "{{ repo_root }}/{{ item.media }}"
+    size: "{{ media_max_mb }}m"
+    recurse: true
+  loop: "{{ vhosts | selectattr('media', 'defined') | list }}"
+  loop_control:
+    label: "{{ item.name }}"
+  delegate_to: localhost
+  become: false
+  register: large_media
+
+- name: Stop if any media file exceeds the size gate
+  ansible.builtin.assert:
+    that: >-
+      (allow_large_media | default(false) | bool)
+      or (large_media.results | map(attribute='files') | flatten | length == 0)
+    fail_msg: >-
+      Over {{ media_max_mb }} MB:
+      {{ large_media.results | map(attribute='files') | flatten | map(attribute='path') | join(', ') }}.
+      Re-run with -e allow_large_media=true to publish them anyway.
+    quiet: true
+
+- name: Install certbot
+  ansible.builtin.apt:
+    name: certbot
+    state: present
+
+- name: Keep certbot's renewal timer enabled
+  ansible.builtin.systemd:
+    name: certbot.timer
+    enabled: true
+    state: started
+
+- name: Create the renewal deploy-hook directory
+  ansible.builtin.file:
+    path: /etc/letsencrypt/renewal-hooks/deploy
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Reload nginx whenever a certificate is renewed
+  ansible.builtin.copy:
+    dest: /etc/letsencrypt/renewal-hooks/deploy/reload-nginx
+    content: |
+      #!/bin/sh
+      # Managed by Ansible (roles/sites).
+      systemctl reload nginx
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Create the ACME challenge path
+  ansible.builtin.file:
+    path: "{{ acme_webroot }}/.well-known/acme-challenge"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+# Owned by the admin user so content syncs need no sudo; world-readable
+# so nginx (www-data) can serve it.
+- name: Create the web root
+  ansible.builtin.file:
+    path: "{{ web_root }}"
+    state: directory
+    owner: "{{ admin_user }}"
+    group: "{{ admin_user }}"
+    mode: "0755"
+
+# The site folder itself is listed explicitly ('') so it gets the same
+# owner - implicitly created parents would be root-owned.
+- name: Create each site's folder, build and media
+  ansible.builtin.file:
+    path: "{{ web_root }}/{{ item.0.name }}{{ item.1 }}"
+    state: directory
+    owner: "{{ admin_user }}"
+    group: "{{ admin_user }}"
+    mode: "0755"
+  loop: "{{ published_sites | product(['', '/build', '/media']) | list }}"
+  loop_control:
+    label: "{{ item.0.name }}{{ item.1 }}"
+
+- name: Publish each site's build output
+  ansible.posix.synchronize:
+    src: "{{ repo_root }}/{{ item.source }}/"
+    dest: "{{ web_root }}/{{ item.name }}/build/"
+    delete: true
+  loop: "{{ published_sites }}"
+  loop_control:
+    label: "{{ item.name }}"
+  become: false
+
+- name: Publish each site's media
+  ansible.posix.synchronize:
+    src: "{{ repo_root }}/{{ item.media }}/"
+    dest: "{{ web_root }}/{{ item.name }}/media/"
+    delete: true
+  loop: "{{ vhosts | selectattr('media', 'defined') | list }}"
+  loop_control:
+    label: "{{ item.name }}"
+  become: false
+
+- name: Certificates and vhosts, site by site
+  ansible.builtin.include_tasks: vhost.yml
+  loop: "{{ vhosts }}"
+  loop_control:
+    loop_var: vhost
+    label: "{{ vhost.name }}"
+
+- name: Test the full nginx configuration
+  ansible.builtin.command: nginx -t
+  changed_when: false
+
+- name: Apply nginx changes
+  ansible.builtin.meta: flush_handlers

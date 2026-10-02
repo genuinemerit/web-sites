@@ -83,10 +83,31 @@ Matches the project-wide i18n decision (`planning/architecture.md`) —
   `build/index.html`: the site lives at `/en-US/` and `/es-ES/`, so a
   bare `https://taiji.genuinemerit.org/` currently has nothing to
   serve. Separately, the URLs people already have (Louise's printed
-  and emailed links, bookmarks) are the legacy ones, verified against
-  `sites/taiji/heirloom/` and the legacy nginx config: `/`,
-  `/index.html`, `/taiji_for_balance.html`, `/vid/*.mp4`,
-  `/img/taiji-tree.{jpg,webp}`, `/favicon.ico`. The server config needs
-  a small permanent-redirect map from each of these to its new home.
-  Decision needed: what `/` does — always redirect to `/en-US/`, or
-  pick the language from the browser's `Accept-Language` header.
+  and emailed links, bookmarks) are the legacy ones. **Corrected
+  2026-10-02**: the first version of this note listed them from
+  `sites/taiji/heirloom/`, but that copy was reworked locally on
+  2026-10-01; the live legacy server has a single page, `taiji.html`,
+  served at `/`, plus `/vid/Taiji_for_Balance.mp4`,
+  `/vid/Taiji_for_Balance_rear_view.mp4`, `/img/taiji-tree.jpg`,
+  `/styles.css`, `/favicon.ico`. Redirect map now in
+  `ansible/vhosts.yml` (done 2026-10-02); `/styles.css` is
+  deliberately not redirected (no new equivalent), `/favicon.ico` is
+  served directly.
+- **Behaviour change to be aware of**: legacy `/` showed the class page
+  itself; new `/` goes to the splash page, one click from it (the
+  splash is part of the confirmed MVP). `/taiji.html` goes straight to
+  the class page.
+  **Decided 2026-10-02 (David), applies to every site, not just
+  taiji:** `/` follows the visitor's browser language setting
+  (`Accept-Language`); no supported match → `en-US`. Implementation
+  notes for the server config: a *temporary* (302) redirect, not a
+  permanent one, since the target depends on the visitor; mark the
+  response `Vary: Accept-Language`; the visible language switcher
+  stays on every page so a wrong guess is one click to fix; deeper
+  URLs are never auto-redirected by language. The legacy-URL map
+  (redirects to the matching new pages) is still to be written.
+- **Not the same thing as the bare domain** (`genuinemerit.org/`
+  itself, as opposed to `taiji.genuinemerit.org/`). What the bare
+  domains serve is undecided — David is considering a hub/menu page
+  for the sites in that domain; a 404 is acceptable until then. See
+  question 2 in `design/certificates.md`.

@@ -35,6 +35,9 @@ is purely source-of-record/archive.
 
 ## Domain assignment — confirmed 2026-09-30
 
+> **Superseded 2026-10-02** by `design/domains.md`: `.com` is now
+> canonical and `.org` redirects to it; `genuinemerit.net` is unresolved.
+
 Two-group split, by domain "family":
 
 - **`davidstitt.net`** (+ subdomains) — personal/private/experimental.

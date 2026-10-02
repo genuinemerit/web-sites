@@ -1,0 +1,14 @@
+# Localization catalog: base locale (completeness floor) for the
+# davidstitt.net hub page. See src/websites/common/i18n.py.
+
+[tags]
+"hub.title" = "davidstitt.net"
+"hub.coming_soon" = "coming soon"
+"nav.language" = "Language"
+"nav.sites" = "Sites"
+"lang.en-US" = "English"
+"lang.es-ES" = "Español"
+"site.music" = "Music"
+"site.callejerez" = "Calle Jerez"
+"site.movement" = "Movement"
+"image.alt" = "A whimsical dachshund in formal dress playing a saxophone"

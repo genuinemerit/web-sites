@@ -1,11 +1,17 @@
 #!/usr/bin/env bash
-# Deploy (or re-converge) the platform onto an already-provisioned
-# web-sites droplet via Ansible — base hardening + nginx only at this
-# stage, no site content (no per-site vhosts yet, see
-# planning/architecture.md's Deploy/ops tooling section for the separate
-# "new site bring-up" tooling that comes later).
+# Deploy (or re-converge) the web-sites droplet via Ansible: platform
+# hardening (base), nginx, then every site in ansible/vhosts.yml
+# (content, certificates, vhosts - roles/sites). Safe to re-run; sites
+# whose DNS doesn't reach the droplet yet are skipped, not failed.
 #
-#   bash tools/ops/deploy.sh
+#   bash tools/ops/deploy.sh                          # normal
+#   bash tools/ops/deploy.sh -e allow_large_media=true  # past the size gate
+#   bash tools/ops/deploy.sh -e reissue_certs=true    # after changing hostnames
+#
+# Extra arguments are passed to ansible-playbook site.yml.
+#
+# Runs tools/dev/pre-build-check.sh first (which also builds every
+# site): nothing is published that hasn't passed every check.
 #
 # Requires ~/.config/sask/infra.env (outside the repo, shared with sask)
 # as a general setup-sanity precondition, even though Ansible itself
@@ -16,6 +22,8 @@
 set -euo pipefail
 
 cd "$(dirname "$0")/../.."
+
+bash tools/dev/pre-build-check.sh
 
 INFRA_ENV="$HOME/.config/sask/infra.env"
 if [[ ! -f "$INFRA_ENV" ]]; then
@@ -55,4 +63,4 @@ if ! ssh -o BatchMode=yes -o ConnectTimeout=5 web-sites-droplet true 2>/dev/null
     ansible-playbook bootstrap.yml
 fi
 
-ansible-playbook site.yml
+ansible-playbook site.yml "$@"

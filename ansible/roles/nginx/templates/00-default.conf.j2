@@ -1,0 +1,79 @@
+# Managed by Ansible (roles/nginx) from ansible/vhosts.yml. The droplet's
+# default servers.
+{% set ds = default_site %}
+{% set ds_lang_var = 'lang_' ~ ds.name %}
+{% set known_names = (vhosts | map(attribute='canonical') | list)
+     + (vhosts | map(attribute='aliases', default=[]) | sum(start=[])) %}
+
+# Hostnames served by a vhost: on port 80 they go to HTTPS. Anything
+# else (a bare-IP visit, a name we don't serve) gets the default page.
+map $host $web_sites_known_host {
+    default 0;
+{% for name in known_names %}
+    {{ name }} 1;
+{% endfor %}
+}
+
+# Default page's language, as for every site (design/domains.md).
+map $http_accept_language ${{ ds_lang_var }} {
+    default {{ 'en-US' if 'en-US' in ds.locales else ds.locales[0] }};
+{% for locale in ds.locales %}
+    ~*^{{ locale.split('-')[0] }}\b {{ locale }};
+{% endfor %}
+}
+
+# Port 80, every hostname: answer Let's Encrypt's HTTP-01 challenges
+# from one shared directory; send our own hostnames to HTTPS (which is
+# why per-site configs can be HTTPS-only and wait for their certificate
+# - no chicken-and-egg); serve the default page to everything else.
+server {
+    listen {{ http_port }} default_server;
+    listen [::]:{{ http_port }} default_server;
+    server_name _;
+    access_log {{ nginx_log_dir }}/default.access.log;
+    # Relative Location headers ("/en-US/", not "http://host/en-US/"):
+    # nginx would otherwise build the URL from its own listen port, which
+    # is wrong behind a tunnel or proxy (found 2026-10-02 via the
+    # wingchun -> ubuvm port-forward). Browsers resolve relative
+    # redirects against the URL they're on, host and port included.
+    absolute_redirect off;
+
+    root {{ web_root }}/{{ ds.name }}/build;
+    index index.html;
+
+    location ^~ /.well-known/acme-challenge/ {
+        root {{ acme_webroot }};
+        default_type text/plain;
+        try_files $uri =404;
+    }
+
+    # `if` holding only a `return` is the safe use of nginx's `if`.
+    location = / {
+        if ($web_sites_known_host) {
+            return 301 https://$host$request_uri;
+        }
+        include {{ nginx_conf_dir }}/snippets/security-headers.conf;
+        add_header Vary "Accept-Language" always;
+        return 302 /${{ ds_lang_var }}/;
+    }
+
+    # error_page lives here, not at server level: there it would also
+    # catch a missing ACME file and internally re-route it to /404.html,
+    # which for one of our hostnames means a redirect instead of a 404.
+    location / {
+        if ($web_sites_known_host) {
+            return 301 https://$host$request_uri;
+        }
+        error_page 404 /404.html;
+        error_page 500 502 503 504 /50x.html;
+        try_files $uri $uri/ =404;
+    }
+}
+
+# Port 443, any hostname we don't serve (or a bare-IP visit): refuse the
+# TLS handshake outright instead of presenting some other site's cert.
+server {
+    listen {{ https_port }} ssl default_server;
+    listen [::]:{{ https_port }} ssl default_server;
+    ssl_reject_handshake on;
+}

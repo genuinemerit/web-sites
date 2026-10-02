@@ -44,7 +44,7 @@ a:hover {
 }
 
 a:focus-visible {
-  outline: 3px solid var(--accent);
+  outline: 3px solid var(--focus, var(--accent));
   outline-offset: 4px;
   border-radius: 2px;
 }

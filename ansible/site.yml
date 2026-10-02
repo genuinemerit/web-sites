@@ -1,7 +1,12 @@
 ---
-- name: Configure the web-sites platform
+- name: Configure the web-sites platform and publish the sites
   hosts: web-sites-droplet
   become: true
+  vars_files:
+    - vhosts.yml
+  vars:
+    repo_root: "{{ playbook_dir | dirname }}"
   roles:
     - base
     - nginx
+    - sites

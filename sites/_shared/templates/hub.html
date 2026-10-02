@@ -1,0 +1,63 @@
+{#- Bare-domain hub page, shared by genuinemerit and davidstitt (layout:
+    /shared/hub.css). A site's own templates/index.html extends this and
+    fills the `palette` block: its :root colour tokens (light + dark)
+    and body background. Everything else comes from the site module:
+    `links` (catalog tag, URL, live) and `image` (file stem under
+    static/img/, with -600/-1200.webp variants). -#}
+<!doctype html>
+<html lang="{{ locale }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ t(locale, "hub.title") }}</title>
+  <link rel="stylesheet" href="/shared/tokens.css">
+  <link rel="stylesheet" href="/shared/hub.css">
+  <style>
+{%- block palette %}{% endblock %}
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <nav class="languages" aria-label="{{ t(locale, 'nav.language') }}">
+        {% for loc in locales %}
+        <a href="{{ url_for('index', locale=loc) }}" lang="{{ loc }}"
+           {%- if loc == locale %} aria-current="page"{% endif %}>{{ t(loc, "lang." ~ loc) }}</a>
+        {% if not loop.last %}
+        <span class="separator" aria-hidden="true">|</span>
+        {% endif %}
+        {% endfor %}
+      </nav>
+    </header>
+
+    <main>
+      <section class="directory" aria-labelledby="site-title">
+        <h1 id="site-title">{{ t(locale, "hub.title") }}</h1>
+        <hr class="rule">
+
+        <nav aria-label="{{ t(locale, 'nav.sites') }}">
+          <ul class="sites">
+            {% for tag, url, live in links %}
+            {% if live %}
+            <li><a href="{{ url }}">{{ t(locale, tag) }}</a></li>
+            {% else %}
+            <li><span class="pending">{{ t(locale, tag) }}</span>
+              <span class="soon">{{ t(locale, "hub.coming_soon") }}</span></li>
+            {% endif %}
+            {% endfor %}
+          </ul>
+        </nav>
+      </section>
+
+      <figure>
+        <img src="{{ url_for('static', filename='img/' ~ image ~ '-600.webp') }}"
+             srcset="{{ url_for('static', filename='img/' ~ image ~ '-600.webp') }} 600w,
+                     {{ url_for('static', filename='img/' ~ image ~ '-1200.webp') }} 1200w"
+             sizes="(max-width: 48rem) 82vw, 34rem"
+             width="1200" height="1200"
+             alt="{{ t(locale, 'image.alt') }}">
+      </figure>
+    </main>
+  </div>
+</body>
+</html>

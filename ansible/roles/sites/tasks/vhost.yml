@@ -1,0 +1,122 @@
+---
+# One site from ansible/vhosts.yml (loop_var: vhost): certificate if
+# needed and possible, then its nginx vhost once the certificate exists.
+
+- name: "{{ vhost.name }}: hostnames"
+  ansible.builtin.set_fact:
+    vhost_names: "{{ [vhost.canonical] + (vhost.aliases | default([])) }}"
+    cert_path: "{{ cert_live_dir }}/{{ vhost.name }}/fullchain.pem"
+
+- name: "{{ vhost.name }}: look for an existing certificate"
+  ansible.builtin.stat:
+    path: "{{ cert_path }}"
+  register: cert_before
+
+- name: "{{ vhost.name }}: read the certificate's issuer"
+  ansible.builtin.command: openssl x509 -noout -issuer -in {{ cert_path }}
+  register: cert_issuer
+  changed_when: false
+  when: cert_before.stat.exists
+
+# A certificate is (re)requested when there is none, when a staging
+# certificate must be replaced by a real one (acme_staging: false), or
+# on request after changing a site's hostnames (-e reissue_certs=true).
+# Otherwise renewal is certbot's timer's job, not deploy's.
+- name: "{{ vhost.name }}: decide whether a certificate is needed"
+  ansible.builtin.set_fact:
+    cert_needed: >-
+      {{ (not cert_before.stat.exists)
+         or ('STAGING' in cert_issuer.stdout and not (acme_staging | bool))
+         or (reissue_certs | default(false) | bool) }}
+
+# Do every hostname's HTTP requests actually arrive here? Checked from
+# this machine exactly the way Let's Encrypt checks (a file under
+# /.well-known/acme-challenge/, redirects followed), so it is also true
+# when a legacy server forwards the challenge (design/certificates.md,
+# "no-gap" cutover). Names not yet pointed here skip the site cleanly
+# instead of failing the deploy.
+- name: "{{ vhost.name }}: probe hostnames"
+  when: cert_needed | bool
+  block:
+    - name: "{{ vhost.name }}: write a probe file"
+      ansible.builtin.copy:
+        content: "{{ probe_token }}"
+        dest: "{{ acme_webroot }}/.well-known/acme-challenge/{{ probe_token }}"
+        owner: root
+        group: root
+        mode: "0644"
+      vars:
+        probe_token: "probe-{{ vhost.name }}-{{ ansible_date_time.epoch }}"
+      register: probe_file
+
+    - name: "{{ vhost.name }}: fetch the probe through each hostname"
+      ansible.builtin.uri:
+        url: "http://{{ item }}/.well-known/acme-challenge/{{ probe_file.dest | basename }}"
+        return_content: true
+        follow_redirects: all
+        timeout: 10
+      loop: "{{ vhost_names }}"
+      delegate_to: localhost
+      become: false
+      register: probe
+      failed_when: false
+
+  always:
+    - name: "{{ vhost.name }}: remove the probe file"
+      ansible.builtin.file:
+        path: "{{ probe_file.dest }}"
+        state: absent
+      when: probe_file.dest is defined
+
+- name: "{{ vhost.name }}: hostnames not reaching this droplet"
+  ansible.builtin.set_fact:
+    names_not_ready: >-
+      {{ probe.results
+         | rejectattr('content', 'defined') | map(attribute='item') | list
+         + probe.results | selectattr('content', 'defined')
+           | rejectattr('content', 'equalto', probe_file.dest | basename)
+           | map(attribute='item') | list }}
+  when: cert_needed | bool
+
+- name: "{{ vhost.name }}: request the certificate"
+  ansible.builtin.command: >-
+    certbot certonly --webroot -w {{ acme_webroot }}
+    --cert-name {{ vhost.name }}
+    {% for name in vhost_names %}-d {{ name }} {% endfor %}
+    --non-interactive --agree-tos --register-unsafely-without-email
+    {{ '--test-cert' if acme_staging | bool else '' }}
+    {{ '--force-renewal' if cert_before.stat.exists else '' }}
+  when: cert_needed | bool and names_not_ready | length == 0
+  changed_when: true
+
+- name: "{{ vhost.name }}: check for the certificate again"
+  ansible.builtin.stat:
+    path: "{{ cert_path }}"
+  register: cert_after
+
+- name: "{{ vhost.name }}: install the vhost"
+  ansible.builtin.template:
+    src: vhost.conf.j2
+    dest: "{{ nginx_conf_dir }}/sites-available/{{ vhost.name }}.conf"
+    owner: root
+    group: root
+    mode: "0644"
+  when: cert_after.stat.exists
+  notify: Reload nginx
+
+- name: "{{ vhost.name }}: enable the vhost"
+  ansible.builtin.file:
+    src: "{{ nginx_conf_dir }}/sites-available/{{ vhost.name }}.conf"
+    dest: "{{ nginx_conf_dir }}/sites-enabled/{{ vhost.name }}.conf"
+    state: link
+  when: cert_after.stat.exists
+  notify: Reload nginx
+
+- name: "{{ vhost.name }}: not live yet"
+  ansible.builtin.debug:
+    msg: >-
+      Skipped {{ vhost.name }}: no certificate, because these hostnames
+      don't reach this droplet yet: {{ names_not_ready | join(', ') }}.
+      Content is published; the site goes live on a later deploy once
+      DNS points here (docs/cutover-runbook.md).
+  when: not cert_after.stat.exists

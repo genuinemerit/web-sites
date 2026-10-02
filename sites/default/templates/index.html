@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="{{ locale }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ t(locale, "page.title") }}</title>
+  <link rel="stylesheet" href="/shared/tokens.css">
+
+  <style>
+    :root {
+      --background: #f5f0e7;
+      --text: #292725;
+      --muted: #68635d;
+      --accent: #315b91;
+      --accent-hover: #24446d;
+      --line: #d7cec1;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --background: #191a1c;
+        --text: #f1eee8;
+        --muted: #c3bdb4;
+        --accent: #8eb9ee;
+        --accent-hover: #b5d2f5;
+        --line: #464646;
+      }
+    }
+
+    body {
+      min-height: 100vh;
+      padding: 2rem;
+      font-size: 1.125rem;
+      background:
+        radial-gradient(circle at 82% 18%, rgb(49 91 145 / 0.08), transparent 28rem),
+        var(--background);
+    }
+
+    header {
+      width: min(100%, 68rem);
+      margin: 0 auto;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .languages {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .languages a {
+      color: inherit;
+    }
+
+    .languages a[aria-current="page"] {
+      color: var(--text);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .separator {
+      margin: 0 0.55rem;
+      color: var(--line);
+    }
+
+    main {
+      width: min(100%, 68rem);
+      min-height: calc(100vh - 6rem);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(18rem, 0.85fr) minmax(20rem, 1.15fr);
+      align-items: center;
+      gap: clamp(2.5rem, 7vw, 7rem);
+    }
+
+    .message {
+      max-width: 34rem;
+    }
+
+    .eyebrow {
+      margin: 0 0 1rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0 0 1.25rem;
+      font-size: clamp(2.5rem, 6vw, 4.75rem);
+      line-height: 1;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+    }
+
+    .intro {
+      max-width: 31rem;
+      margin: 0 0 2rem;
+    }
+
+    .rule {
+      width: 4rem;
+      height: 3px;
+      margin: 2rem 0;
+      border: 0;
+      background: var(--accent);
+    }
+
+    .sites {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .sites li + li {
+      margin-top: 0.7rem;
+    }
+
+    .sites a {
+      display: inline-block;
+      min-height: 44px;
+      padding: 0.3rem 0;
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+
+    .aside {
+      margin-top: 2.25rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    figure {
+      margin: 0;
+      justify-self: end;
+      width: min(100%, 31rem);
+    }
+
+    figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    @media (max-width: 48rem) {
+      body {
+        padding: 1.25rem;
+      }
+
+      main {
+        min-height: auto;
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+        padding: 2rem 0 4rem;
+      }
+
+      figure {
+        order: -1;
+        justify-self: center;
+        width: min(82vw, 27rem);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav class="languages" aria-label="{{ t(locale, 'nav.language') }}">
+      {% for loc in locales %}
+      <a href="{{ url_for('index', locale=loc) }}" lang="{{ loc }}"
+         {%- if loc == locale %} aria-current="page"{% endif %}>{{ t(loc, "lang." ~ loc) }}</a>
+      {% if not loop.last %}
+      <span class="separator" aria-hidden="true">|</span>
+      {% endif %}
+      {% endfor %}
+    </nav>
+  </header>
+
+  <main>
+    <section class="message" aria-labelledby="page-title">
+      <p class="eyebrow">{{ t(locale, "page.eyebrow") }}</p>
+
+      <h1 id="page-title">{{ t(locale, "page.heading") }}</h1>
+
+      <p class="intro">{{ t(locale, "page.intro") }}</p>
+
+      <hr class="rule">
+
+      <nav aria-label="{{ t(locale, 'nav.sites') }}">
+        <ul class="sites">
+          {% for url, label in links %}
+          <li><a href="{{ url }}">{{ label }}</a></li>
+          {% endfor %}
+        </ul>
+      </nav>
+
+      <p class="aside">{{ t(locale, "page.aside") }}</p>
+    </section>
+
+    <figure>
+      <img src="{{ url_for('static', filename='img/' ~ image ~ '-600.webp') }}"
+           srcset="{{ url_for('static', filename='img/' ~ image ~ '-600.webp') }} 600w,
+                   {{ url_for('static', filename='img/' ~ image ~ '-1200.webp') }} 1200w"
+           sizes="(max-width: 48rem) 82vw, 31rem"
+           width="1200" height="1200"
+           alt="{{ t(locale, 'image.alt') }}">
+    </figure>
+  </main>
+</body>
+</html>

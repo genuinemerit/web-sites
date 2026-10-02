@@ -1,0 +1,19 @@
+# Localization catalog: es-ES (Iberian Spanish) for the droplet's
+# default page. DRAFT 2026-10-02 - awaiting David's review. Informal
+# "tú", usual for this kind of playful web copy in Spain.
+
+[tags]
+"page.title" = "Bienvenida"
+"page.eyebrow" = "Aquí no hay nada que ver"
+# "Te damos la bienvenida" rather than "Bienvenido": avoids choosing a
+# grammatical gender for the visitor.
+"page.heading" = "Te damos la bienvenida a la red."
+"page.intro" = "Has llegado al servidor, pero seguramente no al sitio que buscabas. Aquí tienes buenos lugares por donde empezar."
+# The Outer Limits / Max Headroom joke - kept as a literal line; review
+# whether it lands for a Spanish audience.
+"page.aside" = "Por lo demás, no hace falta que ajustes tu televisor."
+"nav.language" = "Idioma"
+"nav.sites" = "Sitios principales"
+"lang.en-US" = "English"
+"lang.es-ES" = "Español"
+"image.alt" = "Max Headroom con gafas de sol blancas y pajarita"

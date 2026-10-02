@@ -1,0 +1,83 @@
+---
+# Renders the droplet's real nginx templates (roles/nginx + roles/sites)
+# into a scratch directory, for tools/dev/test-nginx-local.sh - which
+# then runs an unprivileged nginx on them and smoke-tests every
+# redirect, header and page before anything touches the droplet.
+# Never run against the droplet itself.
+#
+#   ansible-playbook render-local.yml -i localhost, -c local -e out=DIR
+
+- name: Render nginx config for the local test
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+    - vhosts.yml
+  vars:
+    nginx_conf_dir: "{{ out }}"
+    nginx_log_dir: "{{ out }}/logs"
+    acme_webroot: "{{ out }}/acme"
+    web_root: "{{ out }}/www"
+    cert_live_dir: "{{ out }}/live"
+    http_port: 18080
+    https_port: 18443
+  tasks:
+    - name: Create the scratch layout
+      ansible.builtin.file:
+        path: "{{ out }}/{{ item }}"
+        state: directory
+        mode: "0755"
+      loop: [snippets, conf.d, sites-enabled, logs, tmp, acme/.well-known/acme-challenge]
+
+    - name: Minimal nginx.conf, mirroring Ubuntu's as roles/nginx leaves it
+      ansible.builtin.copy:
+        dest: "{{ out }}/nginx.conf"
+        mode: "0644"
+        content: |
+          worker_processes 1;
+          pid {{ out }}/nginx.pid;
+          error_log {{ out }}/logs/error.log;
+          events {}
+          http {
+              include /etc/nginx/mime.types;
+              default_type application/octet-stream;
+              client_body_temp_path {{ out }}/tmp/body;
+              proxy_temp_path {{ out }}/tmp/proxy;
+              fastcgi_temp_path {{ out }}/tmp/fastcgi;
+              uwsgi_temp_path {{ out }}/tmp/uwsgi;
+              scgi_temp_path {{ out }}/tmp/scgi;
+              access_log {{ out }}/logs/access.log;
+              server_tokens off;
+              ssl_protocols TLSv1.2 TLSv1.3;
+              ssl_prefer_server_ciphers off;
+              include {{ out }}/snippets/security-headers.conf;
+              include {{ out }}/conf.d/*.conf;
+              include {{ out }}/sites-enabled/*;
+          }
+
+    - name: Security headers
+      ansible.builtin.template:
+        src: roles/nginx/templates/security-headers.conf.j2
+        dest: "{{ out }}/snippets/security-headers.conf"
+        mode: "0644"
+
+    - name: TLS settings
+      ansible.builtin.template:
+        src: roles/nginx/templates/tls.conf.j2
+        dest: "{{ out }}/conf.d/tls.conf"
+        mode: "0644"
+
+    - name: Default servers
+      ansible.builtin.template:
+        src: roles/nginx/templates/00-default.conf.j2
+        dest: "{{ out }}/sites-enabled/00-default.conf"
+        mode: "0644"
+
+    - name: Site vhosts
+      ansible.builtin.template:
+        src: roles/sites/templates/vhost.conf.j2
+        dest: "{{ out }}/sites-enabled/{{ vhost.name }}.conf"
+        mode: "0644"
+      loop: "{{ vhosts }}"
+      loop_control:
+        loop_var: vhost
+        label: "{{ vhost.name }}"

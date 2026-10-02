@@ -64,7 +64,9 @@ the same lightweight principle as everything else here.
   there's an actual reason to (e.g. the `.net` admin/editor tooling
   becoming real, or wanting these genuinely public). See
   `planning/architecture.md`'s Docs section.
-- **Replace the default nginx welcome page on `ubuvm`.** Currently the
+- **Replace the default nginx welcome page on `ubuvm`.** [resolved
+  2026-10-02 — David's `default` site, installed by
+  `tools/dev/setup-local-nginx.sh`, also the droplet's default page] Currently the
   stock `/var/www/html/index.nginx-debian.html` "Welcome to nginx!" page
   still serves for any request to `ubuvm`'s nginx that doesn't match one
   of the 7 site vhosts (e.g. plain `http://localhost/` or `http://
@@ -85,3 +87,10 @@ the same lightweight principle as everything else here.
   Spanish pages with English formulas would produce noise, not signal.
   Revisit when there's more prose to judge (e.g. `comunidad`), and decide
   then whether it's a gate, an advisory report, or English-only.
+- **Removing a site from `ansible/vhosts.yml` doesn't remove it from the
+  droplet.** Added 2026-10-02 with `roles/sites`: deploy adds and updates
+  vhosts, content and certificates, but never deletes them, so a removed
+  entry's nginx vhost, files and certificate linger (and certbot keeps
+  trying to renew it). Fine while sites are only being added; handle it
+  (a small cleanup task, or a documented manual step) before the first
+  real removal.

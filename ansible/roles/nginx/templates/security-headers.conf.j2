@@ -1,0 +1,19 @@
+# Managed by Ansible (roles/nginx). Baseline security headers.
+#
+# Included at the http level AND inside every vhost server block (and
+# any location that sets its own add_header): nginx only inherits
+# add_header from an outer level when the inner level sets none of its
+# own, so a vhost adding even one header would otherwise silently drop
+# all of these.
+#
+# CSP: every page carries its CSS in an inline <style> block, hence
+# style-src 'unsafe-inline'. No scripts, no third-party fonts or
+# embeds - anything external (e.g. Google Fonts) must be added here
+# explicitly or the browser will block it.
+add_header X-Content-Type-Options "nosniff" always;
+add_header X-Frame-Options "SAMEORIGIN" always;
+add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+add_header Content-Security-Policy "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'" always;
+{% if hsts_max_age | int > 0 %}
+add_header Strict-Transport-Security "max-age={{ hsts_max_age }}" always;
+{% endif %}

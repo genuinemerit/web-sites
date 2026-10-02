@@ -1,12 +1,8 @@
 ---
 # No sask equivalent to adapt from (sask uses Caddy for its single app;
-# web-sites needs nginx to match the legacy droplet's pattern and the
-# local dev vhosts already built in tools/dev/setup-local-nginx.sh).
-# Platform-level hardening only at this stage — see
-# legacy/nginx-review.md/legacy/security-review.md for the findings this
-# directly addresses. No per-site vhosts here yet: those come from later,
-# separate "new site bring-up" tooling once a site's Frozen-Flask build
-# actually exists (planning/architecture.md's Deploy/ops tooling section).
+# web-sites uses nginx + certbot - design/certificates.md, option A).
+# Platform level only: hardening, TLS settings, and the default servers.
+# Per-site vhosts and certificates are roles/sites.
 
 - name: Install nginx
   ansible.builtin.apt:
@@ -24,24 +20,31 @@
     validate: "nginx -t -c %s"
   notify: Reload nginx
 
-# legacy/nginx-review.md: "No global security headers set anywhere...
-# across every vhost, not just missing from one." A baseline snippet,
-# included from the http block, applies to every vhost including future
-# per-site ones without needing to repeat it per-site.
-- name: Install the baseline security-headers snippet
-  ansible.builtin.copy:
+# Ubuntu 26.04's stock nginx.conf already sets both of these the way
+# the Mozilla intermediate profile wants (tls.conf.j2 explains why they
+# can't simply be redefined there). Enforced, not assumed, so a future
+# package default can't quietly re-enable old protocols.
+- name: Enforce TLS protocol settings in nginx.conf
+  ansible.builtin.lineinfile:
+    path: /etc/nginx/nginx.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    validate: "nginx -t -c %s"
+  loop:
+    - { regexp: "^\\s*ssl_protocols\\s", line: "\tssl_protocols TLSv1.2 TLSv1.3;" }
+    - { regexp: "^\\s*ssl_prefer_server_ciphers\\s", line: "\tssl_prefer_server_ciphers off;" }
+  notify: Reload nginx
+
+- name: Install the security-headers snippet
+  ansible.builtin.template:
+    src: security-headers.conf.j2
     dest: /etc/nginx/snippets/security-headers.conf
-    content: |
-      # Managed by Ansible (roles/nginx). Baseline security headers -
-      # applied globally via the http block's include, not per-vhost.
-      add_header X-Content-Type-Options "nosniff" always;
-      add_header X-Frame-Options "SAMEORIGIN" always;
-      add_header Referrer-Policy "strict-origin-when-cross-origin" always;
     owner: root
     group: root
     mode: "0644"
   notify: Reload nginx
 
+# Also covers the port-80 catch-all's own responses.
 - name: Include the security-headers snippet from the http block
   ansible.builtin.lineinfile:
     path: /etc/nginx/nginx.conf
@@ -50,7 +53,54 @@
     validate: "nginx -t -c %s"
   notify: Reload nginx
 
-- name: Apply nginx changes immediately
+- name: Install the TLS settings
+  ansible.builtin.template:
+    src: tls.conf.j2
+    dest: /etc/nginx/conf.d/tls.conf
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload nginx
+
+- name: Create the shared ACME challenge directory
+  ansible.builtin.file:
+    path: "{{ acme_webroot }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Install the default servers (ACME + HTTPS redirect, unknown-host reject)
+  ansible.builtin.template:
+    src: 00-default.conf.j2
+    dest: /etc/nginx/sites-available/00-default.conf
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload nginx
+
+- name: Enable the default servers
+  ansible.builtin.file:
+    src: /etc/nginx/sites-available/00-default.conf
+    dest: /etc/nginx/sites-enabled/00-default.conf
+    state: link
+  notify: Reload nginx
+
+# Ubuntu's stock "Welcome to nginx" site also claims default_server on
+# port 80 - two defaults is a config error, and it shouldn't be public.
+- name: Remove the stock default site
+  ansible.builtin.file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify: Reload nginx
+
+# Whole-config test before any reload: on failure the play stops here
+# and the running nginx keeps serving its previous, working config.
+- name: Test the full nginx configuration
+  ansible.builtin.command: nginx -t
+  changed_when: false
+
+- name: Apply nginx changes
   ansible.builtin.meta: flush_handlers
 
 - name: Enable and start nginx

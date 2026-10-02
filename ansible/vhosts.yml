@@ -1,0 +1,75 @@
+---
+# Every hostname the droplet serves, in one place. Read by:
+#   - site.yml (roles/sites): content sync, certificates, nginx vhosts
+#   - render-local.yml: the local nginx test in pre-build-check.sh
+#   - tools/ops/smoke_test.py: post-deploy and local verification
+# Domain decisions behind this file: design/domains.md. Certificate
+# design: design/certificates.md.
+#
+# Each entry is one site: one certificate (named after `name`), one
+# canonical hostname that serves content, and any number of aliases
+# that permanently redirect to it (path preserved).
+#
+#   source     build output to publish, relative to the repo root
+#   media      optional large-media folder, served at /media/
+#   locales    optional; first-visit "/" then follows the browser's
+#              Accept-Language, falling back to en-US (decided
+#              2026-10-02, design/taiji.md)
+#   redirects  optional exact-path redirects, e.g. legacy URLs. A `to`
+#              containing {lang} is language-negotiated (302 + Vary);
+#              any other `to` is a permanent 301.
+
+# Let's Encrypt staging (untrusted test certs, generous rate limits)
+# until a site is ready for real visitors. Flip to false for production;
+# deploy then replaces staging certs automatically.
+acme_staging: true
+
+# Strict-Transport-Security max-age in seconds; 0 = header not sent.
+# Raised in steps only after sites are verified over real HTTPS
+# (design/certificates.md, point 7).
+hsts_max_age: 0
+
+# Deploy-time size gate for large media (planning/architecture.md):
+# any file larger than this blocks the deploy unless run with
+# -e allow_large_media=true.
+media_max_mb: 100
+
+# The page for any request that names none of the vhosts below (a
+# bare-IP visit, a stale DNS record) - served over plain HTTP by the
+# port-80 default server (roles/nginx), no certificate. Replaces the
+# stock "Welcome to nginx!".
+default_site:
+  name: default
+  source: sites/default/build
+  locales: [en-US, es-ES]
+
+vhosts:
+  # Bare-domain hub pages (design/domains.md).
+  - name: genuinemerit
+    canonical: genuinemerit.com
+    aliases: [genuinemerit.org]
+    source: sites/genuinemerit/build
+    locales: [en-US, es-ES]
+
+  - name: davidstitt
+    canonical: davidstitt.net
+    aliases: []
+    source: sites/davidstitt/build
+    locales: [en-US, es-ES]
+
+  - name: taiji
+    canonical: taiji.genuinemerit.com
+    aliases: [taiji.genuinemerit.org]
+    source: sites/taiji/build
+    media: sites/taiji/media
+    locales: [en-US, es-ES]
+    # Legacy URLs, verified 2026-10-02 against the LIVE legacy server (not
+    # sites/taiji/heirloom/, which was reworked locally on 2026-10-01):
+    # the old site was one page, taiji.html, served at "/" - links,
+    # bookmarks and Louise's printed material use these. The full-size
+    # legacy videos map to the 720p versions now published.
+    redirects:
+      - { from: /taiji.html, to: "/{lang}/taiji-for-balance/" }
+      - { from: /vid/Taiji_for_Balance.mp4, to: /media/vid/Taiji_for_Balance_720p.mp4 }
+      - { from: /vid/Taiji_for_Balance_rear_view.mp4, to: /media/vid/Taiji_for_Balance_rear_view_720p.mp4 }
+      - { from: /img/taiji-tree.jpg, to: /static/img/taiji-tree.webp }

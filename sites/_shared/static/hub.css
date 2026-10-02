@@ -1,0 +1,143 @@
+/* Layout for the bare-domain hub pages (genuinemerit.com,
+   davidstitt.net) - from David's 2026-10-02 prototypes. Shared because
+   both hubs use exactly this structure; each page keeps its own palette
+   (:root tokens) and background inline, per tokens.css's convention.
+   Needs tokens.css loaded first. */
+
+body {
+  min-height: 100vh;
+  font-size: 1.125rem;
+}
+
+.page {
+  width: min(100% - 2.5rem, 72rem);
+  min-height: 100vh;
+  margin: 0 auto;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+header {
+  min-height: 5rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.languages {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.languages a {
+  color: inherit;
+}
+
+.languages a[aria-current="page"] {
+  color: var(--text);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.separator {
+  margin: 0 0.55rem;
+  color: var(--line);
+}
+
+main {
+  display: grid;
+  grid-template-columns: minmax(18rem, 0.8fr) minmax(20rem, 1.2fr);
+  gap: clamp(2.5rem, 7vw, 7rem);
+  align-items: center;
+  padding: 2rem 0 7rem;
+}
+
+.directory {
+  align-self: center;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(2.7rem, 6vw, 5.4rem);
+  line-height: 0.98;
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  overflow-wrap: anywhere;
+}
+
+.rule {
+  width: 4rem;
+  height: 3px;
+  margin: 2rem 0 2.25rem;
+  border: 0;
+  background: var(--accent);
+}
+
+.sites {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sites li + li {
+  margin-top: 0.8rem;
+}
+
+.sites a,
+.sites .pending {
+  display: inline-block;
+  min-height: 44px;
+  padding: 0.35rem 0;
+  font-size: clamp(1.25rem, 2.2vw, 1.55rem);
+  font-weight: 700;
+}
+
+/* A site that isn't live yet: its name as plain text plus a muted
+   note, rather than a link that leads nowhere. */
+.sites .pending {
+  color: var(--muted);
+}
+
+.sites .soon {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+figure {
+  margin: 0;
+  justify-self: end;
+  width: min(100%, 34rem);
+}
+
+figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 2px;
+}
+
+@media (max-width: 48rem) {
+  .page {
+    width: min(100% - 2rem, 72rem);
+  }
+
+  header {
+    min-height: 4.5rem;
+  }
+
+  main {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    padding: 2rem 0 4rem;
+  }
+
+  figure {
+    order: -1;
+    justify-self: center;
+    width: min(82vw, 28rem);
+  }
+
+  h1 {
+    font-size: clamp(2.6rem, 12vw, 4.5rem);
+  }
+}

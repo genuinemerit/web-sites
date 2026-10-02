@@ -46,6 +46,8 @@ Confirmed working 2026-10-02.
    127.0.0.1 play.web-sites.test
    127.0.0.1 music.web-sites.test
    127.0.0.1 callejerez.web-sites.test
+   127.0.0.1 genuinemerit.web-sites.test
+   127.0.0.1 davidstitt.web-sites.test
    ```
 
    This is the same list `tools/dev/setup-local-nginx.sh`'s `SITES`

@@ -86,6 +86,12 @@ run_check "internal links" \
 run_check "colour contrast (WCAG AA)" \
     python3 tools/dev/check_contrast.py
 
+# The droplet's real nginx templates, rendered locally and served by an
+# unprivileged nginx with throwaway certs, then smoke-tested: every
+# redirect, header, certificate name and page in ansible/vhosts.yml.
+run_check "nginx config + redirects (local)" \
+    bash tools/dev/test-nginx-local.sh
+
 # --- Not wired yet: readability scoring (planning/architecture.md's
 # Testing section). Deferred deliberately - textstat's formulas are
 # English-centric, and every site here is bilingual; worth a proper
