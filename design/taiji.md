@@ -76,3 +76,17 @@ David: "yes, it means translating into Spanish." EN/ES now, for the
 *existing* content (translated, not expanded — see MVP scope above).
 Matches the project-wide i18n decision (`planning/architecture.md`) —
 `taiji` is simply where it gets implemented first.
+
+## Open for Phase D (hosting) — found 2026-10-02
+
+- **Root URL and legacy URLs.** The frozen build has no
+  `build/index.html`: the site lives at `/en-US/` and `/es-ES/`, so a
+  bare `https://taiji.genuinemerit.org/` currently has nothing to
+  serve. Separately, the URLs people already have (Louise's printed
+  and emailed links, bookmarks) are the legacy ones, verified against
+  `sites/taiji/heirloom/` and the legacy nginx config: `/`,
+  `/index.html`, `/taiji_for_balance.html`, `/vid/*.mp4`,
+  `/img/taiji-tree.{jpg,webp}`, `/favicon.ico`. The server config needs
+  a small permanent-redirect map from each of these to its new home.
+  Decision needed: what `/` does — always redirect to `/en-US/`, or
+  pick the language from the browser's `Accept-Language` header.

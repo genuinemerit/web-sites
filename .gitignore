@@ -24,3 +24,6 @@ secrets/*infra.env
 
 # Editor/OS cruft
 .DS_Store
+
+# Claude Code per-machine settings (e.g. read access to ../sask)
+.claude/settings.local.json

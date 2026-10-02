@@ -8,7 +8,7 @@
 #
 # A droplet can't be destroyed while a reserved IP is still assigned to it,
 # so the reserved-IP assignment is detached first, then everything else
-# (droplet, reserved IP, firewall, the generated ~/.ssh/config.d/web-sites
+# (droplet, reserved IP, firewall, the generated ~/.ssh/config.d/ubuvm_ws
 # snippet) is destroyed in a second pass. Finally, the stale known_hosts
 # entry for the reserved IP / alias is purged so the next provision's
 # first connection isn't refused as "changed".

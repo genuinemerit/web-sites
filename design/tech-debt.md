@@ -40,7 +40,8 @@ the same lightweight principle as everything else here.
 ## Open
 
 - **Certificate handling strategy for the new droplet/architecture —
-  needs a thorough discussion, coming up (not yet).** Noted 2026-10-01
+  needs a thorough discussion.** [in discussion 2026-10-02 — proposal
+  in `design/certificates.md`] Noted 2026-10-01
   while surveying the legacy droplet for anything else worth pulling:
   found `/root/backup_certbots.sh` + a `letsencrypt-backup-20251011.tgz`
   archive there — a pattern for backing up Let's Encrypt certs that
@@ -77,3 +78,10 @@ the same lightweight principle as everything else here.
   `index.nginx-debian.html`, so a new file there takes over
   automatically, no need to touch or delete the original. No nginx
   reload needed, just a static file change.
+- **Readability check not wired into `pre-build-check.sh`.** Added
+  2026-10-02 alongside the HTML/link/contrast/i18n checks, but
+  deliberately left out: `textstat`'s readability formulas are tuned
+  for English, and every site here is bilingual — a gate that scores
+  Spanish pages with English formulas would produce noise, not signal.
+  Revisit when there's more prose to judge (e.g. `comunidad`), and decide
+  then whether it's a gate, an advisory report, or English-only.

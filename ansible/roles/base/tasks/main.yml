@@ -42,27 +42,53 @@
 # legacy/security-review.md's #1 finding: the legacy droplet has
 # PermitRootLogin yes + PasswordAuthentication yes with no fail2ban -
 # meaningful brute-force exposure. This is the direct fix.
-- name: Harden sshd
-  ansible.builtin.lineinfile:
-    path: /etc/ssh/sshd_config
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
+#
+# A drop-in, not edits to sshd_config itself (sask's approach): the same
+# review found a sshd_config.d/ drop-in silently overriding the main
+# file, so editing sshd_config alone can "succeed" while changing
+# nothing. See the template's header for the precedence rule.
+- name: Install the sshd hardening drop-in
+  ansible.builtin.template:
+    src: sshd-hardening.conf.j2
+    dest: /etc/ssh/sshd_config.d/00-web-sites-hardening.conf
+    owner: root
+    group: root
+    mode: "0644"
+    # Syntax-checks the drop-in on its own before it replaces anything,
+    # so a typo never lands on disk (where it would break sshd at the
+    # next restart or reboot - a lockout risk).
     validate: "/usr/sbin/sshd -t -f %s"
-  loop:
-    - { regexp: "^#?PermitRootLogin", line: "PermitRootLogin no" }
-    - { regexp: "^#?PasswordAuthentication", line: "PasswordAuthentication no" }
-    - { regexp: "^#?PubkeyAuthentication", line: "PubkeyAuthentication yes" }
-    - { regexp: "^#?MaxAuthTries", line: "MaxAuthTries 3" }
-    - { regexp: "^#?X11Forwarding", line: "X11Forwarding no" }
-    - { regexp: "^#?AllowAgentForwarding", line: "AllowAgentForwarding no" }
-    - { regexp: "^#?AllowTcpForwarding", line: "AllowTcpForwarding no" }
   notify: Restart sshd
+
+# Validates the whole config (main file + every drop-in) as sshd will
+# actually load it, before the handler restarts the daemon.
+- name: Validate the full sshd configuration
+  ansible.builtin.command: /usr/sbin/sshd -t
+  changed_when: false
 
 # Flush immediately rather than at end-of-play: a later task failing must
 # not leave hardening written to disk but never actually applied to the
 # running sshd (same reasoning as sask's base role).
 - name: Apply sshd hardening immediately
   ansible.builtin.meta: flush_handlers
+
+# Proves the hardening is in effect, not just written to disk: `sshd -T`
+# prints the effective configuration after all includes are resolved.
+- name: Read the effective sshd configuration
+  ansible.builtin.command: /usr/sbin/sshd -T
+  register: sshd_effective
+  changed_when: false
+
+- name: Assert the sshd hardening is effective
+  ansible.builtin.assert:
+    that:
+      - "'permitrootlogin no' in sshd_effective.stdout_lines"
+      - "'passwordauthentication no' in sshd_effective.stdout_lines"
+      - "'kbdinteractiveauthentication no' in sshd_effective.stdout_lines"
+      - "'allowusers ' ~ admin_user in sshd_effective.stdout_lines"
+    fail_msg: >-
+      sshd hardening is written but NOT effective - another sshd_config.d
+      drop-in is probably overriding it. Inspect with `sudo sshd -T`.
 
 - name: Create the journald drop-in directory
   ansible.builtin.file:

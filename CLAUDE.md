@@ -1,90 +1,151 @@
 # CLAUDE.md — web-sites project instructions
 
-Rationale and the mapping from `sask`'s housekeeping rules live in
-`planning/housekeeping.md` — this file is the terse, actionable version,
-same relationship `sask/CLAUDE.md` has to its own design docs.
+David's static-site properties (`taiji`, `comunidad`, `movement`, `play`,
+`music`, `callejerez`, `spain`), rebuilt on Frozen-Flask and moving off
+the legacy DigitalOcean droplet onto a new one. Rationale for the rules
+below lives in `planning/housekeeping.md`; this file is the terse,
+actionable version.
 
-## Environment (intended; not yet scaffolded)
+## Where things are
 
-- Dev host: **`ubuvm`**, Ubuntu 26.04 LTS (392G disk, 362G free),
-  **server-only — no GUI/browser**, a VM under libvirt/VMM
-  (`192.168.122.173`, reachable from `wingchun` via `ssh ubuvm`).
-  Viewing a local build happens from David's laptop (**`wingchun`**)
-  over an SSH port-forward into `ubuvm`'s nginx — full setup and
-  per-session steps in `docs/local-dev-testing.md`, confirmed working
-  2026-10-02.
-- Single Poetry-managed venv for all sites in this repo (Frozen-Flask —
-  see `planning/architecture.md`). Python: system `/usr/bin/python3`
-  directly (`>=3.14`, currently 3.14.4) — **no `pyenv`**, unlike `sask`
-  (which pins 3.12 specifically to avoid the system's 3.14). Deliberate:
-  this project wants latest Python, `sask` deliberately doesn't.
-- Deploy target: a new DigitalOcean droplet, Ubuntu 26.04 LTS, `fra1`,
-  same size as the legacy box (2GB/1vCPU/70GB). SSH key: reuse
-  `ubuvm_gm` (DO key ID `59687099`, local `~/.ssh/gm_ed25519`).
+- `planning/` — pre-build discussion archive (architecture, aesthetics,
+  target sites, roadmap, site-build checklist). Frozen: read it, don't
+  add to it.
+- `design/` — build-phase design docs, one topic per file, dated, with
+  rationale. `tech-debt.md` holds known imperfections; each site's doc
+  has a "parking lot" for not-now ideas.
+- `legacy/` — review of the legacy droplet (inventory, DNS, nginx,
+  certs, security findings).
+- `docs/` — operational guides (e.g. `local-dev-testing.md`).
+- `src/websites/<site>/` — thin per-site Flask app (`create_app()`,
+  routes, `LOCALES`). `src/websites/common/` — shared i18n,
+  Markdown/front-matter loading, freeze orchestration.
+- `sites/<site>/` — `content/<locale>/*.md`, `templates/`, `static/`
+  (versioned), `media/` (large, gitignored), `heirloom/` (raw legacy
+  copy, gitignored), `build/` (frozen output, gitignored).
+  `sites/_shared/` — `error-pages/` (404/50x) and `static/tokens.css`,
+  copied into every build.
+- `config/i18n/<site>/<locale>.toml` — short UI-string catalogs; `en-US`
+  is the completeness floor.
+- `infra/tofu/`, `ansible/`, `tools/ops/` — droplet provisioning
+  (OpenTofu), configuration (Ansible `base` + `nginx`), and the scripts
+  that drive them.
+- `tools/dev/` — dev-host setup, checks, backup. `init-dev-host.sh` is
+  the record of every apt install on `ubuvm`; add to it as packages are
+  added.
+
+Build order and phase status: `planning/roadmap.md`. Per-site build
+steps: `planning/site-build-checklist.md`.
+
+## Environment
+
+- **Dev host `ubuvm`**: Ubuntu 26.04 LTS, server-only (no GUI), a
+  libvirt guest on David's laptop **`wingchun`** (`192.168.122.173`).
+  Builds are viewed from `wingchun` over an SSH port-forward into
+  `ubuvm`'s nginx — see `docs/local-dev-testing.md`.
+- **`sudo` on `ubuvm` needs David's password** — Claude can't run it.
+  Write the script, David runs it (e.g. `init-dev-host.sh`,
+  `setup-local-nginx.sh`). Never pipe `sudo a | sudo b`: both prompt
+  at once on one terminal.
+- **Python**: system `/usr/bin/python3` (>=3.14), single Poetry venv, no
+  `pyenv` — a deliberate divergence from `sask`.
+- **HTML validator**: `~/.local/bin/vnu`, installed/updated by
+  `bash tools/dev/install-vnu.sh` (no sudo).
+- **Legacy droplet**: `ssh genuinemerit` (root; `gmerit-nyc2`). Will be
+  snapshotted and destroyed after cutover — nothing new may depend on it.
+- **New droplet**: `web-sites-droplet`, `fra1`, 2GB/1vCPU/70GB, Ubuntu
+  26.04, plus a reserved IP that survives `recreate-droplet.sh` but not
+  `destroy.sh` (a full destroy releases it; the next provision gets a new
+  one). SSH key `~/.ssh/ws_ed25519`, registered on DO as `ubuvm_ws` (ID
+  `59722532`, outlives droplets). Alias `web-sites-droplet`, written by
+  OpenTofu to `~/.ssh/config.d/ubuvm_ws`. As of 2026-10-02 **no droplet
+  exists** (torn down after the destroy test) — check `doctl` before
+  assuming either way.
+- **DigitalOcean API**: shares `sask`'s token at
+  `~/.config/sask/infra.env` (`DIGITALOCEAN_TOKEN`). The `tools/ops/`
+  scripts source it; for ad-hoc `doctl`, export it per command as
+  `DIGITALOCEAN_ACCESS_TOKEN`. Never print the token.
+- **GitHub**: public repo `genuinemerit/web-sites`, `gh` authenticated as
+  `genuinemerit`. GitHub is an archive only — deploys go directly from
+  `ubuvm`.
+- **Git identity**: same as `sask` (`David` / `david.stitt@pm.me`), set
+  locally in this repo.
+- **Gotchas seen before**: files in `~/.ssh/config.d/` must be mode
+  `600` or OpenSSH rejects the whole Include (breaks SSH to *every*
+  host). `ansible-playbook` here can hit a "blocking IO" error on piped
+  output — redirect to a file instead.
+
+## The `sask` sibling project
+
+`../sask` (`/home/dave/code/sask`) is a *reference model* for tooling,
+layout, and infra patterns — read it directly when a pattern is needed,
+never from memory. **Never modify it from this project.** Where `sask`'s
+approach has a weakness, fix it here rather than copy it (e.g. Ansible
+`host_key_checking = False`, editing `sshd_config` instead of a
+precedence-safe drop-in — both repaired in this repo's Ansible).
+
+## Standing principles
+
+- **Clean, robust, streamlined, secure** deployment — David's standing
+  rule. Prefer fewer moving parts, verify effects (not just that a
+  command ran), and no secrets on the droplet that it doesn't need.
+- **No guessing.** Read the actual code/config/state before asserting
+  anything. When cloud state and tool state may differ (e.g. `tofu`
+  after a failed apply), check ground truth with `doctl`/`ssh` first.
+- **Tooling values**: Python-first, no Node/npm toolchains, no PHP;
+  durable, widely-maintained tools over novel ones.
+- **MVP first** (`planning/site-build-checklist.md`): define the round's
+  MVP before discussing big ideas; new ideas mid-work default to the
+  site's parking lot, out loud, unless David pulls them in.
+- **Pacing**: Phase 3 site builds go one deliberate step at a time;
+  David leads the pace.
+- **Translations** ship only after David reviews them.
+- Remove `.gitkeep` from any folder once it has real content (no need
+  to ask).
 
 ## Before any build, push, or deploy
-
-Run the check script; every check must exit 0:
 
 ```bash
 bash tools/dev/pre-build-check.sh
 ```
 
-Currently wired up: ruff lint/format, shellcheck, pymarkdown. Still to be
-added as their underlying pieces come online (see the script's own
-comments):
+Every check must pass. In order: ruff lint + format, shellcheck,
+pymarkdown (`README.md`, `CLAUDE.md`, `docs/` only), i18n completeness
+(catalogs + content pages, all locales), the Frozen-Flask build of every
+site, HTML/CSS validity (W3C vnu), internal links (including `/media/`),
+WCAG AA colour contrast on every page's tokens in light and dark mode.
+Not yet wired: readability scoring (see `design/tech-debt.md`).
 
-- HTML validity
-- Internal link check (no 404s)
-- Color-contrast check (WCAG AA, against the shared CSS custom-properties
-  file)
-- Readability check
-- i18n completeness (`en-US` is the floor — see `planning/
-  architecture.md`'s Internationalization section)
-- The Frozen-Flask build itself (fails on template errors — this is a
-  real check, not just a build step)
-
-## Design docs
-
-`planning/` is the pre-build discussion archive (architecture,
-aesthetics, target-site vision, roadmap, housekeeping) — already
-populated, not where new entries go. **New design docs, written during
-actual build work, go under `design/`** (see `design/README.md`). Same
-format either way: plain markdown, one topic per file, dated, with
-rationale. No TOML schema, no validator script — deliberately lighter
-than `sask`'s dd/req/spec system, per David's explicit request.
+Colour tokens (`--text`, `--muted`, `--accent`, `--accent-hover`,
+`--background`, `--surface`) must be literal hex values so the contrast
+check can verify them.
 
 ## Human review
 
-All generated code and config files require human review before
-execution. Present files for inspection; do not auto-run infrastructure
-or destructive commands (droplet changes, DNS changes, deploys).
+All generated code and config require David's review before they run.
+Present files for inspection; never auto-run infrastructure or
+destructive commands (droplet changes, DNS changes, deploys, anything on
+the legacy droplet).
 
-**Always pause and request review before `git commit`, and separately
-before `git push`** — confirmed explicitly 2026-09-30, after Claude
-committed scaffolding work without pausing first under a general
-"adelante"/go-ahead. A broad go-ahead for a phase of work does NOT cover
-git commit/push individually; each one gets its own explicit pause, every
-time, even mid-task.
+**Always pause and ask before `git commit`, and separately before `git
+push`** — every time, even mid-task, even under a broad "go ahead" for
+the surrounding work.
 
-## Collaboration on impactful design decisions
+## Collaboration on design decisions
 
-Surface architecture/design forks as explicit questions rather than
-deciding unilaterally — especially anything touching URL structure,
-domain/DNS, site architecture, or the shared component/theme system.
+Surface design forks as explicit questions rather than deciding
+unilaterally — especially URL structure, domains/DNS, certificates, site
+architecture, and the shared style system. Record decisions in
+`design/` with date and rationale.
 
 ## Review checkpoint per dev cycle
 
-After each reasonably-sized chunk of work (a site's initial build, a
-template/theme change, a pipeline script), pause for David's review and
-approval before moving on to the next chunk.
+After each reasonably-sized chunk (a site build, a template/theme change,
+a pipeline script), pause for David's review before the next chunk.
+Design/aesthetics review against `planning/design-aesthetics.md`'s
+"calm" brief is part of every cycle.
 
-## Git identity
+## Out of scope here
 
-Same as `sask`: `David` / `david.stitt@pm.me`.
-
-## `.net` dynamic tooling / auth
-
-Out of scope for this repo's normal workflow. Any future auth/authn need
-gets built inside the `sask` project and imported here — not developed
-independently in `web-sites`.
+Auth/authn and other dynamic `.net` tooling get built in `sask` first and
+imported later. Forms are `mailto:` only.

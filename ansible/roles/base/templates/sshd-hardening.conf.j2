@@ -1,0 +1,17 @@
+# Managed by Ansible (roles/base). Do not edit on the droplet.
+#
+# Lives in sshd_config.d/ with a 00- prefix on purpose: sshd uses the
+# FIRST value it reads for each keyword, and the main sshd_config's
+# `Include /etc/ssh/sshd_config.d/*.conf` comes before its own settings.
+# Drop-ins therefore beat sshd_config itself, and 00- beats the image's
+# own 50-cloud-init.conf (which set `PasswordAuthentication yes` on the
+# legacy droplet - legacy/security-review.md).
+PermitRootLogin no
+PasswordAuthentication no
+KbdInteractiveAuthentication no
+PubkeyAuthentication yes
+AllowUsers {{ admin_user }}
+MaxAuthTries 3
+X11Forwarding no
+AllowAgentForwarding no
+AllowTcpForwarding no

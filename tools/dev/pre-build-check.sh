@@ -37,16 +37,58 @@ run_check "shellcheck" \
 run_check "pymarkdown" \
     poetry run pymarkdown --config .pymarkdown scan README.md CLAUDE.md docs/
 
-# --- Checks below are not wired up yet — no site content/templates
-# exist to check yet (Phase 1 scaffolding only). Add each as its
-# underlying piece comes online, don't stub a no-op check that would
-# give false confidence:
-#
-#   - HTML validity          (needs Frozen-Flask output to exist)
-#   - internal link check    (needs Frozen-Flask output to exist)
-#   - color-contrast check   (needs the shared CSS custom-properties file)
-#   - readability check      (needs Markdown content to exist)
-#   - i18n completeness      (needs config/i18n/*.toml to exist)
-#   - Frozen-Flask build     (needs at least one site app to exist)
+# --- Site checks: i18n, then the build itself, then checks over the
+# build output. Order matters - the HTML/link/contrast checks read
+# sites/*/build/, so the build must run (and pass) first.
 
-printf '\n[ALL PASS] Pre-build checks complete (partial — see script comments).\n'
+# Every src/websites/<site>/ package except common/ is a site.
+SITES=()
+for pkg in src/websites/*/; do
+    pkg="$(basename "$pkg")"
+    [[ "$pkg" == "common" || "$pkg" == "__pycache__" ]] && continue
+    SITES+=("$pkg")
+done
+
+run_check "i18n completeness" \
+    poetry run python tools/dev/validate_i18n.py
+
+build_sites() {
+    local site
+    for site in "${SITES[@]}"; do
+        printf '  freezing %s\n' "$site"
+        poetry run python -m websites.common.freeze "$site" || return 1
+    done
+}
+# A real check, not just a build step: Frozen-Flask fails on template
+# errors, missing content files, and unresolvable url_for() calls.
+run_check "Frozen-Flask build (${SITES[*]})" build_sites
+
+# W3C Nu HTML Checker - install/update with tools/dev/install-vnu.sh
+# (no sudo; lands in ~/.local/bin/vnu).
+VNU="${VNU:-$HOME/.local/bin/vnu}"
+check_html() {
+    if [[ ! -x "$VNU" ]]; then
+        printf 'vnu not found at %s - run: bash tools/dev/install-vnu.sh\n' "$VNU" >&2
+        return 1
+    fi
+    local build_dirs=()
+    local site
+    for site in "${SITES[@]}"; do
+        build_dirs+=("sites/$site/build")
+    done
+    "$VNU" --errors-only --skip-non-html --also-check-css "${build_dirs[@]}"
+}
+run_check "HTML/CSS validity (vnu)" check_html
+
+run_check "internal links" \
+    python3 tools/dev/check_links.py
+
+run_check "colour contrast (WCAG AA)" \
+    python3 tools/dev/check_contrast.py
+
+# --- Not wired yet: readability scoring (planning/architecture.md's
+# Testing section). Deferred deliberately - textstat's formulas are
+# English-centric, and every site here is bilingual; worth a proper
+# look before it becomes a gate. Tracked in design/tech-debt.md.
+
+printf '\n[ALL PASS] Pre-build checks complete.\n'
