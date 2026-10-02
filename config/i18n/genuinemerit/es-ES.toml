@@ -1,5 +1,5 @@
 # Localization catalog: es-ES (Iberian Spanish) for the genuinemerit.com
-# hub page. DRAFT 2026-10-02 - awaiting David's review (translations
+# hub page. Reviewed and approved by David, 2026-10-02 (translations
 # ship only after review).
 
 [tags]
@@ -11,8 +11,8 @@
 # Each language's own name for itself - identical in every catalog.
 "lang.en-US" = "English"
 "lang.es-ES" = "Español"
-# Site names: translated where they're ordinary words (review: "Juegos"
-# for Play, "España" for Spain); Taiji and Comunidad unchanged.
+# Site names: translated where they're ordinary words ("Juegos" for
+# Play, "España" for Spain); Taiji and Comunidad unchanged.
 "site.taiji" = "Taiji"
 "site.play" = "Juegos"
 "site.spain" = "España"

@@ -34,6 +34,17 @@ invisible to taiji's users and can run any time. David sends Louise a note befor
 3. `bash tools/ops/deploy.sh` — runs every pre-build check, hardens the droplet, publishes all content.
    Every site is reported "not live yet" (no DNS points here), which is expected.
 
+**Known provider bug** (hit on both 2026-10-01 and 2026-10-02): `tofu apply` can fail with "Provider produced
+inconsistent result after apply" on `digitalocean_reserved_ip`, after the droplet and firewall were created. The
+reserved IP does exist — it just isn't recorded. Don't re-run blind (that creates a second IP). Instead:
+`doctl compute reserved-ip list` to find the unassigned IP, then from `infra/tofu/` (with `infra.env` sourced)
+`tofu import digitalocean_reserved_ip.web_sites <ip>`, then `bash tools/ops/provision.sh` again — it then only
+adds the IP assignment and the SSH alias.
+
+**Done 2026-10-02**: droplet `605595400`, reserved IP `157.245.25.141`. Deploy `failed=0`; verified root and
+password logins refused, `sshd -T` hardened, nginx/fail2ban/certbot timer/unattended-upgrades active, only
+22/80/443 listening, default page answering by IP (smoke test `--only default --resolve 157.245.25.141`).
+
 ## Stage 1 — pin the legacy names (in the window, no visible change)
 
 Today `taiji`, `sandwichopenmic`, `qigong` (genuinemerit.com), `music` (davidstitt.net) and `sfp`
