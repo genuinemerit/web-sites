@@ -1,0 +1,79 @@
+[
+  {
+    "id": 31970341,
+    "type": "SOA",
+    "name": "@",
+    "data": "1800",
+    "priority": 0,
+    "port": 0,
+    "ttl": 1800,
+    "weight": 0,
+    "flags": 0
+  },
+  {
+    "id": 31970342,
+    "type": "NS",
+    "name": "@",
+    "data": "ns1.digitalocean.com",
+    "priority": 0,
+    "port": 0,
+    "ttl": 1800,
+    "weight": 0,
+    "flags": 0
+  },
+  {
+    "id": 31970343,
+    "type": "NS",
+    "name": "@",
+    "data": "ns2.digitalocean.com",
+    "priority": 0,
+    "port": 0,
+    "ttl": 1800,
+    "weight": 0,
+    "flags": 0
+  },
+  {
+    "id": 31970344,
+    "type": "NS",
+    "name": "@",
+    "data": "ns3.digitalocean.com",
+    "priority": 0,
+    "port": 0,
+    "ttl": 1800,
+    "weight": 0,
+    "flags": 0
+  },
+  {
+    "id": 1719226965,
+    "type": "A",
+    "name": "@",
+    "data": "162.243.111.56",
+    "priority": 0,
+    "port": 0,
+    "ttl": 3600,
+    "weight": 0,
+    "flags": 0
+  },
+  {
+    "id": 1719227119,
+    "type": "CNAME",
+    "name": "music",
+    "data": "@",
+    "priority": 0,
+    "port": 0,
+    "ttl": 43200,
+    "weight": 0,
+    "flags": 0
+  },
+  {
+    "id": 1824143664,
+    "type": "A",
+    "name": "sask",
+    "data": "46.101.68.21",
+    "priority": 0,
+    "port": 0,
+    "ttl": 300,
+    "weight": 0,
+    "flags": 0
+  }
+]

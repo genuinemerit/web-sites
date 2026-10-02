@@ -1,0 +1,57 @@
+[
+  {
+    "id": 19192673,
+    "type": "SOA",
+    "name": "@",
+    "data": "1800",
+    "priority": 0,
+    "port": 0,
+    "ttl": 1800,
+    "weight": 0,
+    "flags": 0
+  },
+  {
+    "id": 19192674,
+    "type": "NS",
+    "name": "@",
+    "data": "ns1.digitalocean.com",
+    "priority": 0,
+    "port": 0,
+    "ttl": 1800,
+    "weight": 0,
+    "flags": 0
+  },
+  {
+    "id": 19192675,
+    "type": "NS",
+    "name": "@",
+    "data": "ns2.digitalocean.com",
+    "priority": 0,
+    "port": 0,
+    "ttl": 1800,
+    "weight": 0,
+    "flags": 0
+  },
+  {
+    "id": 19192676,
+    "type": "NS",
+    "name": "@",
+    "data": "ns3.digitalocean.com",
+    "priority": 0,
+    "port": 0,
+    "ttl": 1800,
+    "weight": 0,
+    "flags": 0
+  },
+  {
+    "id": 27272005,
+    "type": "A",
+    "name": "@",
+    "data": "162.243.111.56",
+    "priority": 0,
+    "port": 0,
+    "ttl": 3600,
+    "weight": 0,
+    "flags": 0
+  }
+]

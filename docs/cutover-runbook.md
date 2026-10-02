@@ -67,11 +67,22 @@ seconds between delete and create are why this is done in the window. Also:
 ```bash
 for d in genuinemerit.com genuinemerit.org davidstitt.net; do
     doctl compute domain records create "$d" --record-type CAA --record-name @ \
-        --record-data letsencrypt.org --record-tag issue --record-flags 0 --record-ttl 3600
+        --record-data letsencrypt.org. --record-tag issue --record-flags 0 --record-ttl 3600
 done
 ```
 
 Verify: `dig +short taiji.genuinemerit.com` still prints `162.243.111.56`; the taiji site still loads.
+
+(The CAA value needs the trailing dot — DigitalOcean's API rejects `letsencrypt.org` without it.)
+
+**Wait 12 hours before Stage 2.** The replaced CNAMEs had a 43200 s TTL: a resolver that cached
+"taiji → follow genuinemerit.com" can keep that answer for up to 12 hours, and would then follow the bare domain
+to the new droplet once Stage 2 moves it — before taiji (or music, etc.) can be served there.
+
+**Done 2026-10-02 16:51 UTC** (outside the quiet window, with Louise informed): five CNAMEs pinned as A records
+(TTL 300), bare-domain TTLs 300, CAA on all three domains; every legacy site re-checked over HTTPS. DNS state
+before the change: `legacy/dns-snapshot-2026-10-02/` (doctl JSON, with record IDs). **Stage 2 not before
+2026-10-03 ~05:00 UTC (07:00 Madrid).**
 
 ## Stage 2 — new names to the new droplet, staging certificates (any time)
 

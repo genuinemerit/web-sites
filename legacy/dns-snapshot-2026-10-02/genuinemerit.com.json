@@ -1,0 +1,90 @@
+[
+  {
+    "id": 56857723,
+    "type": "SOA",
+    "name": "@",
+    "data": "1800",
+    "priority": 0,
+    "port": 0,
+    "ttl": 1800,
+    "weight": 0,
+    "flags": 0
+  },
+  {
+    "id": 56857724,
+    "type": "NS",
+    "name": "@",
+    "data": "ns1.digitalocean.com",
+    "priority": 0,
+    "port": 0,
+    "ttl": 1800,
+    "weight": 0,
+    "flags": 0
+  },
+  {
+    "id": 56857725,
+    "type": "NS",
+    "name": "@",
+    "data": "ns2.digitalocean.com",
+    "priority": 0,
+    "port": 0,
+    "ttl": 1800,
+    "weight": 0,
+    "flags": 0
+  },
+  {
+    "id": 56857726,
+    "type": "NS",
+    "name": "@",
+    "data": "ns3.digitalocean.com",
+    "priority": 0,
+    "port": 0,
+    "ttl": 1800,
+    "weight": 0,
+    "flags": 0
+  },
+  {
+    "id": 56857727,
+    "type": "A",
+    "name": "@",
+    "data": "162.243.111.56",
+    "priority": 0,
+    "port": 0,
+    "ttl": 3600,
+    "weight": 0,
+    "flags": 0
+  },
+  {
+    "id": 1766449212,
+    "type": "CNAME",
+    "name": "taiji",
+    "data": "@",
+    "priority": 0,
+    "port": 0,
+    "ttl": 43200,
+    "weight": 0,
+    "flags": 0
+  },
+  {
+    "id": 1766449250,
+    "type": "CNAME",
+    "name": "sandwichopenmic",
+    "data": "@",
+    "priority": 0,
+    "port": 0,
+    "ttl": 43200,
+    "weight": 0,
+    "flags": 0
+  },
+  {
+    "id": 1786953248,
+    "type": "CNAME",
+    "name": "qigong",
+    "data": "@",
+    "priority": 0,
+    "port": 0,
+    "ttl": 43200,
+    "weight": 0,
+    "flags": 0
+  }
+]
