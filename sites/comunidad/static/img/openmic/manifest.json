@@ -1,0 +1,295 @@
+{
+ "april-poster": [
+  {
+   "file": "april-poster-486.webp",
+   "w": 486,
+   "h": 629
+  }
+ ],
+ "february-poster": [
+  {
+   "file": "february-poster-400.webp",
+   "w": 400,
+   "h": 517
+  }
+ ],
+ "january-poster": [
+  {
+   "file": "january-poster-612.webp",
+   "w": 612,
+   "h": 792
+  }
+ ],
+ "opening-sticker": [
+  {
+   "file": "opening-sticker-800.webp",
+   "w": 800,
+   "h": 800
+  },
+  {
+   "file": "opening-sticker-1024.webp",
+   "w": 1024,
+   "h": 1024
+  }
+ ],
+ "performance-motion": [
+  {
+   "file": "performance-motion-762.webp",
+   "w": 762,
+   "h": 1000
+  }
+ ],
+ "performance-wide-01": [
+  {
+   "file": "performance-wide-01-800.webp",
+   "w": 800,
+   "h": 533
+  }
+ ],
+ "performance-wide-02": [
+  {
+   "file": "performance-wide-02-800.webp",
+   "w": 800,
+   "h": 654
+  },
+  {
+   "file": "performance-wide-02-1000.webp",
+   "w": 1000,
+   "h": 817
+  }
+ ],
+ "performance-wide-03": [
+  {
+   "file": "performance-wide-03-800.webp",
+   "w": 800,
+   "h": 693
+  },
+  {
+   "file": "performance-wide-03-1000.webp",
+   "w": 1000,
+   "h": 866
+  }
+ ],
+ "performance-wide-04": [
+  {
+   "file": "performance-wide-04-800.webp",
+   "w": 800,
+   "h": 571
+  },
+  {
+   "file": "performance-wide-04-1266.webp",
+   "w": 1266,
+   "h": 904
+  }
+ ],
+ "portrait-01": [
+  {
+   "file": "portrait-01-800.webp",
+   "w": 800,
+   "h": 918
+  },
+  {
+   "file": "portrait-01-871.webp",
+   "w": 871,
+   "h": 1000
+  }
+ ],
+ "portrait-02": [
+  {
+   "file": "portrait-02-800.webp",
+   "w": 800,
+   "h": 969
+  },
+  {
+   "file": "portrait-02-826.webp",
+   "w": 826,
+   "h": 1000
+  }
+ ],
+ "portrait-03": [
+  {
+   "file": "portrait-03-800.webp",
+   "w": 800,
+   "h": 1020
+  },
+  {
+   "file": "portrait-03-1568.webp",
+   "w": 1568,
+   "h": 2000
+  }
+ ],
+ "portrait-04": [
+  {
+   "file": "portrait-04-800.webp",
+   "w": 800,
+   "h": 1067
+  },
+  {
+   "file": "portrait-04-1500.webp",
+   "w": 1500,
+   "h": 2000
+  }
+ ],
+ "portrait-05": [
+  {
+   "file": "portrait-05-800.webp",
+   "w": 800,
+   "h": 927
+  },
+  {
+   "file": "portrait-05-863.webp",
+   "w": 863,
+   "h": 1000
+  }
+ ],
+ "portrait-06": [
+  {
+   "file": "portrait-06-800.webp",
+   "w": 800,
+   "h": 858
+  },
+  {
+   "file": "portrait-06-932.webp",
+   "w": 932,
+   "h": 1000
+  }
+ ],
+ "portrait-07": [
+  {
+   "file": "portrait-07-800.webp",
+   "w": 800,
+   "h": 1067
+  },
+  {
+   "file": "portrait-07-1500.webp",
+   "w": 1500,
+   "h": 2000
+  }
+ ],
+ "portrait-08": [
+  {
+   "file": "portrait-08-661.webp",
+   "w": 661,
+   "h": 1000
+  }
+ ],
+ "portrait-09": [
+  {
+   "file": "portrait-09-706.webp",
+   "w": 706,
+   "h": 824
+  }
+ ],
+ "portrait-10": [
+  {
+   "file": "portrait-10-800.webp",
+   "w": 800,
+   "h": 1067
+  },
+  {
+   "file": "portrait-10-1500.webp",
+   "w": 1500,
+   "h": 2000
+  }
+ ],
+ "portrait-11": [
+  {
+   "file": "portrait-11-564.webp",
+   "w": 564,
+   "h": 766
+  }
+ ],
+ "portrait-12": [
+  {
+   "file": "portrait-12-800.webp",
+   "w": 800,
+   "h": 1067
+  },
+  {
+   "file": "portrait-12-1500.webp",
+   "w": 1500,
+   "h": 2000
+  }
+ ],
+ "portrait-13": [
+  {
+   "file": "portrait-13-800.webp",
+   "w": 800,
+   "h": 1067
+  },
+  {
+   "file": "portrait-13-1500.webp",
+   "w": 1500,
+   "h": 2000
+  }
+ ],
+ "portrait-14": [
+  {
+   "file": "portrait-14-800.webp",
+   "w": 800,
+   "h": 895
+  },
+  {
+   "file": "portrait-14-804.webp",
+   "w": 804,
+   "h": 899
+  }
+ ],
+ "portrait-afterword": [
+  {
+   "file": "portrait-afterword-455.webp",
+   "w": 455,
+   "h": 522
+  }
+ ],
+ "portrait-closing": [
+  {
+   "file": "portrait-closing-624.webp",
+   "w": 624,
+   "h": 1080
+  }
+ ],
+ "portrait-feature-01": [
+  {
+   "file": "portrait-feature-01-800.webp",
+   "w": 800,
+   "h": 1004
+  },
+  {
+   "file": "portrait-feature-01-1593.webp",
+   "w": 1593,
+   "h": 2000
+  }
+ ],
+ "sticker-01": [
+  {
+   "file": "sticker-01-800.webp",
+   "w": 800,
+   "h": 800
+  }
+ ],
+ "sticker-02": [
+  {
+   "file": "sticker-02-800.webp",
+   "w": 800,
+   "h": 800
+  },
+  {
+   "file": "sticker-02-1024.webp",
+   "w": 1024,
+   "h": 1024
+  }
+ ],
+ "sticker-03": [
+  {
+   "file": "sticker-03-800.webp",
+   "w": 800,
+   "h": 800
+  },
+  {
+   "file": "sticker-03-1024.webp",
+   "w": 1024,
+   "h": 1024
+  }
+ ]
+}

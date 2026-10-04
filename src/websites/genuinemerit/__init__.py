@@ -20,7 +20,7 @@ LINKS = [
     ("site.taiji", "https://taiji.genuinemerit.com/", True),
     ("site.play", "https://play.genuinemerit.com/", False),
     ("site.spain", "https://spain.genuinemerit.com/", False),
-    ("site.comunidad", "https://comunidad.genuinemerit.com/", False),
+    ("site.comunidad", "https://comunidad.genuinemerit.com/", True),
 ]
 
 

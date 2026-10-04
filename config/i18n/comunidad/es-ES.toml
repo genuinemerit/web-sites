@@ -1,0 +1,70 @@
+# Localization catalog: es-ES (Iberian Spanish) for comunidad. Reviewed
+# and approved by David, 2026-10-04, no changes. Informal "tú", as on
+# the other sites.
+#
+# Naming: "Sandwich Open Mic" stays as the event's proper name; the
+# generic idea is "micro abierto". Sandwich Arts Alliance, First Church
+# UCC and "Elvis Church" are proper names, kept (the last one glossed).
+# Alt texts use gender-neutral forms (artista, cantante, guitarrista,
+# flautista) where English is neutral.
+
+[tags]
+"lang.en-US" = "English"
+"lang.es-ES" = "Español"
+"nav.language" = "Idioma"
+"nav.sites" = "Colecciones"
+"nav.home" = "Comunidad"
+
+"hub.title" = "Comunidad"
+"hub.coming_soon" = "próximamente"
+"site.openmic" = "Sandwich Open Mic"
+"site.uah" = "UAH · Alcalingua"
+"site.intercambio" = "Intercambio de Idiomas"
+"image.alt" = "Ilustración circular y colorida de un micrófono del Open Mic"
+
+"openmic.title" = "Sandwich Open Mic · 2024–2025"
+"openmic.description" = "Recuerdos del Sandwich Open Mic, Sandwich, Massachusetts, 2024–2025."
+"openmic.eyebrow" = "Sandwich, Massachusetts"
+"openmic.title_line1" = "Sandwich"
+"openmic.title_line2" = "Open Mic"
+"openmic.years" = "2024–2025"
+"openmic.intro" = "Con el patrocinio de la Sandwich Arts Alliance y de la First Church UCC, y la ayuda de muchos amigos y colaboradores, ayudé a poner en marcha un micro abierto comunitario en Sandwich, Massachusetts."
+"openmic.intro_memories" = "Aquí van algunos recuerdos."
+"openmic.outro_heading" = "El Open Mic sigue más vivo que nunca."
+"openmic.outro" = "Yo ya no estoy allí, pero si pasas por Cape Cod el tercer sábado de cada mes, acércate a la «Elvis Church» (la «iglesia de Elvis») de Sandwich."
+"openmic.facebook" = "Sigue al Sandwich Open Mic en Facebook"
+"openmic.quote" = "«La única verdad es la música.»"
+
+"aria.poster" = "Cartel del Open Mic"
+"aria.performers" = "Artistas del Open Mic"
+"aria.artwork" = "Ilustraciones del Open Mic"
+
+"alt.opening-sticker" = "Ilustración circular y colorida de un micrófono del Open Mic"
+"alt.january-poster" = "Cartel de enero del Open Mic comunitario de Sandwich"
+"alt.february-poster" = "Cartel de febrero del Open Mic comunitario de Sandwich"
+"alt.april-poster" = "Cartel de abril del Open Mic comunitario de Sandwich"
+"alt.portrait-01" = "Artista en el Sandwich Open Mic"
+"alt.portrait-02" = "Guitarrista en el Sandwich Open Mic"
+"alt.portrait-03" = "Artista frente al micrófono"
+"alt.portrait-04" = "Artista frente al micrófono"
+"alt.portrait-05" = "Cantante en el Open Mic"
+"alt.portrait-06" = "Cantante en el Open Mic"
+"alt.portrait-07" = "Artista en el Open Mic"
+"alt.portrait-08" = "Actuación musical en el Open Mic"
+"alt.portrait-09" = "Cantante en el Open Mic"
+"alt.portrait-10" = "Flautista en el Open Mic"
+"alt.portrait-11" = "Artista frente al micrófono"
+"alt.portrait-12" = "Lectura de poesía en el Open Mic"
+"alt.portrait-13" = "Guitarrista en el Open Mic"
+"alt.portrait-14" = "Guitarrista en el Open Mic"
+"alt.portrait-feature-01" = "Actuación llena de energía en el Open Mic"
+"alt.portrait-closing" = "Presentador del Open Mic sonriendo en la sala"
+"alt.portrait-afterword" = "El antiguo organizador del Open Mic con una guitarra"
+"alt.performance-wide-01" = "Actuación en el Open Mic, con globos de colores en la sala"
+"alt.performance-wide-02" = "Cantante con los brazos abiertos"
+"alt.performance-wide-03" = "Actuación musical en el Open Mic"
+"alt.performance-wide-04" = "Dos artistas tocando juntos en el Open Mic"
+"alt.performance-motion" = "Guitarrista actuando en el Open Mic"
+"alt.sticker-01" = "Ilustración del Open Mic: un violinista"
+"alt.sticker-02" = "Ilustración del Open Mic: una persona cantando"
+"alt.sticker-03" = "Ilustración del Open Mic de inspiración flamenca"

@@ -12,7 +12,7 @@ least --min-days left; HTTP -> HTTPS; the ACME challenge path served
 over plain HTTP (renewals depend on it); aliases 301 to the canonical
 name, path and query preserved; "/" follows Accept-Language (302 +
 Vary, unknown languages -> en-US) or serves a page; every locale's home
-page; every listed redirect, and that its target really loads; the
+page and listed sub-pages (vhosts.yml `pages`); every listed redirect, and that its target really loads; the
 security headers; the custom 404 page. Once per run: an unknown
 hostname is refused at the TLS handshake, and a bare-IP visit gets the
 default page (`--only default` checks just that).
@@ -263,6 +263,8 @@ class Checker:
             home = None
             for loc in locales:
                 home = self.page(f"{n}: /{loc}/ loads", canonical, f"/{loc}/")
+                for sub in vhost.get("pages") or []:
+                    self.page(f"{n}: /{loc}/{sub} loads", canonical, f"/{loc}/{sub}")
         else:
             home = self.page(f"{n}: / loads", canonical, "/")
 

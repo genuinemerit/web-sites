@@ -1,0 +1,23 @@
+{#- STAND-IN (2026-10-04): comunidad's index, listing its collections,
+    on the shared hub layout (sites/_shared/templates/hub.html) with the
+    Open Mic palette - until David designs the real one. -#}
+{% extends "hub.html" %}
+{% block palette %}
+    :root {
+      --background: #f4efe5;
+      --text: #24211e;
+      --muted: #71695f;
+      --accent: #9a4b31;
+      --line: #d8cdbd;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --background: #1d1b19;
+        --text: #f1eadf;
+        --muted: #bdb2a4;
+        --accent: #e09a78;
+        --line: #443e37;
+      }
+    }
+{% endblock %}

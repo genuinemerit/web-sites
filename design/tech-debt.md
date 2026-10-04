@@ -36,6 +36,12 @@ the same lightweight principle as everything else here.
   to know what it actually needs to do. Revisit once 2-3 sites' media
   has been handled manually and the real patterns are clear — that's
   when this tooling should actually get designed, not before.
+  **Manual pass #2 (2026-10-04, `comunidad`'s Open Mic, 29 images)** —
+  patterns emerging: two widths (800 + up to 1600), WebP q75, a small
+  JSON manifest of variant dimensions feeding a template macro for
+  `srcset`/`width`/`height`. The hub pages (pass #1½) used fixed
+  600/1200 square variants instead. One more site, then design the
+  tool around the manifest approach.
 
 ## Open
 

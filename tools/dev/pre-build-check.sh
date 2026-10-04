@@ -76,7 +76,13 @@ check_html() {
     for site in "${SITES[@]}"; do
         build_dirs+=("sites/$site/build")
     done
-    "$VNU" --errors-only --skip-non-html --also-check-css "${build_dirs[@]}"
+    # The CSS checker predates scroll-driven animations: it rejects the
+    # real, shipping properties animation-timeline/animation-range (used
+    # inside @supports by comunidad's openmic.css). Filter exactly those
+    # two messages, nothing broader.
+    "$VNU" --errors-only --skip-non-html --also-check-css \
+        --filterpattern '.*Property “animation-(timeline|range)” doesn.t exist.*' \
+        "${build_dirs[@]}"
 }
 run_check "HTML/CSS validity (vnu)" check_html
 

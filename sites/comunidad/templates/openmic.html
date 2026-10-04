@@ -1,0 +1,172 @@
+{#- Sandwich Open Mic collection, from David's 2026-10-03 prototype
+    (sites/comunidad/heirloom/openmic/openmic-prototype/). Layout and
+    motion: /static/css/openmic.css. Every string is a catalog tag
+    (config/i18n/comunidad/); images come from static/img/openmic/
+    via manifest.json (800 px + up-to-1600 px WebP variants). -#}
+{% macro pic(stem, sizes, cls="", lazy=True) -%}
+{%- set v = images[stem] -%}
+<img{% if cls %} class="{{ cls }}"{% endif %} src="{{ url_for('static', filename='img/openmic/' ~ v[0].file) }}"
+  {%- if v | length > 1 %} srcset="{% for x in v %}{{ url_for('static', filename='img/openmic/' ~ x.file) }} {{ x.w }}w{% if not loop.last %}, {% endif %}{% endfor %}" sizes="{{ sizes }}"{% endif %} width="{{ v[0].w }}" height="{{ v[0].h }}" alt="{{ t(locale, 'alt.' ~ stem) }}"
+  {%- if lazy %} loading="lazy"{% endif %}>
+{%- endmacro %}
+{% set pair = "(max-width: 650px) calc(100vw - 3rem), 33rem" %}
+{% set column = "(max-width: 650px) calc(100vw - 3rem), 37rem" %}
+<!doctype html>
+<html lang="{{ locale }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{{ t(locale, 'openmic.description') }}">
+  <title>{{ t(locale, "openmic.title") }}</title>
+  <link rel="stylesheet" href="/shared/tokens.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/openmic.css') }}">
+  <style>
+    :root {
+      --background: #f4efe5;
+      --text: #24211e;
+      --muted: #71695f;
+      --accent: #9a4b31;
+      --line: #d8cdbd;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --background: #1d1b19;
+        --text: #f1eadf;
+        --muted: #bdb2a4;
+        --accent: #e09a78;
+        --line: #443e37;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="home" href="{{ url_for('index', locale=locale) }}">{{ t(locale, "nav.home") }}</a>
+    <nav class="languages" aria-label="{{ t(locale, 'nav.language') }}">
+      {% for loc in locales %}
+      <a href="{{ url_for('openmic', locale=loc) }}" lang="{{ loc }}"
+         {%- if loc == locale %} aria-current="page"{% endif %}>{{ t(loc, "lang." ~ loc) }}</a>
+      {% if not loop.last %}
+      <span class="separator" aria-hidden="true">|</span>
+      {% endif %}
+      {% endfor %}
+    </nav>
+  </header>
+
+  <main>
+    <header class="hero wrap">
+      <p class="eyebrow">{{ t(locale, "openmic.eyebrow") }}</p>
+      <h1>{{ t(locale, "openmic.title_line1") }}<br>{{ t(locale, "openmic.title_line2") }}</h1>
+      <p class="years">{{ t(locale, "openmic.years") }}</p>
+      {{ pic("opening-sticker", "(max-width: 650px) 8.5rem, 13rem", "opening-sticker", lazy=False) }}
+    </header>
+
+    <section class="intro text-column">
+      <p>{{ t(locale, "openmic.intro") }}</p>
+      <p>{{ t(locale, "openmic.intro_memories") }}</p>
+    </section>
+
+    <section class="artifact poster" aria-label="{{ t(locale, 'aria.poster') }}">
+      {{ pic("january-poster", "(max-width: 650px) calc(100vw - 3rem), 38rem") }}
+    </section>
+
+    <section class="pair warm-pair" aria-label="{{ t(locale, 'aria.performers') }}">
+      <figure>{{ pic("portrait-01", pair) }}</figure>
+      <figure>{{ pic("portrait-02", pair) }}</figure>
+    </section>
+
+    <figure class="wide-photo edge-left">
+      {{ pic("performance-wide-01", "90vw") }}
+    </figure>
+
+    <section class="pair narrow-pair" aria-label="{{ t(locale, 'aria.performers') }}">
+      <figure>{{ pic("portrait-03", pair) }}</figure>
+      <figure class="lower">{{ pic("portrait-04", pair) }}</figure>
+    </section>
+
+    <section class="artifact poster small-poster" aria-label="{{ t(locale, 'aria.poster') }}">
+      {{ pic("april-poster", "(max-width: 650px) calc(100vw - 4rem), 30rem") }}
+    </section>
+
+    <section class="stickers" aria-label="{{ t(locale, 'aria.artwork') }}">
+      {{ pic("sticker-01", "(max-width: 650px) 33vw, 20rem") }}
+      {{ pic("sticker-02", "(max-width: 650px) 33vw, 20rem") }}
+      {{ pic("sticker-03", "(max-width: 650px) 33vw, 20rem") }}
+    </section>
+
+    <figure class="feature-portrait sparkle">
+      {{ pic("portrait-feature-01", column) }}
+    </figure>
+
+    <section class="pair narrow-pair" aria-label="{{ t(locale, 'aria.performers') }}">
+      <figure>{{ pic("portrait-05", pair) }}</figure>
+      <figure class="lower">{{ pic("portrait-06", pair) }}</figure>
+    </section>
+
+    <figure class="solo offset-right">
+      {{ pic("portrait-07", column) }}
+    </figure>
+
+    <section class="artifact poster small-poster" aria-label="{{ t(locale, 'aria.poster') }}">
+      {{ pic("february-poster", "(max-width: 650px) calc(100vw - 4rem), 30rem") }}
+    </section>
+
+    <figure class="cinematic emphatic dramatic-zoom">
+      {{ pic("performance-wide-02", "94vw") }}
+    </figure>
+
+    <section class="pair warm-pair" aria-label="{{ t(locale, 'aria.performers') }}">
+      <figure>{{ pic("portrait-08", pair) }}</figure>
+      <figure class="lower">{{ pic("portrait-09", pair) }}</figure>
+    </section>
+
+    <figure class="solo offset-left roomy">
+      {{ pic("portrait-10", column) }}
+    </figure>
+
+    <section class="pair narrow-pair" aria-label="{{ t(locale, 'aria.performers') }}">
+      <figure class="lower">{{ pic("portrait-11", pair) }}</figure>
+      <figure>{{ pic("portrait-12", pair) }}</figure>
+    </section>
+
+    <figure class="wide-photo edge-right">
+      {{ pic("performance-wide-03", "90vw") }}
+    </figure>
+
+    <section class="pair warm-pair" aria-label="{{ t(locale, 'aria.performers') }}">
+      <figure>{{ pic("portrait-13", pair) }}</figure>
+      <figure class="lower">{{ pic("portrait-14", pair) }}</figure>
+    </section>
+
+    <figure class="feature-portrait drift">
+      <div class="drift-frame">
+        {{ pic("performance-motion", "(max-width: 650px) 100vw, 40rem") }}
+      </div>
+    </figure>
+
+    <figure class="cinematic cinematic-pan">
+      {{ pic("performance-wide-04", "100vw") }}
+    </figure>
+
+    <figure class="closing-portrait">
+      {{ pic("portrait-closing", "(max-width: 650px) calc(100vw - 5rem), 27rem") }}
+    </figure>
+
+    <section class="outro text-column">
+      <h2>{{ t(locale, "openmic.outro_heading") }}</h2>
+      <p>{{ t(locale, "openmic.outro") }}</p>
+      <p><a href="https://www.facebook.com/sandwich.open.mic">{{ t(locale, "openmic.facebook") }} <span aria-hidden="true">→</span></a></p>
+    </section>
+
+    <figure class="afterword-portrait">
+      {{ pic("portrait-afterword", "(max-width: 650px) calc(100vw - 6rem), 23rem") }}
+    </figure>
+
+    <blockquote class="last-word">
+      <p>{{ t(locale, "openmic.quote") }}</p>
+      <footer>— Jack Kerouac</footer>
+    </blockquote>
+  </main>
+</body>
+</html>

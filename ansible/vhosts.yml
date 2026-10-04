@@ -15,6 +15,8 @@
 #   locales    optional; first-visit "/" then follows the browser's
 #              Accept-Language, falling back to en-US (decided
 #              2026-10-02, design/taiji.md)
+#   pages      optional sub-pages under each locale (e.g. openmic/),
+#              checked by tools/ops/smoke_test.py in every locale
 #   redirects  optional exact-path redirects, e.g. legacy URLs. A `to`
 #              containing {lang} is language-negotiated (302 + Vary);
 #              any other `to` is a permanent 301.
@@ -63,6 +65,7 @@ vhosts:
     source: sites/taiji/build
     media: sites/taiji/media
     locales: [en-US, es-ES]
+    pages: [taiji-for-balance/]
     # Legacy URLs, verified 2026-10-02 against the LIVE legacy server (not
     # sites/taiji/heirloom/, which was reworked locally on 2026-10-01):
     # the old site was one page, taiji.html, served at "/" - links,
@@ -73,3 +76,13 @@ vhosts:
       - { from: /vid/Taiji_for_Balance.mp4, to: /media/vid/Taiji_for_Balance_720p.mp4 }
       - { from: /vid/Taiji_for_Balance_rear_view.mp4, to: /media/vid/Taiji_for_Balance_rear_view_720p.mp4 }
       - { from: /img/taiji-tree.jpg, to: /static/img/taiji-tree.webp }
+
+  # Community projects (design/comunidad.md): collections index at
+  # /<locale>/, the Sandwich Open Mic at /<locale>/openmic/. The legacy
+  # sandwichopenmic.genuinemerit.com is retired, not redirected.
+  - name: comunidad
+    canonical: comunidad.genuinemerit.com
+    aliases: [comunidad.genuinemerit.org]
+    source: sites/comunidad/build
+    locales: [en-US, es-ES]
+    pages: [openmic/]
