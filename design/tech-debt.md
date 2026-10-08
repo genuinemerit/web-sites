@@ -42,6 +42,15 @@ the same lightweight principle as everything else here.
   `srcset`/`width`/`height`. The hub pages (pass #1½) used fixed
   600/1200 square variants instead. One more site, then design the
   tool around the manifest approach.
+  **Home and scope, from David 2026-10-04**: `tools/studio/` (same name
+  as `sask`'s `tools/studio/`) is where he's collecting his own clean-up
+  scripts for images, sound and video — first one `fb-prep.sh`
+  (resize, EXIF-orient, strip metadata incl. GPS, keep colour profile,
+  progressive JPEG). When this item is picked up, as a deliberate
+  tangent: gather his scripts, review `sask`'s studio tooling, add what's
+  missing (proposals welcome), and draw on ImageMagick's toolbox — then
+  decide what's versioned. Until then `tools/studio/` stays untracked
+  unless David says otherwise.
 
 ## Open
 

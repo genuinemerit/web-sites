@@ -93,13 +93,16 @@ a:hover {
   text-transform: uppercase;
 }
 
+/* Size, weight and spacing come from .fit-title (tokens.css), the same
+   rule as the hub pages - the prototype's clamp(4.5rem, 14vw, 9.5rem)
+   read as an outsized headline next to them (David, 2026-10-08). */
+.hero {
+  --title-col: min(100vw - 2.5rem, var(--measure));
+}
+
 h1 {
   margin: 0;
-  max-width: 8ch;
-  font-size: clamp(4.5rem, 14vw, 9.5rem);
-  line-height: 0.78;
-  letter-spacing: -0.065em;
-  font-weight: 700;
+  line-height: 0.9;
 }
 
 .years {
@@ -408,10 +411,6 @@ h1 {
   .hero {
     min-height: auto;
     padding-top: 3rem;
-  }
-
-  h1 {
-    font-size: clamp(4rem, 22vw, 6.5rem);
   }
 
   .opening-sticker {

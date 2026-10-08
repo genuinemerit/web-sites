@@ -3,6 +3,7 @@
     motion: /static/css/openmic.css. Every string is a catalog tag
     (config/i18n/comunidad/); images come from static/img/openmic/
     via manifest.json (800 px + up-to-1600 px WebP variants). -#}
+{% from "macros.html" import fit_title %}
 {% macro pic(stem, sizes, cls="", lazy=True) -%}
 {%- set v = images[stem] -%}
 <img{% if cls %} class="{{ cls }}"{% endif %} src="{{ url_for('static', filename='img/openmic/' ~ v[0].file) }}"
@@ -57,7 +58,7 @@
   <main>
     <header class="hero wrap">
       <p class="eyebrow">{{ t(locale, "openmic.eyebrow") }}</p>
-      <h1>{{ t(locale, "openmic.title_line1") }}<br>{{ t(locale, "openmic.title_line2") }}</h1>
+      {{ fit_title([t(locale, "openmic.title_line1"), t(locale, "openmic.title_line2")]) }}
       <p class="years">{{ t(locale, "openmic.years") }}</p>
       {{ pic("opening-sticker", "(max-width: 650px) 8.5rem, 13rem", "opening-sticker", lazy=False) }}
     </header>

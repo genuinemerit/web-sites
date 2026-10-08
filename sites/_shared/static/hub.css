@@ -46,7 +46,10 @@ header {
 
 main {
   display: grid;
-  grid-template-columns: minmax(18rem, 0.8fr) minmax(20rem, 1.2fr);
+  /* Even split: the image is capped at 34rem anyway (figure, below), so
+     a wider right column only added empty space - the title needs it
+     more. .directory's --title-col below assumes this 50/50 split. */
+  grid-template-columns: minmax(18rem, 1fr) minmax(20rem, 1fr);
   gap: clamp(2.5rem, 7vw, 7rem);
   align-items: center;
   padding: 2rem 0 7rem;
@@ -54,15 +57,14 @@ main {
 
 .directory {
   align-self: center;
+  /* Title column width for .fit-title (tokens.css): half of (page -
+     gap), matching the 50/50 grid above. */
+  --title-col: calc((min(100vw - 2.5rem, 72rem) - clamp(2.5rem, 7vw, 7rem)) * 0.5);
 }
 
 h1 {
   margin: 0;
-  font-size: clamp(2.7rem, 6vw, 5.4rem);
   line-height: 0.98;
-  font-weight: 700;
-  letter-spacing: -0.045em;
-  overflow-wrap: anywhere;
 }
 
 .rule {
@@ -137,7 +139,8 @@ figure img {
     width: min(82vw, 28rem);
   }
 
-  h1 {
-    font-size: clamp(2.6rem, 12vw, 4.5rem);
+  /* Single column: the title gets the full page width. */
+  .directory {
+    --title-col: calc(100vw - 2rem);
   }
 }

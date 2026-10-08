@@ -4,6 +4,7 @@
     and body background. Everything else comes from the site module:
     `links` (catalog tag, URL, live) and either `image` (file stem under
     static/img/, with -600/-1200.webp variants) or `image_variants`. -#}
+{% from "macros.html" import fit_title %}
 <!doctype html>
 <html lang="{{ locale }}">
 <head>
@@ -32,7 +33,7 @@
 
     <main>
       <section class="directory" aria-labelledby="site-title">
-        <h1 id="site-title">{{ t(locale, "hub.title") }}</h1>
+        {{ fit_title([t(locale, "hub.title")], "site-title") }}
         <hr class="rule">
 
         <nav aria-label="{{ t(locale, 'nav.sites') }}">

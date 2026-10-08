@@ -1,0 +1,16 @@
+{#- Shared Jinja macros. Import with:
+    {% from "macros.html" import fit_title %} -#}
+
+{#- A page title fitted to its column (.fit-title in tokens.css).
+    `lines` is a list of strings, one per written line; the longest one
+    sets --title-em (characters x 0.66em, a worst-case bold glyph width
+    incl. letter-spacing, measured 2026-10-08). A <wbr> after each "."
+    is the only place a line may wrap (e.g. genuinemerit.<wbr>com). -#}
+{% macro fit_title(lines, id=none) -%}
+<h1 class="fit-title"{% if id %} id="{{ id }}"{% endif %} style="--title-em: {{ '%.2f' | format((lines | map('length') | max) * 0.66) }}">
+  {%- for line in lines -%}
+  {%- for part in line.split('.') %}{{ part }}{% if not loop.last %}.<wbr>{% endif %}{% endfor -%}
+  {%- if not loop.last %}<br>{% endif -%}
+  {%- endfor -%}
+</h1>
+{%- endmacro %}
