@@ -31,6 +31,17 @@ if [[ ! -f "$INFRA_ENV" ]]; then
     exit 1
 fi
 
+# Self-healing SSH access: the firewall only admits SSH from this
+# machine's public IP, and DIGI changes that IP without notice. If it has
+# drifted, update just that firewall rule (guarded - see the script)
+# before connecting. Exit 2 = couldn't check; carry on and let the SSH
+# wait below report any real problem.
+DRIFT_RC=0
+bash tools/ops/check-ip-drift.sh --fix || DRIFT_RC=$?
+if [[ "$DRIFT_RC" == 1 ]]; then
+    exit 1
+fi
+
 # Wait for the droplet's SSH daemon to come up before Ansible connects. A
 # freshly created or recreated droplet can take ~60s to be ready.
 # Succeeds immediately when the droplet is already running.

@@ -1,3 +1,4 @@
+{% from "macros.html" import fit_title %}
 <!doctype html>
 <html lang="{{ locale }}">
 <head>
@@ -92,15 +93,13 @@
 
     .intro {
       width: min(100%, 42rem);
+      /* Title column for .fit-title (shared rule, tokens.css). */
+      --title-col: min(100vw - 2.5rem, 42rem);
     }
 
     h1 {
       margin: 0 0 1rem;
-
-      font-size: clamp(3.5rem, 11vw, 7rem);
-      font-weight: 700;
       line-height: 0.95;
-      letter-spacing: -0.045em;
     }
 
     .rule {
@@ -162,7 +161,7 @@
     <main>
       <section class="intro" aria-labelledby="site-title">
 
-        <h1 id="site-title">{{ t(locale, "splash.title") }}</h1>
+        {{ fit_title([t(locale, "splash.title")], "site-title") }}
 
         <hr class="rule">
 

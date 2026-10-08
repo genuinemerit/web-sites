@@ -1,3 +1,4 @@
+{% from "macros.html" import fit_title %}
 <!doctype html>
 <html lang="{{ locale }}">
 <head>
@@ -88,15 +89,14 @@
       max-width: 42rem;
       background: color-mix(in srgb, var(--surface) 92%, transparent);
       border-radius: 0.5rem;
+      /* Title column for .fit-title (shared rule, tokens.css): the
+         card's inner width - its width minus the side padding. */
+      --title-col: calc(min(100vw - 2.5rem, 42rem) - 2 * clamp(1.5rem, 4vw, 3rem));
     }
 
     h1 {
       margin: 0 0 1.5rem;
-
-      font-size: clamp(2rem, 5vw, 2.75rem);
-      font-weight: 700;
       line-height: 1.1;
-      letter-spacing: -0.025em;
     }
 
     main p,
@@ -141,7 +141,7 @@
     </header>
 
     <main>
-      <h1>{{ meta.get("title", "") }}</h1>
+      {{ fit_title([meta.get("title", "")]) }}
       {{ body_html | safe }}
     </main>
 

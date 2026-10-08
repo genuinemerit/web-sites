@@ -81,6 +81,10 @@ steps: `planning/site-build-checklist.md`.
   `ubuvm`.
 - **Git identity**: same as `sask` (`David` / `david.stitt@pm.me`), set
   locally in this repo.
+- **SSH firewall vs. dynamic IP**: the droplet's firewall admits SSH only
+  from this machine's public IP, and the ISP (DIGI) changes it without
+  notice. `deploy.sh` self-heals via `check-ip-drift.sh --fix`, which
+  applies a tofu plan only if it changes nothing but that firewall rule.
 - **Gotchas seen before**: files in `~/.ssh/config.d/` must be mode
   `600` or OpenSSH rejects the whole Include (breaks SSH to *every*
   host). `ansible-playbook` here can hit a "blocking IO" error on piped
@@ -111,6 +115,12 @@ precedence-safe drop-in — both repaired in this repo's Ansible).
 - **Pacing**: Phase 3 site builds go one deliberate step at a time;
   David leads the pace.
 - **Translations** ship only after David reviews them.
+- **Page titles** — hub and section titles and every content page's main
+  title — use the shared `fit_title` macro (`sites/_shared/templates/
+  macros.html`) and `.fit-title` (`tokens.css`); the layout only sets
+  `--title-col`, its title column's width. Sized to fit the column,
+  2–5.4rem (4.5rem on narrow screens), never broken mid-word. David's
+  standing rule, 2026-10-08.
 - Remove `.gitkeep` from any folder once it has real content (no need
   to ask).
 

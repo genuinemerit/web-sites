@@ -52,7 +52,9 @@ a:focus-visible {
 /* Page titles, fitted to their column (added 2026-10-08 for the hub
    pages and Open Mic): each written line stays on one line, sized as
    column width / longest line in em, capped so short titles don't
-   become huge. --title-em comes from the fit_title macro
+   become huge. Floor of 2rem (added 2026-10-08): below it a title wraps
+   at a space (or the <wbr> after a ".") instead of shrinking further -
+   multi-word titles like "Taiji for Balance" stay readable on phones. --title-em comes from the fit_title macro
    (sites/_shared/templates/macros.html); --title-col is the layout's
    column width - override it on the title's container. Mobile cap
    matches the hub breakpoint. */
@@ -61,7 +63,7 @@ a:focus-visible {
 }
 
 .fit-title {
-  font-size: min(5.4rem, calc(var(--title-col) / var(--title-em)));
+  font-size: clamp(2rem, calc(var(--title-col) / var(--title-em)), 5.4rem);
   font-weight: 700;
   letter-spacing: -0.045em;
   overflow-wrap: normal;
@@ -69,6 +71,6 @@ a:focus-visible {
 
 @media (max-width: 48rem) {
   .fit-title {
-    font-size: min(4.5rem, calc(var(--title-col) / var(--title-em)));
+    font-size: clamp(2rem, calc(var(--title-col) / var(--title-em)), 4.5rem);
   }
 }
