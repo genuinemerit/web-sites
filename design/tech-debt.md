@@ -64,8 +64,10 @@ the same lightweight principle as everything else here.
 ## Open
 
 - **Certificate handling strategy for the new droplet/architecture —
-  needs a thorough discussion.** [in discussion 2026-10-02 — proposal
-  in `design/certificates.md`] Noted 2026-10-01
+  needs a thorough discussion.** [resolved 2026-10-10 — built as
+  designed in `design/certificates.md`: certbot webroot, one cert per
+  site, renewal on the droplet, Red Sift Certificates Lite as the
+  external expiry check (`docs/cutover-runbook.md`, Stage 5)] Noted 2026-10-01
   while surveying the legacy droplet for anything else worth pulling:
   found `/root/backup_certbots.sh` + a `letsencrypt-backup-20251011.tgz`
   archive there — a pattern for backing up Let's Encrypt certs that

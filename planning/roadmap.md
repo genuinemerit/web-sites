@@ -339,6 +339,11 @@ come up yet. Disk space was never the only reason for this design.
 **Revised 2026-10-01**: a. `taiji` → b. `comunidad` → c. `movement` →
 d. `play` → e. `music` → f. `callejerez` → g. `spain`
 
+**Progress (2026-10-10)**: `taiji` live 2026-10-02, `comunidad` (Open
+Mic only) live 2026-10-04, `music` live 2026-10-10 — built ahead of
+`movement`/`play` so the legacy droplet could go. Next: `movement`,
+then `play`, `callejerez`, `spain`.
+
 `spain` moved from 2nd to last — David's call, consistent with it being
 left deliberately TBD (no legacy content staged, possibly the first
 "add a new site from scratch" test case — see `target-sites.md`).

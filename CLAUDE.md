@@ -73,10 +73,9 @@ steps: `planning/site-build-checklist.md`.
   `destroy.sh` (a full destroy releases it; the next provision gets a new
   one). SSH key `~/.ssh/ws_ed25519`, registered on DO as `ubuvm_ws` (ID
   `59722532`, outlives droplets). Alias `web-sites-droplet`, written by
-  OpenTofu to `~/.ssh/config.d/ubuvm_ws`. As of 2026-10-02 the droplet
-  **exists and is deployed** (runbook Stage 0 done; reserved IP
-  `157.245.25.141`, no DNS pointed at it yet) — check `doctl` before
-  assuming either way.
+  OpenTofu to `~/.ssh/config.d/ubuvm_ws`. As of 2026-10-10 it **serves
+  every live site** (reserved IP `157.245.25.141`; hubs, taiji,
+  comunidad, music) — check `doctl` before assuming its state.
 - **DigitalOcean API**: shares `sask`'s token at
   `~/.config/sask/infra.env` (`DIGITALOCEAN_TOKEN`). The `tools/ops/`
   scripts source it; for ad-hoc `doctl`, export it per command as
