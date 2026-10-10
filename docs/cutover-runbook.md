@@ -171,6 +171,22 @@ checks pass.
 - Turn on HSTS in steps: `hsts_max_age: 86400` and deploy; after a week or two without trouble, `31536000`.
 - Raise the TTLs back to 3600 for records that are settled.
 
+Progress (2026-10-10):
+
+- TTLs: done. All 8 site A records are at 3600, checked at `ns1.digitalocean.com`. `sask` stays at 300 because
+  it isn't ours to settle.
+- HSTS step 1: done. `hsts_max_age: 86400` is deployed, every site sends `max-age=86400`, and the smoke test
+  passes 115/115. Step 2 (`31536000`) is due around 2026-10-24 if there's no certificate trouble before then.
+- Red Sift: done. David signed up for Certificates Lite (free tier, no Essentials upgrade) and added all
+  8 hostnames: the five above plus `comunidad.genuinemerit.com`, `comunidad.genuinemerit.org` and
+  `music.davidstitt.net`. Gotcha: the sign-up treated `pm.me` (David's Proton Mail address) as his company
+  domain and said "someone from your organization" already had an account. Choosing "add another account"
+  got past it, and `pm.me` was then removed from the monitored list. Red Sift reads the public certificate logs,
+  so it also lists old certificates from the legacy droplet (`sandwichopenmic`, `qigong`, `sfp`, and the old
+  `taiji` and `music` ones). They go "Critical" as they near expiry, and those alerts can be ignored. An alert
+  is real only if it's for a certificate the droplet serves now; check with `openssl s_client` or the smoke test.
+  It also watches `sask.davidstitt.net`, which is harmless.
+
 ## Later: legacy teardown (roadmap Phase 4)
 
 **Done 2026-10-10 ~20:20 UTC** — the actual procedure and results are in `docs/legacy-teardown.md` (no snapshot kept, by
