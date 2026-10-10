@@ -1,5 +1,8 @@
 # Legacy droplet inventory
 
+> **The droplet was destroyed 2026-10-10** (`docs/legacy-teardown.md`). These notes
+> are the historical record of what it ran.
+
 Review of the production droplet (`genuinemerit`, DigitalOcean, host
 `gmerit-nyc2`) and its DNS/DO account context, 2026-09-29 through
 2026-09-30, over SSH (`ssh genuinemerit`, root) and the DO API (`doctl`,

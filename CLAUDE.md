@@ -66,8 +66,8 @@ steps: `planning/site-build-checklist.md`.
   `pyenv` — a deliberate divergence from `sask`.
 - **HTML validator**: `~/.local/bin/vnu`, installed/updated by
   `bash tools/dev/install-vnu.sh` (no sudo).
-- **Legacy droplet**: `ssh genuinemerit` (root; `gmerit-nyc2`). Will be
-  snapshotted and destroyed after cutover — nothing new may depend on it.
+- **Legacy droplet** `gmerit-nyc2`: **destroyed 2026-10-10**, no snapshot kept
+  (`docs/legacy-teardown.md`). Its review notes stay in `legacy/`.
 - **New droplet**: `web-sites-droplet`, `fra1`, 2GB/1vCPU/70GB, Ubuntu
   26.04, plus a reserved IP that survives `recreate-droplet.sh` but not
   `destroy.sh` (a full destroy releases it; the next provision gets a new

@@ -106,7 +106,7 @@ David's OK, nothing deploys before step 10.
   record at the new droplet; certificate; full smoke test; David's live
   check; commit. The cutover method (no-gap forward as for taiji, or a
   simple flip) is decided at that point.
-- [ ] **11. Then: legacy droplet teardown** (separate plan, runbook
+- [x] **11. Then: legacy droplet teardown** (separate plan, runbook
   "Later: legacy teardown").
 
 ### Log
@@ -182,6 +182,8 @@ David's OK, nothing deploys before step 10.
   `/music.html` and `/sounds/` addresses retired (404), as decided. **music.davidstitt.net is live on the
   new droplet.** Next: step 11, legacy droplet teardown.
 - 2026-10-10 — David's manual check of the live site: green. Committed and pushed.
+- 2026-10-10 — step 11 done: legacy droplet destroyed (2026-10-10 ~20:20 UTC), no snapshot kept (David); details in
+  `docs/legacy-teardown.md`. **The music plan is complete.**
 
 ## What's in the prototype (verified)
 

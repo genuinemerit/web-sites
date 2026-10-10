@@ -32,7 +32,8 @@ the rules behind it.
 - **Requests naming none of our hostnames** (a bare-IP visit, a stale
   DNS record) get the `default` site's page over plain HTTP — David's
   replacement for "Welcome to nginx!", on the droplet and on `ubuvm`.
-- **Legacy names retire with the legacy droplet**: `sandwichopenmic.
+- **Legacy names retire with the legacy droplet** (done 2026-10-10; `genuinemerit.net`'s
+  record removed at the same time): `sandwichopenmic.
   genuinemerit.com`, `qigong.genuinemerit.com`, `sfp.genuinemerit.org`.
   No redirects, no certificates — the new architecture supports only the
   new names. Their DNS records are removed at legacy teardown.

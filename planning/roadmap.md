@@ -379,6 +379,10 @@ picture in mind — not a race through the list.
 
 ## Phase 4 — destroy legacy droplet (David's A3)
 
+**Done 2026-10-10 ~20:20 UTC** — see `docs/legacy-teardown.md`. David chose no final
+snapshot (everything he wanted was already pulled) and deleted the old
+2025 snapshot too.
+
 **Confirmed 2026-09-30: no rush.** David agreed with the suggested final
 snapshot + soak-period approach — destruction happens once everything's
 verified on the new droplet and there's no pressure to rush the legacy

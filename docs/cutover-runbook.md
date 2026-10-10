@@ -173,6 +173,9 @@ checks pass.
 
 ## Later: legacy teardown (roadmap Phase 4)
 
+**Done 2026-10-10 ~20:20 UTC** — the actual procedure and results are in `docs/legacy-teardown.md` (no snapshot kept, by
+David's choice). The original note below is kept for history.
+
 Not before `music` has moved (it stays on legacy until its own rebuild). Then: final snapshot of
 `gmerit-nyc2`, delete the DNS records of the retired names (`sandwichopenmic`, `qigong`, `sfp`) and the
 `genuinemerit.net` A record (unresolved, per `design/domains.md`), destroy the droplet.
