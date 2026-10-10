@@ -86,3 +86,15 @@ vhosts:
     source: sites/comunidad/build
     locales: [en-US, es-ES]
     pages: [openmic/]
+
+  # Music (design/music.md): hub at /<locale>/, the workbench at
+  # /<locale>/workbench/ with one page per catalog piece. Media prepared
+  # with tools/studio/av_prep.sh. The legacy site's /music.html and
+  # /sounds/ addresses are retired, not redirected (David, 2026-10-10).
+  - name: music
+    canonical: music.davidstitt.net
+    aliases: []
+    source: sites/music/build
+    media: sites/music/media
+    locales: [en-US, es-ES]
+    pages: [workbench/, workbench/bella/]

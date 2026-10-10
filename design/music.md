@@ -101,7 +101,7 @@ David's OK, nothing deploys before step 10.
   `sites/music/media/`; catalog updated for any renamed/re-encoded files;
   checks pass (every reference resolves; 100 MB deploy gate). Done when:
   David confirms the media set is final.
-- [ ] **10. Deploy and cutover** — `vhosts.yml` entry for
+- [x] **10. Deploy and cutover** — `vhosts.yml` entry for
   `music.davidstitt.net`; deploy; point the (pinned, legacy) `music` DNS
   record at the new droplet; certificate; full smoke test; David's live
   check; commit. The cutover method (no-gap forward as for taiji, or a
@@ -175,6 +175,13 @@ David's OK, nothing deploys before step 10.
 - 2026-10-10 — six videos re-encoded: 369 -> 238 MB (18-47% each). Media total 538 -> 342 MB (-36%), no
   metadata left, all checks pass. Waiting on David: listening/viewing check, then commit. Then step 10.
 - 2026-10-10 — David: audio and video are fine; step 9 done and committed. Next: step 10 (deploy and cutover).
+- 2026-10-10 — step 10 done: `vhosts.yml` entry (smoke pages `workbench/`, `workbench/bella/`); deploy
+  uploaded 342 MB media (and first published the self-hosted fonts to every live site); DNS `music` A ->
+  157.245.25.141 at 19:59 UTC (simple flip, David's choice); certificate issued 20:06 UTC (~7 min gap for
+  early resolvers); full public smoke test 110/110; renewal dry run OK for all certificates. Old
+  `/music.html` and `/sounds/` addresses retired (404), as decided. **music.davidstitt.net is live on the
+  new droplet.** Next: step 11, legacy droplet teardown.
+- 2026-10-10 — David's manual check of the live site: green. Committed and pushed.
 
 ## What's in the prototype (verified)
 
