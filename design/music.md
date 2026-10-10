@@ -41,6 +41,13 @@ environment) and the media in `sites/music/heirloom/david/`.
   can verify every reference.
 - **Atkinson Hyperlegible**: the original (as named in the design brief),
   Claude's call — David had no preference.
+- **Media prep (2026-10-10)**: every audio/video file published goes
+  through `tools/studio/av_prep.sh` (David's script, revised after
+  review): web copies are MP3/AAC audio and H.264 MP4 video with all
+  metadata stripped; masters stay in Dropbox. This replaces the earlier
+  "audio defaults to .wav" note for what the sites serve. Output names
+  are normalized (lowercase, `_`, `_video` suffix for videos), so a
+  first pass renames catalog files.
 
 ## Dev plan
 
@@ -87,10 +94,10 @@ David's OK, nothing deploys before step 10.
   the English it came from; the i18n check fails on missing or stale
   entries. Claude drafts, **David reviews and approves**. Done when:
   approved.
-- [ ] **8. David's review of the whole site locally** — layout,
+- [x] **8. David's review of the whole site locally** — layout,
   wording, both languages, phone and desktop. Loop back to steps 3–7 as
   needed. Then commit.
-- [ ] **9. Optimized media** — David's optimized files into
+- [x] **9. Optimized media** — David's optimized files into
   `sites/music/media/`; catalog updated for any renamed/re-encoded files;
   checks pass (every reference resolves; 100 MB deploy gate). Done when:
   David confirms the media set is final.
@@ -154,6 +161,20 @@ David's OK, nothing deploys before step 10.
   the Spanish, then commit.
 - 2026-10-10 — David approved the Spanish (no flaws found); step 7 done. Steps 4-7 committed and pushed.
   Next: step 8 (David's full local review).
+- 2026-10-10 — step 8 done: David's manual checks throughout steps 4–7 covered the full review. Next:
+  step 9 (David's optimized media).
+- 2026-10-10 — step 9 in progress: David's `tools/studio/av_prep.sh` reviewed and revised (findings and
+  changes in `design/tech-debt.md`, media item), tested on synthetic media for every path. Run over the 35
+  originals into `sites/music/media/`: 12 encoded, 23 copied, 0 failed; 538 MB -> 474 MB (audio up to
+  87% smaller; videos copied unchanged - already 720p H.264 at 1.2-1.9 Mbps). All metadata gone (the
+  originals carried dates, artist, GarageBand tags). Catalog: 33 file names updated from the run's map.
+  Open: whether to re-encode the 6 videos too (test: one went 30.8 -> 25.1 MB, -18%, ~1.75 min).
+- 2026-10-10 — David chose: automatic by default, and re-encode these six. `av_prep.sh` now copies H.264
+  only at <= 0.045 bits/pixel/frame (~1 Mbps at 720p25); the six (0.050-0.081) re-encode without
+  `--force`.
+- 2026-10-10 — six videos re-encoded: 369 -> 238 MB (18-47% each). Media total 538 -> 342 MB (-36%), no
+  metadata left, all checks pass. Waiting on David: listening/viewing check, then commit. Then step 10.
+- 2026-10-10 — David: audio and video are fine; step 9 done and committed. Next: step 10 (deploy and cutover).
 
 ## What's in the prototype (verified)
 

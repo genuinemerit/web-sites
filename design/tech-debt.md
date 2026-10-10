@@ -42,6 +42,15 @@ the same lightweight principle as everything else here.
   `srcset`/`width`/`height`. The hub pages (pass #1½) used fixed
   600/1200 square variants instead. One more site, then design the
   tool around the manifest approach.
+  **Audio/video: done 2026-10-10** — `tools/studio/av_prep.sh` (David's
+  prototype, revised after review: metadata stripping, name-clash
+  errors, copy-not-re-encode for web-ready sources, keep-the-smaller-
+  file, `--max-height`, `--dry-run`, `--map`, `--loudnorm`, folder
+  input, cover-art fix, and H.264 copied only at <= 0.045 bits per pixel
+  per frame so high-bitrate phone video is re-encoded) is the standard prep step for audio/video;
+  first used for music's 35 files. **Images remain**: still per-site
+  one-off conversions (taiji, hubs, comunidad) - the next part of this
+  item.
   **Home and scope, from David 2026-10-04**: `tools/studio/` (same name
   as `sask`'s `tools/studio/`) is where he's collecting his own clean-up
   scripts for images, sound and video — first one `fb-prep.sh`

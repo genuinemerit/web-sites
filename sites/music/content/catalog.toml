@@ -157,13 +157,13 @@ summary = "Two experiments building accompaniment with drums, guitar, and softwa
 
   [[piece.resource]]
   title = "First backing-track experiment"
-  file = "Amazing_Grace_Backing_Track.mp3"
+  file = "amazing_grace_backing_track.mp3"
   date = "2021-09"
   desc = "Drums and guitar; an early experiment."
 
   [[piece.resource]]
   title = "Revised backing track"
-  file = "Amazing_Grace_backing_v3.mp3"
+  file = "amazing_grace_backing_v3.mp3"
   date = "2021-09"
   desc = "Another pass at the arrangement."
 
@@ -178,7 +178,7 @@ summary = "A nylon-string guitar and vocal interpretation of Shel Silverstein’
 
   [[piece.resource]]
   title = "Acoustic guitar and voice"
-  file = "Ballad_of_Lucy_Jordan_in_A_acoustic_vocal.mp3"
+  file = "ballad_of_lucy_jordan_in_a_acoustic_vocal.mp3"
   date = "2022-09"
   desc = "A reflective acoustic take in A."
 
@@ -194,19 +194,19 @@ resources_heading = "Listen & compare"
 
   [[piece.resource]]
   title = "Voice only · English"
-  file = "Bella_Ciao_accapella_2nd_try.mp3"
+  file = "bella_ciao_accapella_2nd_try.mp3"
   date = "2021-05"
   desc = "Unaccompanied vocal take."
 
   [[piece.resource]]
   title = "Classical guitar and voice"
-  file = "Bella_Ciao.mp4"
+  file = "bella_ciao_video.mp4"
   date = "2021-05"
   desc = "Fingerpicked guitar with singing."
 
   [[piece.resource]]
   title = "Electric guitar arrangement"
-  file = "Bella_Ciao_electric.mp3"
+  file = "bella_ciao_electric.mp3"
   date = "2022-07"
   desc = "Voice, electric guitar, synthesized percussion, strings and backing voices."
 
@@ -221,13 +221,13 @@ summary = "Two early explorations of this traditional blues song."
 
   [[piece.resource]]
   title = "Instrumental · first try"
-  file = "Betty_and_Dupree_1st_try.mp3"
+  file = "betty_and_dupree_1st_try.mp3"
   date = "2021-02"
   desc = "Fingerpicked guitar through a GarageBand synth."
 
   [[piece.resource]]
   title = "Guitar and voice · second try"
-  file = "Betty_and_Dupree_2nd_try.mp3"
+  file = "betty_and_dupree_2nd_try.mp3"
   date = "2021-02"
   desc = "A later attempt combining singing, picking and software processing."
 
@@ -242,7 +242,7 @@ summary = "A relaxed blues performance with fingerpicked guitar and vocals."
 
   [[piece.resource]]
   title = "Guitar and voice"
-  file = "Big_Boss_Man.mp3"
+  file = "big_boss_man.mp3"
   date = "2021-04"
   desc = "Informal, lightly rehearsed performance."
 
@@ -257,7 +257,7 @@ summary = "A playful MuseScore composition rendered using a grand-piano synthesi
 
   [[piece.resource]]
   title = "Piano synth rendering"
-  file = "Doodling_Around_jan27-22.mp3"
+  file = "doodling_around_jan27_22.mp3"
   date = "2022-01"
   desc = "Original keyboard composition."
 
@@ -272,7 +272,7 @@ summary = "Cole Porter song performed vocally over a homemade MIDI backing track
 
   [[piece.resource]]
   title = "Vocal performance · video"
-  file = "Evry_Time_We_Say_Goodbye.mp4"
+  file = "evry_time_we_say_goodbye_video.mp4"
   date = "2022-01"
   desc = "Singing with a homemade MIDI accompaniment."
 
@@ -287,19 +287,19 @@ summary = "Three versions offer a useful comparison of a cappella singing and gu
 
   [[piece.resource]]
   title = "A cappella"
-  file = "Fields_of_Athenry_a_capella.mp3"
+  file = "fields_of_athenry_a_capella.mp3"
   date = "2021-05"
   desc = "Voice with light reverb and metronome."
 
   [[piece.resource]]
   title = "Guitar and voice · video"
-  file = "Fields_of_Athenry_take2.mp4"
+  file = "fields_of_athenry_take2_video.mp4"
   date = "2021-04"
   desc = "Early guitar-and-voice take."
 
   [[piece.resource]]
   title = "Acoustic guitar and voice"
-  file = "Fields_of_Athenry_take3.mp3"
+  file = "fields_of_athenry_take3.mp3"
   date = "2022-07"
   desc = "Later take; playing and singing while standing."
 
@@ -314,7 +314,7 @@ summary = "A long-form freestyle guitar exploration in C, recorded through an am
 
   [[piece.resource]]
   title = "Improvisation in C"
-  file = "First_Improvisation_in_C.mp3"
+  file = "first_improvisation_in_c.mp3"
   date = "2021-06"
   desc = "Six minutes of instrumental exploration."
 
@@ -329,7 +329,7 @@ summary = "Fingerpicked, amplified guitar with vocals."
 
   [[piece.resource]]
   title = "Guitar and voice"
-  file = "Glendale_Train.mp3"
+  file = "glendale_train.mp3"
   date = "2021-05"
   desc = "An early slow, echoey performance."
 
@@ -344,19 +344,19 @@ summary = "Three treatments ranging from a simple guitar-and-voice performance t
 
   [[piece.resource]]
   title = "Simple guitar and voice · video"
-  file = "House_of_the_Rising_Sun_simple.mp4"
+  file = "house_of_the_rising_sun_simple_video.mp4"
   date = "2021-05"
   desc = "Fingerpicked classical guitar and singing."
 
   [[piece.resource]]
   title = "Amplified guitar and voice"
-  file = "House_of_the_Rising_Sun_amped_vocals.mp3"
+  file = "house_of_the_rising_sun_amped_vocals.mp3"
   date = "2021-05"
   desc = "Reverb, vocals and GarageBand synth textures."
 
   [[piece.resource]]
   title = "Loop-based arrangement"
-  file = "House_of_the_Rising_Sun_with_Loops.mp3"
+  file = "house_of_the_rising_sun_with_loops.mp3"
   date = "2021-04"
   desc = "An instrumental experiment with amplified guitar, MIDI and loops."
 
@@ -371,7 +371,7 @@ summary = "An a cappella blues experiment with GarageBand processing."
 
   [[piece.resource]]
   title = "Processed vocal take"
-  file = "Im_Your_Hoochie_Coochie_Man.mp3"
+  file = "im_your_hoochie_coochie_man.mp3"
   date = "2021-02"
   desc = "Voice with synth and pitch processing."
 
@@ -386,7 +386,7 @@ summary = "Original poem and soundtrack drawing on a Coast Salish “Snake Song�
 
   [[piece.resource]]
   title = "Early vocal take"
-  file = "King_Phillips_Spirit_Rises_vocal_take_1.mp3"
+  file = "king_phillips_spirit_rises_vocal_take_1.mp3"
   date = "2022-04"
   desc = "Poem and composed soundtrack."
 
@@ -407,7 +407,7 @@ summary = "Practice recording of the first part of Leavitt’s Etude No. 2."
 
   [[piece.resource]]
   title = "First part"
-  file = "Leavitt_Etude_No_2_first_part.mp3"
+  file = "leavitt_etude_no_2_first_part.mp3"
   date = "2021-12"
   desc = "Classical guitar exercise."
 
@@ -422,13 +422,13 @@ summary = "Two early vocal recordings with software accompaniment or mixing."
 
   [[piece.resource]]
   title = "Voice only"
-  file = "Let_It_Be_Vocal_only.mp3"
+  file = "let_it_be_vocal_only.mp3"
   date = "2021-06"
   desc = "Vocal take with Ableton processing."
 
   [[piece.resource]]
   title = "Second take"
-  file = "Let_It_Be_take_two.mp3"
+  file = "let_it_be_take_two.mp3"
   date = "2021-05"
   desc = "Vocal performance with GarageBand synthesizing."
 
@@ -443,7 +443,7 @@ summary = "Experimental accompaniment derived from a source recording using Soun
 
   [[piece.resource]]
   title = "Accompaniment experiment"
-  file = "Nine_to_Five_accompaniment_soundlab.m4a"
+  file = "nine_to_five_accompaniment_soundlab.m4a"
   date = "2022-01"
   desc = "An imperfect voice-separated backing track."
 
@@ -458,7 +458,7 @@ summary = "An exploratory audio file. No description appears on the legacy site;
 
   [[piece.resource]]
   title = "Playground 01"
-  file = "Playground_01.wav"
+  file = "playground_01.mp3"
   desc = "Unclassified audio experiment."
 
 [[piece]]
@@ -472,7 +472,7 @@ summary = "Vocal-only performance mixed using Ableton Live."
 
   [[piece.resource]]
   title = "Vocal recording"
-  file = "Put_Your_Hand_in_the_Hand.mp3"
+  file = "put_your_hand_in_the_hand.mp3"
   date = "2021-06"
   desc = "Voice-only performance."
 
@@ -487,13 +487,13 @@ summary = "Two takes of the same guitar-and-voice song, useful for comparison."
 
   [[piece.resource]]
   title = "Early take · Rock Me Mama"
-  file = "Rock_me_mama.mp3"
+  file = "rock_me_mama.mp3"
   date = "2021-01"
   desc = "Fingerpicked guitar and vocals, including an instrumental break."
 
   [[piece.resource]]
   title = "Second take"
-  file = "Wagon_Wheel_Take_Two.mp3"
+  file = "wagon_wheel_take_two.mp3"
   date = "2021-08"
   desc = "Nylon-string guitar, vocals and some Ableton mixing."
 
@@ -508,7 +508,7 @@ summary = "A MIDI score supplemented with keyboard, GarageBand synths, edits and
 
   [[piece.resource]]
   title = "Keyboard / MIDI arrangement"
-  file = "Stand_By_Me.m4a"
+  file = "stand_by_me.m4a"
   date = "2021-05"
   desc = "An early arrangement experiment."
 
@@ -523,13 +523,13 @@ summary = "Multiple recordings of a traditional song, including layered guitar t
 
   [[piece.resource]]
   title = "Second take"
-  file = "Will_the_Circle_Be_Unbroken_take_2.mp3"
+  file = "will_the_circle_be_unbroken_take_2.mp3"
   date = "2021-08"
   desc = "Vocals, guitar picking and multiple guitar tracks."
 
   [[piece.resource]]
   title = "Third take · video"
-  file = "Will_the_Circle_Be_Unbroken.mp4"
+  file = "will_the_circle_be_unbroken_video.mp4"
   date = "2021-10"
   desc = "Nylon-string fingerpicking and voice."
 
@@ -574,6 +574,6 @@ summary = "Practice performance for a beginners’ recital, combining storytelli
 
   [[piece.resource]]
   title = "Recital practice · video"
-  file = "st_james_infirmary.mp4"
+  file = "st_james_infirmary_video.mp4"
   date = "2021-10"
   desc = "Fingerpicked nylon-string guitar and voice."
