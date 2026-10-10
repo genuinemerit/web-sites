@@ -1,0 +1,65 @@
+# Localization catalog: base locale (completeness floor) for music.
+# Interface text only - the workbench content (pieces, resources,
+# vocabulary labels) lives in sites/music/content/catalog.toml.
+# Strings taken from the prototype (heirloom/music-workbench-refined-v2/).
+
+[tags]
+"lang.en-US" = "English"
+"lang.es-ES" = "Español"
+"nav.language" = "Language"
+
+# Hub page (/<locale>/), shared hub layout.
+"hub.title" = "Music"
+"hub.coming_soon" = "coming soon"
+"nav.sites" = "Sections"
+"site.workbench" = "Workbench"
+"image.alt" = "David Stitt, in glasses and a grey beard, giving the camera a suspicious look in front of a bookcase"
+
+"meta.description" = "David Stitt's music workbench: songs, arrangements, experiments and practice plans, with recordings."
+"workbench.page_title" = "Music · Working notebook"
+"workbench.welcome_title" = "Dave's Music Room"
+"workbench.sidebar_label" = "Music collection"
+"workbench.collection" = "The collection"
+"workbench.search_label" = "Search pieces"
+"workbench.search_placeholder" = "Find music, notes, files…"
+"workbench.recent" = "Recently opened"
+"workbench.browse_by" = "Browse by"
+"workbench.reset_filters" = "Reset filters"
+"workbench.filter_activity" = "Activity"
+"workbench.filter_instrument" = "Instruments & tools"
+"workbench.filter_genre" = "Genre & context"
+"workbench.index" = "Pieces & plans"
+"workbench.no_matches" = "No matches. Try removing a filter."
+"workbench.foot" = "Play something. Make it better."
+
+"workbench.open_notebook" = "Open a notebook"
+"workbench.welcome_note" = "Browse by activity, instrument, or musical context in the index. Select several filters at once. Open a piece to hear recordings, follow source links, or check off a next step. Recent pieces and progress stay in this browser."
+
+"workbench.about" = "About this work"
+"workbench.current_status" = "Current status"
+"workbench.saved" = "Saved in this browser"
+"workbench.resources_heading" = "Recording & sources"
+"workbench.checklist_heading" = "Next steps"
+"workbench.local_checklist" = "Local checklist"
+"workbench.resources_one" = "{n} resource"
+"workbench.resources_other" = "{n} resources"
+"workbench.open" = "Open"
+"workbench.no_media" = "Your browser can't play this recording - use the Open link."
+
+"footer.name" = "Music / David Stitt"
+"footer.collection" = "Working collection · {date}"
+
+# Dates: catalog dates are YYYY-MM; shown as "{month} {year}".
+"date.month_year" = "{month} {year}"
+"month.m01" = "January"
+"month.m02" = "February"
+"month.m03" = "March"
+"month.m04" = "April"
+"month.m05" = "May"
+"month.m06" = "June"
+"month.m07" = "July"
+"month.m08" = "August"
+"month.m09" = "September"
+"month.m10" = "October"
+"month.m11" = "November"
+"month.m12" = "December"

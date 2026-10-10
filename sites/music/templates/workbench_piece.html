@@ -1,0 +1,71 @@
+{#- One catalog piece: title and tags, summary, its resources (hosted
+    recordings play in the page; external ones open elsewhere), and the
+    checklist. Status and checklist ticks persist only with the script
+    (step 5), in the visitor's own browser. -#}
+{% extends "workbench_base.html" %}
+{% block title %}{{ p.title }} · {{ t(locale, "workbench.page_title") }}{% endblock %}
+{% block workspace %}
+<div class="workspace">
+  <div class="hero">
+    {{ fit_title([p.title]) }}
+    {% if p.subtitle %}<p class="lede">{{ p.subtitle }}</p>{% endif %}
+    <div class="tag-row">
+      <span class="kind-line">{{ label(locale, "kind", p.kind) }} · {% for key in p.instrument %}{{ label(locale, "instrument", key) }}{% if not loop.last %} · {% endif %}{% endfor %}</span>
+      {% for key in p.activity %}<span class="tag">{{ label(locale, "activity", key) }}</span>{% endfor %}
+      {% for key in p.genre %}<span class="tag">{{ label(locale, "genre", key) }}</span>{% endfor %}
+      <span class="tag status-tag" id="status-tag">{{ label(locale, "status", status) }}</span>
+    </div>
+  </div>
+
+  <section class="overview">
+    <div>
+      <span class="eyebrow">{{ t(locale, "workbench.about") }}</span>
+      <p>{{ p.summary }}</p>
+    </div>
+    <div class="status-control" data-enhanced hidden>
+      <label for="status-select" class="eyebrow">{{ t(locale, "workbench.current_status") }}</label>
+      <select id="status-select" data-piece="{{ p.id }}" data-default="{{ status }}">
+        {% for key in vocab.status %}
+        <option value="{{ key }}"{% if key == status %} selected{% endif %}>{{ label(locale, "status", key) }}</option>
+        {% endfor %}
+      </select>
+      <div class="saved-note" id="saved-note" aria-live="polite" data-text="{{ t(locale, 'workbench.saved') }}"></div>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-top">
+      <h2>{{ p.resources_heading | default(t(locale, "workbench.resources_heading")) }}</h2>
+      <span class="eyebrow">{{ resources_count(locale, resources | length) }}</span>
+    </div>
+    {% for r in resources %}
+    <article class="resource">
+      <div class="resource-icon" aria-hidden="true">{{ icons[r.type] }}</div>
+      <div>
+        <h3 class="resource-title">{{ r.title }}</h3>
+        {% if r.desc %}<p class="resource-desc">{{ r.desc }}</p>{% endif %}
+        <p class="resource-date">{% if r.date %}{{ fmt_date(locale, r.date) }} · {% endif %}{{ label(locale, "type", r.type) }}</p>
+        {% if r.hosted and r.type == "audio" %}
+        <div class="audio-wrap"><audio controls preload="none" src="{{ r.href }}">{{ t(locale, "workbench.no_media") }}</audio></div>
+        {% elif r.hosted and r.type == "video" %}
+        <div class="video-wrap"><video controls preload="none" src="{{ r.href }}">{{ t(locale, "workbench.no_media") }}</video></div>
+        {% endif %}
+      </div>
+      <a class="resource-link" href="{{ r.href }}"{% if not r.hosted %} target="_blank" rel="noopener noreferrer"{% endif %}>{{ t(locale, "workbench.open") }}<span class="sr-only"> {{ r.title }}</span> <span aria-hidden="true">↗</span></a>
+    </article>
+    {% endfor %}
+  </section>
+
+  <section class="content-section">
+    <div class="section-top">
+      <h2>{{ p.checklist_heading | default(t(locale, "workbench.checklist_heading")) }}</h2>
+      <span class="eyebrow">{{ t(locale, "workbench.local_checklist") }}</span>
+    </div>
+    <ul class="check-list" data-piece="{{ p.id }}">
+      {% for item in checklist %}
+      <li><label><input type="checkbox" data-check="{{ loop.index0 }}"><span>{{ item }}</span></label></li>
+      {% endfor %}
+    </ul>
+  </section>
+</div>
+{% endblock %}

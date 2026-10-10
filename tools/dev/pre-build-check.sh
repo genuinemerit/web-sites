@@ -53,7 +53,12 @@ done
 
 # Content catalogs edited by hand - checked before anything is built.
 run_check "music catalog" \
-    poetry run python -m websites.music.catalog
+    poetry run python -m websites.music.check
+
+# JavaScript: ES2017 syntax + no HTML/code built from strings (no Node
+# toolchain in this project - see the script's docstring).
+run_check "JavaScript" \
+    poetry run python tools/dev/check_js.py
 
 run_check "i18n completeness" \
     poetry run python tools/dev/validate_i18n.py

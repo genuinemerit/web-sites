@@ -1,0 +1,104 @@
+{#- Workbench layout (from the prototype): sidebar with the collection
+    index + main workspace. Pages extend this and fill `title` and
+    `workspace`; `current` is the open piece's id, if any.
+
+    Elements marked data-enhanced start `hidden` and are revealed by the
+    optional script (step 5): search, filters, status; the welcome page's recent tiles.
+    Without it, the index is plain links and every page still works. -#}
+{% from "macros.html" import fit_title %}
+<!doctype html>
+<html lang="{{ locale }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#f8f6f0">
+  <meta name="description" content="{{ t(locale, 'meta.description') }}">
+  <title>{% block title %}{% endblock %}</title>
+  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+  <link rel="stylesheet" href="/shared/tokens.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/workbench.css') }}">
+  <script src="{{ url_for('static', filename='js/workbench.js') }}" defer></script>
+  <style>
+    /* Workbench palette - light only by design (design/music.md). */
+    :root {
+      --background: #f8f6f0;
+      --surface: #fffefa;
+      --text: #292d2a;
+      --muted: #6d7069;
+      --accent: #7a3e3c;
+      --line: #deded5;
+      --soft: #f0f0e9;
+      --green: #587066;
+      --status-bg: #edf2ed;
+      --status-text: #526a5b;
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar" aria-label="{{ t(locale, 'workbench.sidebar_label') }}">
+      <div class="side-top">
+        <a class="side-brand" href="{{ url_for('workbench', locale=locale) }}"><span class="brand-mark" aria-hidden="true">♫</span><span>davidstitt<span class="brand-light">/music</span></span></a>
+        <nav class="languages" aria-label="{{ t(locale, 'nav.language') }}">
+          {% for loc in locales %}
+          {% set target = url_for('piece', locale=loc, piece=current) if current else url_for('workbench', locale=loc) %}
+          <a href="{{ target }}" lang="{{ loc }}"{% if loc == locale %} aria-current="page"{% endif %}>{{ t(loc, "lang." ~ loc) }}</a>
+          {% if not loop.last %}<span class="separator" aria-hidden="true">|</span>{% endif %}
+          {% endfor %}
+        </nav>
+      </div>
+
+      <div class="side-head"><span class="eyebrow">{{ t(locale, "workbench.collection") }}</span><span class="side-count">{{ "%02d" | format(pieces | length) }}</span></div>
+
+      <label class="search-wrap" data-enhanced hidden>
+        <span class="sr-only">{{ t(locale, "workbench.search_label") }}</span>
+        <span aria-hidden="true">⌕</span>
+        <input id="search" type="search" placeholder="{{ t(locale, 'workbench.search_placeholder') }}" autocomplete="off">
+        <kbd aria-hidden="true">/</kbd>
+      </label>
+
+      <div class="filters" data-enhanced hidden>
+        <div class="filter-header"><span class="eyebrow">{{ t(locale, "workbench.browse_by") }}</span><button type="button" id="clear-filters" class="text-button">{{ t(locale, "workbench.reset_filters") }}</button></div>
+        {% for group in filter_groups %}
+        <section class="filter-group">
+          <h3>{{ t(locale, "workbench.filter_" ~ group) }}</h3>
+          <div class="filter-options">
+            {% for key in vocab[group] %}
+            <button class="filter-chip" type="button" data-group="{{ group }}" data-filter="{{ key }}" aria-pressed="false">{{ label(locale, group, key) }}</button>
+            {% endfor %}
+          </div>
+        </section>
+        {% endfor %}
+      </div>
+
+      <div class="index-heading"><span class="eyebrow">{{ t(locale, "workbench.index") }}</span><span id="result-count">{{ pieces | length }}</span></div>
+      <nav id="piece-list" aria-label="{{ t(locale, 'workbench.index') }}">
+        {% for item in pieces %}
+        <a class="piece-link{% if item.id == current %} active{% endif %}" href="{{ url_for('piece', locale=locale, piece=item.id) }}"
+           {%- if item.id == current %} aria-current="page"{% endif %}
+           data-piece="{{ item.id }}" data-activity="{{ item.activity | join(' ') }}" data-instrument="{{ item.instrument | join(' ') }}" data-genre="{{ item.genre | join(' ') }}" data-search="{{ search_text(locale, item) }}">
+          <span class="piece-title">{{ item.title }}</span>
+          <span class="piece-meta">{{ label(locale, "kind", item.kind) }} · {{ resources_count(locale, item.resource | length) }}</span>
+          <span class="mini-status" data-status-for="{{ item.id }}">{{ label(locale, "status", item.status | default("not-started")) }}</span>
+        </a>
+        {% endfor %}
+      </nav>
+      <p class="empty" id="no-matches" hidden>{{ t(locale, "workbench.no_matches") }}</p>
+      <p class="sidebar-foot">{{ t(locale, "workbench.foot") }}</p>
+    </aside>
+
+    <main id="workspace">
+      {% block workspace %}{% endblock %}
+    </main>
+  </div>
+  {#- Status labels in this page's language, for the script's sidebar
+      updates. A JSON data block is never executed (CSP-safe). -#}
+  <script type="application/json" id="status-labels">{{ status_labels(locale) | tojson }}</script>
+  <footer class="site-footer">{{ t(locale, "footer.name") }} <span>{{ t(locale, "footer.collection", date=fmt_date(locale, built)) }}</span></footer>
+</body>
+</html>

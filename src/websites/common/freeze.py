@@ -56,10 +56,18 @@ def freeze_site(site: str) -> None:
 
         @freezer.register_generator
         def locale_urls():
+            # Routes whose only parameter is the locale: one page each.
             for rule in app.url_map.iter_rules():
-                if "locale" in rule.arguments:
+                if rule.arguments == {"locale"}:
                     for locale in locales:
                         yield rule.endpoint, {"locale": locale}
+            # Routes with more parameters (e.g. music's
+            # /<locale>/workbench/<piece>/) come from the site module's
+            # optional freeze_urls(locale) -> (endpoint, values) pairs.
+            extra = getattr(module, "freeze_urls", None)
+            if extra:
+                for locale in locales:
+                    yield from extra(locale)
 
     freezer.freeze()
 

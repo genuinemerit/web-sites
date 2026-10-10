@@ -21,6 +21,7 @@ textstat = "*"
 pillow = "^12.3.0"
 fonttools = "^4.66.1"
 brotli = "^1.2.0"
+esprima = "^4.0.1"
 
 [build-system]
 requires = ["poetry-core"]

@@ -9,9 +9,10 @@
 # not claims about historical completion. Descriptions are drawn from the
 # legacy site where possible; some titles and categories are inferred
 # from filenames."
-
-# Pieces shown as tiles on the workbench welcome page, in this order.
-featured = ["woodshed", "bella", "king-phillip"]
+#
+# The welcome page shows each visitor's three most recently opened pieces
+# (kept in their browser) - there is no fixed "featured" list (David,
+# 2026-10-10: the prototype's three tiles were for demo only).
 
 # Checklist used by any piece that doesn't define its own.
 default_checklist = ["Listen / review existing material", "Decide on the next step"]

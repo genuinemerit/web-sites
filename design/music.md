@@ -68,21 +68,21 @@ David's OK, nothing deploys before step 10.
   in `pre-build-check.sh`: unique ids, known vocabulary, `http(s)` links
   only, every `file` present in `media/`. Done when: David has looked at
   the TOML and finds it comfortable to edit.
-- [ ] **4. Workbench pages** — Flask app `src/websites/music/`, routes
+- [x] **4. Workbench pages** — Flask app `src/websites/music/`, routes
   `/<locale>/workbench/` (welcome + index) and
   `/<locale>/workbench/<id>/` (one page per piece); templates and CSS
   from the prototype, colours as tokens (light-only), smallest text
   raised, greys passing AA; favicon set and web manifest; footer date
   from the build. Done when: all pages build and pass checks, viewable
   locally.
-- [ ] **5. Enhancement script** — `sites/music/static/js/workbench.js`,
+- [x] **5. Enhancement script** — `sites/music/static/js/workbench.js`,
   readable source served as-is: search, filters, recent pieces,
   status/checklist in `localStorage`, `/` shortcut. No `innerHTML`.
   Done when: works locally, pages still fully usable without it, Claude's
   security/efficiency notes written up here for David's review.
-- [ ] **6. Music hub** — `/<locale>/` on the shared hub layout, Workbench
+- [x] **6. Music hub** — `/<locale>/` on the shared hub layout, Workbench
   listed live, stand-in image by Claude. Done when: builds and passes.
-- [ ] **7. Spanish** — UI and vocabulary in `config/i18n/music/`; content
+- [x] **7. Spanish** — UI and vocabulary in `config/i18n/music/`; content
   translations in a parallel Spanish catalog file, each entry recording
   the English it came from; the i18n check fails on missing or stale
   entries. Claude drafts, **David reviews and approves**. Done when:
@@ -121,6 +121,39 @@ David's OK, nothing deploys before step 10.
   special headings moved out of code. Check `websites.music.catalog` runs in pre-build-check before
   the build (9 mistake types tested, all caught). pre-build-check now treats only packages with an
   `__init__.py` as sites. Paused for David to try editing the TOML. Next: step 4.
+- 2026-10-10 — David reviewed the TOML (likes the format, tested the checker). Steps 1–3 committed
+  and pushed as `e789d5d`. Fonts not yet deployed. Next: step 4.
+- 2026-10-10 — step 4 done (English only): `src/websites/music/` builds `/en-US/workbench/` + 25 piece
+  pages (26) from the catalog; templates `workbench_base/index/piece.html`; `static/css/workbench.css`
+  (the prototype's three CSS passes merged, sizes raised to 16px base / 12px minimum, all text colours
+  tokens passing AA - muted `#72756e` -> `#6d7069`, faint greys -> muted); UI strings in
+  `config/i18n/music/en-US.toml`; favicon set; web manifest renamed `manifest.json` (nginx has no
+  `.webmanifest` type, and adding one safely isn't possible at that level). Piece titles use the
+  shared fit-title rule restyled serif/400 with the prototype's ~3.1rem maximum. Script-only parts
+  (search, filters, recent, status) are in the HTML, `hidden` until step 5. `freeze.py` gained a
+  per-site `freeze_urls()` hook for pages with more than the locale in their URL. All checks pass.
+  Paused for David's local review. Next: step 5.
+- 2026-10-10 — step 5 done: `static/js/workbench.js` (review notes in "Enhancement script — review
+  notes" above). David's changes: no fixed `featured` list (removed from catalog, checker, code) - the
+  welcome tiles are the visitor's 3 most recently opened pieces, hidden until there is one; the
+  sidebar "Recently opened" list dropped. New check `tools/dev/check_js.py` (esprima dev dep): ES2017
+  syntax + no HTML/code from strings, each forbidden construct tested. No JS engine/browser on ubuvm,
+  so behaviour is for David to test in his browser. Paused for David's review. Next: step 6.
+- 2026-10-10 — David's browser checks of step 5: all green. Step 6 done: hub at `/<locale>/` on the
+  shared hub layout (`templates/hub_index.html`, light-only workbench palette), title "Music",
+  Workbench listed live; image David's `heirloom/sus_dave.jpg` (529×587) as
+  `static/img/david-suspicious-529.webp` (24 KB, no upscaling - a ~1100 px original would be crisper),
+  alt text drafted by Claude. All checks pass. Paused for David's review. Next: step 7 (Spanish).
+- 2026-10-10 — David approved step 6 (title "Music", alt text). Step 7 drafted, awaiting David's review:
+  `config/i18n/music/es-ES.toml` (interface) and `sites/music/content/catalog.es-ES.toml` (vocabulary,
+  default checklist, all 25 pieces). Each block records a fingerprint of its English; the catalog check
+  fails on missing or out-of-date Spanish (tested: edited summary, removed block, renamed vocabulary
+  label - each caught by name). `python -m websites.music.check --status` lists fingerprints for future
+  drafts. App loads the catalog lazily (clean error lists instead of tracebacks); CLI moved to
+  `websites.music.check`. 54 pages build (hub + workbench + 25 pieces, x2). Next: David's review of
+  the Spanish, then commit.
+- 2026-10-10 — David approved the Spanish (no flaws found); step 7 done. Steps 4-7 committed and pushed.
+  Next: step 8 (David's full local review).
 
 ## What's in the prototype (verified)
 
@@ -195,6 +228,55 @@ JS at all. Proposed split:
   small, and nginx compresses text. Keeping the deployed file identical
   to the readable source avoids a JS build tool (no Node) and keeps what's
   served auditable. Can revisit if it grows.
+
+## Enhancement script — review notes (step 5, 2026-10-10)
+
+`sites/music/static/js/workbench.js` replaces the prototype's `app.js`.
+Readable source, served as-is (no minifying: 8.6 KB, 2.9 KB gzipped —
+the prototype's denser `app.js` gzips to 3.2 KB).
+
+**What it does**: reveals the search/filter UI and filters the existing
+index links; `/` focuses search; records the open piece and shows the
+three most recent as welcome tiles (section hidden until there is one —
+David, 2026-10-10: no fixed "featured" list, no sidebar recent list);
+restores and saves per-piece status and checklist ticks.
+
+**Security**
+
+- No HTML from strings anywhere: only `textContent`, the `hidden`
+  property, attributes and moving existing elements. All visible text is
+  server-built, in the page's language. This removes the prototype's
+  whole HTML-injection surface rather than escaping around it.
+- `tools/dev/check_js.py` (in `pre-build-check.sh`) enforces it: rejects
+  `innerHTML`, `outerHTML`, `insertAdjacentHTML`, `document.write`,
+  `eval`, `new Function` and string timers, using parser tokens (so
+  comments and strings don't count). Tested on each construct.
+- Stored data is untrusted: every value read from `localStorage` /
+  `sessionStorage` is type-checked and limited to piece ids present on
+  the page and statuses in the embedded label list; anything else is
+  ignored. Selectors built from ids use `CSS.escape`.
+- Status labels reach the script as a JSON data block
+  (`<script type="application/json">`, rendered by Jinja's `tojson`) —
+  never executed, so the Content-Security-Policy stays at
+  `script-src 'self'` with no exceptions.
+- Storage is namespaced (`music-workbench:`) and failures are silent.
+  Nothing leaves the browser: no requests, no third parties.
+
+**Efficiency**
+
+- One small deferred script per page; no catalog download (the
+  prototype fetched all of `catalog.json` on every visit) and no
+  re-rendering — filtering toggles `hidden` on 25 existing links.
+- Media still loads nothing until played (`preload="none"`).
+
+**Behaviour changes from the prototype**
+
+- Each piece is its own page, so filters and search are remembered for
+  the browser tab (`sessionStorage`) while moving between pieces.
+- Checklist ticks are stored by position: if a piece's checklist is
+  reordered in the catalog, old ticks may land on different items —
+  acceptable for a personal checklist.
+- Plain ES2017 — wide browser support, and checkable without Node.
 
 ## Translation in a configuration-driven site
 

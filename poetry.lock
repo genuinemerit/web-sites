@@ -205,6 +205,17 @@ files = [
 ]
 
 [[package]]
+name = "esprima"
+version = "4.0.1"
+description = "ECMAScript parsing infrastructure for multipurpose analysis in Python"
+optional = false
+python-versions = "*"
+groups = ["dev"]
+files = [
+    {file = "esprima-4.0.1.tar.gz", hash = "sha256:08db1a876d3c2910db9cfaeb83108193af5411fc3a3a66ebefacd390d21323ee"},
+]
+
+[[package]]
 name = "flask"
 version = "3.1.3"
 description = "A simple framework for building complex web applications."
@@ -1121,4 +1132,4 @@ watchdog = ["watchdog (>=2.3)"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.14"
-content-hash = "a8a823eaff010c7ec47b265cf4f8df7e2d15de71bb4b0fa2cdd7f5f462cdcdc6"
+content-hash = "fb55373f5178a0b448abf3b160e5f392a2bd1815a20cff74642e25c9ba65fd8c"

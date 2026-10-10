@@ -1,0 +1,31 @@
+{#- Workbench welcome page. The tiles are this visitor's three most
+    recently opened pieces (David, 2026-10-10 - no fixed "featured"
+    list). Every piece's tile is rendered here, hidden; the script
+    (static/js/workbench.js) reveals and orders the recent ones, and the
+    whole section stays hidden until there is at least one. No script,
+    or nothing opened yet: no tiles. -#}
+{% extends "workbench_base.html" %}
+{% block title %}{{ t(locale, "workbench.page_title") }}{% endblock %}
+{% block workspace %}
+<div class="workspace welcome">
+  <div class="hero">
+    {{ fit_title([t(locale, "workbench.welcome_title")]) }}
+  </div>
+  <section id="recent-tiles" hidden aria-labelledby="recent-heading">
+    <div class="section-top">
+      <h2 id="recent-heading">{{ t(locale, "workbench.open_notebook") }}</h2>
+      <span class="eyebrow">{{ t(locale, "workbench.recent") }}</span>
+    </div>
+    <div class="welcome-grid" id="welcome-grid">
+      {% for item in pieces %}
+      <a class="welcome-tile" hidden data-tile="{{ item.id }}" href="{{ url_for('piece', locale=locale, piece=item.id) }}">
+        <span class="tile-no"><span data-tile-no></span> / {{ label(locale, "kind", item.kind) }}</span>
+        <strong>{{ item.title }}</strong>
+        <small>{{ resources_count(locale, item.resource | length) }} · {% for key in item.instrument %}{{ label(locale, "instrument", key) }}{% if not loop.last %}, {% endif %}{% endfor %}</small>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+  <p class="welcome-note">{{ t(locale, "workbench.welcome_note") }}</p>
+</div>
+{% endblock %}

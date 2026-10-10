@@ -1,0 +1,349 @@
+# Spanish (es-ES) translation of catalog.toml - the music workbench
+# content. Same shape as the English file; only translated text lives
+# here. Drafted by Claude, reviewed and approved by David 2026-10-10.
+#
+# Each block's `source` is a fingerprint of the English it was
+# translated from. When the English changes, the build stops with
+# "out of date" for that block: update the Spanish, then record the new
+# fingerprint shown by
+#     poetry run python -m websites.music.check --status
+#
+# Titles of works stay as they are (a piece may add `title = "..."` to
+# translate a descriptive one). Iberian Spanish; musical terms as used in
+# Spain (toma = take, pista de acompañamiento = backing track, punteo =
+# fingerpicking).
+
+default_checklist = ["Escuchar / revisar el material existente", "Decidir el siguiente paso"]
+
+[source]
+default_checklist = "e92e54a298c4"
+vocabulary.kind = "440ef81f6ce9"
+vocabulary.activity = "274a395d83a0"
+vocabulary.instrument = "8d6e26101f10"
+vocabulary.genre = "be5265d93d04"
+vocabulary.status = "994099fd6a48"
+vocabulary.type = "6f8cadca9a99"
+
+[vocabulary.kind]
+song = "Canción"
+arrangement = "Arreglo"
+arrangement-backing-track = "Arreglo / pista de acompañamiento"
+backing-track-experiment = "Experimento de pista de acompañamiento"
+original-composition = "Composición original"
+improvisation = "Improvisación"
+guitar-study = "Estudio de guitarra"
+sound-experiment = "Experimento sonoro"
+practice-plan = "Plan de práctica"
+
+[vocabulary.activity]
+composition = "Composición"
+performance = "Interpretación"
+repertoire = "Repertorio"
+practice = "Práctica"
+
+[vocabulary.instrument]
+voice = "Voz"
+guitar = "Guitarra"
+piano = "Piano"
+percussion = "Percusión"
+daw-mix = "DAW/Mezcla"
+ai = "IA"
+other = "Otros"
+
+[vocabulary.genre]
+lessons = "Lecciones"
+trad-folk = "Tradicional/Folk"
+pop-rock = "Pop/Rock"
+musicals-broadway = "Musicales/Broadway"
+other = "Otros"
+
+[vocabulary.status]
+not-started = "Sin empezar"
+learning = "Aprendiendo"
+in-progress = "En curso"
+developing = "En desarrollo"
+ready = "Lista"
+on-hold = "En pausa"
+archived = "Archivada"
+
+[vocabulary.type]
+audio = "Audio"
+video = "Vídeo"
+link = "Enlace"
+
+[piece.woodshed]
+source = "c4fb37c43cb0"
+subtitle = "Lectura a primera vista, estudios y las pequeñas victorias de la repetición."
+summary = "Siete grabaciones de lecciones, agrupadas por ejercicio en lugar de por fecha."
+resources_heading = "Grabaciones de las lecciones"
+checklist_heading = "Plan de práctica"
+checklist = ["Repasar la lectura a primera vista de la lección 1A", "Volver a Forest Glade", "Comparar las tomas del Estudio n.º 1", "Elegir la siguiente lección"]
+
+  [[piece.woodshed.resource]]
+  title = "Lección 1A · Lectura a primera vista n.º 1"
+  desc = "Grabación de una lección de Classical Guitar Woodshed."
+
+  [[piece.woodshed.resource]]
+  title = "Lección 1A · Forest Glade"
+  desc = "Grabación de una lección de Classical Guitar Woodshed."
+
+  [[piece.woodshed.resource]]
+  title = "Lección 1A · Tercera toma"
+  desc = "Grabación de una lección de Classical Guitar Woodshed."
+
+  [[piece.woodshed.resource]]
+  title = "Lección 1B · Práctica de lectura a primera vista"
+  desc = "Grabación de una lección de Classical Guitar Woodshed."
+
+  [[piece.woodshed.resource]]
+  title = "Lección 1B · Práctica de lectura a primera vista"
+  desc = "Grabación de una lección de Classical Guitar Woodshed."
+
+  [[piece.woodshed.resource]]
+  title = "Lección 1B · Estudio n.º 1, primera toma"
+  desc = "Grabación de una lección de Classical Guitar Woodshed."
+
+  [[piece.woodshed.resource]]
+  title = "Lección 1B · Estudio n.º 1, segunda toma"
+  desc = "Grabación de una lección de Classical Guitar Woodshed."
+
+[piece.amazing-grace]
+source = "92804cd5f936"
+summary = "Dos experimentos de acompañamiento con batería, guitarra e instrumentos de software."
+
+  [[piece.amazing-grace.resource]]
+  title = "Primer experimento de pista de acompañamiento"
+  desc = "Batería y guitarra; un experimento temprano."
+
+  [[piece.amazing-grace.resource]]
+  title = "Pista de acompañamiento revisada"
+  desc = "Otra pasada por el arreglo."
+
+[piece.lucy-jordan]
+source = "7fc030c73bbc"
+summary = "Interpretación con guitarra de cuerdas de nailon y voz de la canción de Shel Silverstein."
+
+  [[piece.lucy-jordan.resource]]
+  title = "Guitarra acústica y voz"
+  desc = "Una versión acústica y reflexiva en La."
+
+[piece.bella]
+source = "60e2dc12eba7"
+summary = "Tres maneras de abordar la misma canción: voz sin acompañamiento, guitarra punteada y voz, y un arreglo eléctrico."
+resources_heading = "Escuchar y comparar"
+
+  [[piece.bella.resource]]
+  title = "Solo voz · en inglés"
+  desc = "Toma vocal sin acompañamiento."
+
+  [[piece.bella.resource]]
+  title = "Guitarra clásica y voz"
+  desc = "Guitarra punteada con canto."
+
+  [[piece.bella.resource]]
+  title = "Arreglo con guitarra eléctrica"
+  desc = "Voz, guitarra eléctrica, percusión sintetizada, cuerdas y coros."
+
+[piece.betty-dupree]
+source = "fe47568799b7"
+summary = "Dos primeras exploraciones de esta canción tradicional de blues."
+
+  [[piece.betty-dupree.resource]]
+  title = "Instrumental · primer intento"
+  desc = "Guitarra punteada a través de un sintetizador de GarageBand."
+
+  [[piece.betty-dupree.resource]]
+  title = "Guitarra y voz · segundo intento"
+  desc = "Un intento posterior que combina canto, punteo y procesado por software."
+
+[piece.big-boss]
+source = "648cb1f332c8"
+summary = "Una interpretación de blues relajada, con guitarra punteada y voz."
+
+  [[piece.big-boss.resource]]
+  title = "Guitarra y voz"
+  desc = "Interpretación informal, con poco ensayo."
+
+[piece.doodling]
+source = "0d4e77aee632"
+summary = "Una composición juguetona hecha en MuseScore e interpretada con un sintetizador de piano de cola."
+
+  [[piece.doodling.resource]]
+  title = "Versión con sintetizador de piano"
+  desc = "Composición original para teclado."
+
+[piece.every-time]
+source = "aac0aa3158fb"
+summary = "Canción de Cole Porter cantada sobre una pista de acompañamiento MIDI casera."
+
+  [[piece.every-time.resource]]
+  title = "Interpretación vocal · vídeo"
+  desc = "Canto con un acompañamiento MIDI casero."
+
+[piece.fields]
+source = "b1935778d3e6"
+summary = "Tres versiones que permiten comparar el canto a cappella con las tomas acompañadas de guitarra."
+
+  [[piece.fields.resource]]
+  title = "A cappella"
+  desc = "Voz con un poco de reverb y metrónomo."
+
+  [[piece.fields.resource]]
+  title = "Guitarra y voz · vídeo"
+  desc = "Una primera toma con guitarra y voz."
+
+  [[piece.fields.resource]]
+  title = "Guitarra acústica y voz"
+  desc = "Toma posterior; tocando y cantando de pie."
+
+[piece.improv-c]
+source = "f588af73f73c"
+summary = "Una larga exploración libre a la guitarra en Do, grabada a través de un amplificador."
+
+  [[piece.improv-c.resource]]
+  title = "Improvisación en Do"
+  desc = "Seis minutos de exploración instrumental."
+
+[piece.glendale]
+source = "30352b19cfff"
+summary = "Guitarra punteada y amplificada, con voz."
+
+  [[piece.glendale.resource]]
+  title = "Guitarra y voz"
+  desc = "Una primera interpretación, lenta y con mucho eco."
+
+[piece.house]
+source = "f13485cb3995"
+summary = "Tres tratamientos, desde una sencilla interpretación de guitarra y voz hasta un arreglo experimental basado en bucles."
+
+  [[piece.house.resource]]
+  title = "Guitarra y voz, en sencillo · vídeo"
+  desc = "Guitarra clásica punteada y canto."
+
+  [[piece.house.resource]]
+  title = "Guitarra amplificada y voz"
+  desc = "Reverb, voz y texturas de sintetizador de GarageBand."
+
+  [[piece.house.resource]]
+  title = "Arreglo con bucles"
+  desc = "Un experimento instrumental con guitarra amplificada, MIDI y bucles."
+
+[piece.hoochie]
+source = "8abe539190d3"
+summary = "Un experimento de blues a cappella procesado con GarageBand."
+
+  [[piece.hoochie.resource]]
+  title = "Toma vocal procesada"
+  desc = "Voz con sintetizador y procesado de tono."
+
+[piece.king-phillip]
+source = "71424ff15efd"
+summary = "Poema original y banda sonora inspirados en una transcripción de la «Canción de la serpiente» de los coast salish, realizada por Thelma Adamson y George Herzog. Las notas originales mencionan una flauta de pan sintetizada y unas sonajas de semillas heredadas."
+
+  [[piece.king-phillip.resource]]
+  title = "Primera toma vocal"
+  desc = "Poema y banda sonora compuesta."
+
+  [[piece.king-phillip.resource]]
+  title = "Thelma Adamson · contexto"
+  desc = "Enlace de contexto histórico procedente del sitio anterior."
+
+[piece.leavitt]
+source = "6f67adf44864"
+summary = "Grabación de práctica de la primera parte del Estudio n.º 2 de Leavitt."
+
+  [[piece.leavitt.resource]]
+  title = "Primera parte"
+  desc = "Ejercicio de guitarra clásica."
+
+[piece.let-it-be]
+source = "8e21d493cefd"
+summary = "Dos primeras grabaciones vocales con acompañamiento o mezcla por software."
+
+  [[piece.let-it-be.resource]]
+  title = "Solo voz"
+  desc = "Toma vocal procesada con Ableton."
+
+  [[piece.let-it-be.resource]]
+  title = "Segunda toma"
+  desc = "Interpretación vocal con sintetizadores de GarageBand."
+
+[piece.nine-to-five]
+source = "ad732b30e63f"
+summary = "Acompañamiento experimental obtenido de una grabación original mediante la separación de voces de SoundLab."
+
+  [[piece.nine-to-five.resource]]
+  title = "Experimento de acompañamiento"
+  desc = "Una pista de acompañamiento imperfecta, con la voz separada."
+
+[piece.playground]
+source = "0a963c3d5a57"
+summary = "Un archivo de audio exploratorio. No hay descripción en el sitio anterior; la clasificación es provisional."
+
+  [[piece.playground.resource]]
+  title = "Playground 01"
+  desc = "Experimento de audio sin clasificar."
+
+[piece.hand]
+source = "76f7a1d9b0cd"
+summary = "Interpretación solo vocal, mezclada con Ableton Live."
+
+  [[piece.hand.resource]]
+  title = "Grabación vocal"
+  desc = "Interpretación solo con voz."
+
+[piece.wagon]
+source = "d189c1c77e6a"
+summary = "Dos tomas de la misma canción de guitarra y voz, útiles para comparar."
+
+  [[piece.wagon.resource]]
+  title = "Primera toma · Rock Me Mama"
+  desc = "Guitarra punteada y voz, con un interludio instrumental."
+
+  [[piece.wagon.resource]]
+  title = "Segunda toma"
+  desc = "Guitarra de cuerdas de nailon, voz y algo de mezcla con Ableton."
+
+[piece.stand]
+source = "597b8f157b79"
+summary = "Una partitura MIDI completada con teclado, sintetizadores de GarageBand, ediciones y bucles."
+
+  [[piece.stand.resource]]
+  title = "Teclado / arreglo MIDI"
+  desc = "Un primer experimento de arreglo."
+
+[piece.circle]
+source = "f7f5a611ff4a"
+summary = "Varias grabaciones de una canción tradicional, con pistas de guitarra superpuestas y un vídeo posterior."
+
+  [[piece.circle.resource]]
+  title = "Segunda toma"
+  desc = "Voz, punteo de guitarra y varias pistas de guitarra."
+
+  [[piece.circle.resource]]
+  title = "Tercera toma · vídeo"
+  desc = "Punteo con guitarra de cuerdas de nailon y voz."
+
+[piece.adios]
+source = "e34200618433"
+summary = "Guitarra clásica con voz, un ritmo lento de tango y una ligera masterización con GarageBand."
+
+  [[piece.adios.resource]]
+  title = "Guitarra y voz"
+  desc = "Guitarra clásica con cuerdas de carbono, voz y acompañamiento de BeatBuddy."
+
+[piece.midnight]
+source = "5ca8afe62f4a"
+summary = "Una de las primeras grabaciones, del comienzo de la colección."
+
+  [[piece.midnight.resource]]
+  title = "Primera interpretación"
+  desc = "La grabación con la que se estrenó el sitio original."
+
+[piece.st-james]
+source = "8e5bbde0680f"
+summary = "Ensayo para un recital de principiantes, que combina narración y canto."
+
+  [[piece.st-james.resource]]
+  title = "Ensayo del recital · vídeo"
+  desc = "Guitarra de cuerdas de nailon punteada y voz."

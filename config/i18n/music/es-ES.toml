@@ -1,0 +1,66 @@
+# Localization catalog: es-ES (Iberian Spanish) for music - interface
+# text only (content: sites/music/content/catalog.es-ES.toml). Drafted
+# by Claude, reviewed and approved by David 2026-10-10. Informal "tú", as on
+# the other sites.
+
+[tags]
+"lang.en-US" = "English"
+"lang.es-ES" = "Español"
+"nav.language" = "Idioma"
+
+# Hub page. "Taller" (workshop) for Workbench reads more naturally in
+# Spanish than the literal "banco de trabajo".
+"hub.title" = "Música"
+"hub.coming_soon" = "próximamente"
+"nav.sites" = "Secciones"
+"site.workbench" = "Taller"
+"image.alt" = "David Stitt, con gafas y barba canosa, mirando a la cámara con recelo delante de una estantería"
+
+"meta.description" = "El taller musical de David Stitt: canciones, arreglos, experimentos y planes de práctica, con grabaciones."
+"workbench.page_title" = "Música · Cuaderno de trabajo"
+"workbench.welcome_title" = "La sala de música de Dave"
+"workbench.sidebar_label" = "Colección de música"
+"workbench.collection" = "La colección"
+"workbench.search_label" = "Buscar piezas"
+"workbench.search_placeholder" = "Busca música, notas, archivos…"
+"workbench.recent" = "Abiertas recientemente"
+"workbench.browse_by" = "Explorar por"
+"workbench.reset_filters" = "Quitar filtros"
+"workbench.filter_activity" = "Actividad"
+"workbench.filter_instrument" = "Instrumentos y herramientas"
+"workbench.filter_genre" = "Género y contexto"
+"workbench.index" = "Piezas y planes"
+"workbench.no_matches" = "No hay coincidencias. Prueba a quitar un filtro."
+"workbench.foot" = "Toca algo. Hazlo mejor."
+
+"workbench.open_notebook" = "Abre un cuaderno"
+"workbench.welcome_note" = "Explora el índice por actividad, instrumento o contexto musical; puedes combinar varios filtros. Abre una pieza para escuchar las grabaciones, seguir los enlaces a las fuentes o marcar un siguiente paso. Las piezas recientes y el progreso se guardan en este navegador."
+
+"workbench.about" = "Sobre esta obra"
+"workbench.current_status" = "Estado actual"
+"workbench.saved" = "Guardado en este navegador"
+"workbench.resources_heading" = "Grabaciones y fuentes"
+"workbench.checklist_heading" = "Próximos pasos"
+"workbench.local_checklist" = "Lista local"
+"workbench.resources_one" = "{n} recurso"
+"workbench.resources_other" = "{n} recursos"
+"workbench.open" = "Abrir"
+"workbench.no_media" = "Tu navegador no puede reproducir esta grabación: usa el enlace «Abrir»."
+
+"footer.name" = "Música / David Stitt"
+"footer.collection" = "Colección de trabajo · {date}"
+
+# Fechas: "septiembre de 2021" (meses en minúscula, como en español).
+"date.month_year" = "{month} de {year}"
+"month.m01" = "enero"
+"month.m02" = "febrero"
+"month.m03" = "marzo"
+"month.m04" = "abril"
+"month.m05" = "mayo"
+"month.m06" = "junio"
+"month.m07" = "julio"
+"month.m08" = "agosto"
+"month.m09" = "septiembre"
+"month.m10" = "octubre"
+"month.m11" = "noviembre"
+"month.m12" = "diciembre"
