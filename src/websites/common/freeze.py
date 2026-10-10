@@ -18,8 +18,9 @@ site's build output, since neither needs i18n or Jinja rendering:
   site needs its own copy at the top of its build output - see
   design/taiji.md's note that these are shared hosting infrastructure,
   not taiji-specific, despite taiji being first to need them.
-- sites/_shared/static/ -> build/shared/. Shared CSS (tokens.css) and
-  any future shared static assets, one canonical source rather than a
+- sites/_shared/static/ -> build/shared/ (whole tree, sub-folders
+  included). Shared CSS (tokens.css), self-hosted fonts and other shared
+  static assets, one canonical source rather than a
   per-site copy that could drift - templates link it at the plain
   root-relative path /shared/<file>, same convention as content's
   /media/ links. See design/taiji.md's 2026-10-02 decision to sunset
@@ -65,10 +66,8 @@ def freeze_site(site: str) -> None:
     for error_page in ERROR_PAGES_SRC.iterdir():
         shutil.copy2(error_page, build_dir / error_page.name)
 
-    shared_dest = build_dir / "shared"
-    shared_dest.mkdir(exist_ok=True)
-    for shared_file in SHARED_STATIC_SRC.iterdir():
-        shutil.copy2(shared_file, shared_dest / shared_file.name)
+    # Whole tree, sub-folders included (fonts/<family>/ since 2026-10-10).
+    shutil.copytree(SHARED_STATIC_SRC, build_dir / "shared", dirs_exist_ok=True)
 
 
 def main() -> None:

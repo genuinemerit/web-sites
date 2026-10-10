@@ -1,0 +1,295 @@
+# `music` — rebuild plan (evaluation of the workbench prototype)
+
+2026-10-10. Status: **evaluated; David answered 2026-10-10** (his notes
+under each question at the end; summary in "Decisions" just below). Source: David's prototype
+`sites/music/heirloom/music-workbench-refined-v2/` (built in another
+environment) and the media in `sites/music/heirloom/david/`.
+
+## Target shape (from David's brief)
+
+- `music.davidstitt.net/<locale>/` — a hub page, same aesthetics as the
+  other hubs, listing sub-sites; for now only **Workbench**.
+- `music.davidstitt.net/<locale>/workbench/` — the prototype's
+  "working notebook", in its own aesthetic.
+- Configuration-driven: content lives in a catalog file; building
+  produces the HTML in both languages.
+- English and Spanish, Spanish reviewed and approved as always.
+
+## Decisions (David, 2026-10-10)
+
+- **Architecture**: static pages built from the catalog (one per piece,
+  both languages) + one small enhancement script. Not the SPA.
+- **Translation**: same flow as every other site — Claude drafts, David
+  reviews. No machine translation at build or deploy; the build blocks
+  missing or stale Spanish.
+- **Fonts**: start self-hosting now (DM Sans, Libre Baskerville, and
+  Atkinson Hyperlegible for the other sites).
+- **Accessibility**: raise the smallest text sizes, make the light greys
+  tokens that pass AA. **Light-only by design** — no dark mode for music.
+- **Catalog format**: TOML (easier for David to edit, allows comments).
+- **Status/checklist controls**: fine for any visitor to see (it's a
+  personal site; state stays in each visitor's own browser).
+- **Hub image**: Claude makes a stand-in.
+- **Media**: all 35 files hosted on the new server. David will optimize
+  the audio/video himself before the deploy.
+- **Status/checklist controls stay visible** (no "owner mode").
+- **Old addresses are not preserved**: `/music.html` and
+  `/sounds/<file>` simply stop working at cutover — no redirects. The new
+  site uses the standard pattern every site follows: large media in
+  `sites/<site>/media/` (gitignored), served at `/media/<file>`, and
+  referenced from content by filename only, so the build and link check
+  can verify every reference.
+- **Atkinson Hyperlegible**: the original (as named in the design brief),
+  Claude's call — David had no preference.
+
+## Dev plan
+
+Expected to span several sessions. **To resume**: read this section,
+take the first unticked step, check the log at the bottom. **When
+stopping**: tick what's done, add a log line saying where things stand.
+Each step ends at a natural review point; nothing is committed without
+David's OK, nothing deploys before step 10.
+
+- [x] **1. Media staging** — copy `heirloom/david/` to `sites/music/media/`
+  (gitignored) so the site can be built and reviewed with the current
+  files. Done when: the 35 files are in place. *(David's optimized files
+  replace them in step 9.)*
+- [x] **2. Self-hosted fonts** — Atkinson Hyperlegible (regular, bold),
+  DM Sans and Libre Baskerville (the weights the prototype uses) as WOFF2
+  in `sites/_shared/static/fonts/` with their OFL licence files;
+  `@font-face` rules; the build copies shared sub-folders (today it only
+  copies top-level files); re-measure the title-fitting factor with the
+  real Atkinson. Done when: fonts load locally on every site, checks
+  pass. Benefits all sites, not just music.
+- [x] **3. TOML catalog** — convert `catalog.json` to
+  `sites/music/content/catalog.toml`: hosted files by `file` name,
+  external links by `url`, dates as `2021-09`, `featured` pieces and
+  per-piece section headings moved out of the code. Plus a catalog check
+  in `pre-build-check.sh`: unique ids, known vocabulary, `http(s)` links
+  only, every `file` present in `media/`. Done when: David has looked at
+  the TOML and finds it comfortable to edit.
+- [ ] **4. Workbench pages** — Flask app `src/websites/music/`, routes
+  `/<locale>/workbench/` (welcome + index) and
+  `/<locale>/workbench/<id>/` (one page per piece); templates and CSS
+  from the prototype, colours as tokens (light-only), smallest text
+  raised, greys passing AA; favicon set and web manifest; footer date
+  from the build. Done when: all pages build and pass checks, viewable
+  locally.
+- [ ] **5. Enhancement script** — `sites/music/static/js/workbench.js`,
+  readable source served as-is: search, filters, recent pieces,
+  status/checklist in `localStorage`, `/` shortcut. No `innerHTML`.
+  Done when: works locally, pages still fully usable without it, Claude's
+  security/efficiency notes written up here for David's review.
+- [ ] **6. Music hub** — `/<locale>/` on the shared hub layout, Workbench
+  listed live, stand-in image by Claude. Done when: builds and passes.
+- [ ] **7. Spanish** — UI and vocabulary in `config/i18n/music/`; content
+  translations in a parallel Spanish catalog file, each entry recording
+  the English it came from; the i18n check fails on missing or stale
+  entries. Claude drafts, **David reviews and approves**. Done when:
+  approved.
+- [ ] **8. David's review of the whole site locally** — layout,
+  wording, both languages, phone and desktop. Loop back to steps 3–7 as
+  needed. Then commit.
+- [ ] **9. Optimized media** — David's optimized files into
+  `sites/music/media/`; catalog updated for any renamed/re-encoded files;
+  checks pass (every reference resolves; 100 MB deploy gate). Done when:
+  David confirms the media set is final.
+- [ ] **10. Deploy and cutover** — `vhosts.yml` entry for
+  `music.davidstitt.net`; deploy; point the (pinned, legacy) `music` DNS
+  record at the new droplet; certificate; full smoke test; David's live
+  check; commit. The cutover method (no-gap forward as for taiji, or a
+  simple flip) is decided at that point.
+- [ ] **11. Then: legacy droplet teardown** (separate plan, runbook
+  "Later: legacy teardown").
+
+### Log
+
+- 2026-10-10 — prototype evaluated, questions answered, plan written. Next: step 1.
+- 2026-10-10 — step 1 done: 35 files (538 MB) copied to `sites/music/media/`, checksums identical to
+  `heirloom/david/`; gitignored. Paused for David's review. Next: step 2.
+- 2026-10-10 — step 2 done: Atkinson Hyperlegible 400/700, DM Sans (variable 100–1000), Libre Baskerville
+  (variable 400–700 + italic) as latin-subset WOFF2 from Google's servers, OFL 1.1 licences from
+  google/fonts, in `sites/_shared/static/fonts/` (5 files, ~125 KB); `@font-face` in `tokens.css`;
+  `freeze.py` copies the shared tree; fonttools + brotli added as dev deps. Title factor kept at 0.66
+  (Atkinson measures 0.37–0.55 em/char, so approved title sizes are unchanged, with margin if a font
+  fails to load). Not deployed: every live site will switch to Atkinson on the next deploy. Paused for
+  David's local review. Next: step 3.
+- 2026-10-10 — step 3 done: `sites/music/content/catalog.toml` (578 lines), converted from catalog.json
+  with a verified field-by-field round trip. Simplified: vocabulary defined once at the top (keys +
+  English labels, display order); default checklist (24 of 25 pieces shared one); `subtitle` only
+  where custom (Woodshed); the never-displayed working note became a comment; featured pieces and
+  special headings moved out of code. Check `websites.music.catalog` runs in pre-build-check before
+  the build (9 mistake types tested, all caught). pre-build-check now treats only packages with an
+  `__init__.py` as sites. Paused for David to try editing the TOML. Next: step 4.
+
+## What's in the prototype (verified)
+
+- `catalog.json`: 25 pieces, 43 resources — 35 hosted files, 7 YouTube
+  links, 1 external page. Every piece has id, title, kind, subtitle,
+  activity/instrument/genre lists, status, summary, resources,
+  checklist, note.
+- The 35 hosted files match `heirloom/david/` exactly, both ways
+  (537 MB; mp3 ×26, mp4 ×6, m4a ×2, wav ×1; largest 90 MB — under the
+  100 MB deploy gate). Catalog URLs still point at the legacy
+  `https://music.davidstitt.net/sounds/<file>`.
+- `index.html` + `style.css` + `app.js` (17 dense lines): a
+  single-page app. It fetches `catalog.json`, renders the sidebar
+  (search, filter chips, recent list, piece index) and the selected
+  piece into `<main>` via `innerHTML`, routes on `#piece-id`, and keeps
+  per-browser state (recent pieces, status, checklist ticks) in
+  `localStorage`.
+- A full favicon set + `site.webmanifest`.
+
+## JavaScript review
+
+**Security** — sound basics, a few gaps:
+
+- An `esc()` HTML-escape is applied to almost every interpolated value,
+  links use `rel="noopener noreferrer"`, `localStorage` access is
+  wrapped in try/catch and namespaced. Good.
+- Not escaped: piece ids in `data-piece`/`data-recent` attributes and
+  `r.type`. Catalog data is author-controlled, so not exploitable today,
+  but it's the kind of gap that bites when content changes hands.
+- URLs are escaped but **not scheme-checked**: a `javascript:` URL in the
+  catalog would run on click. Build-time validation (http/https/local
+  only) closes this.
+- Everything goes through `innerHTML` — the whole HTML-injection surface
+  exists only because the page is built in the browser.
+- Works under our Content-Security-Policy (`script-src 'self'`,
+  same-origin `fetch` and media) — no inline scripts.
+
+**Efficiency** — fine at 25 pieces: full re-render per keystroke and
+re-attached handlers are wasteful but invisible at this size;
+`preload="none"` on audio/video is right (nothing downloads until play).
+
+**Maintainability / i18n** — the real issues:
+
+- All UI text is hard-coded English inside the JS (labels, status names,
+  filter groups, "resources", "Saved in this browser"…).
+- Content decisions are hard-coded in code: the three welcome tiles
+  (`woodshed`, `bella`, `king-phillip`), per-piece section headings,
+  "video if the URL contains `/sounds/`".
+- Content only exists after JavaScript runs: no per-piece URL to share,
+  nothing for our HTML/link/i18n checks to validate, nothing without JS.
+
+## Recommendation: static pages + a small enhancement script
+
+A pure Python/Flask version **without** JavaScript can't do the live
+features — search-as-you-type, multi-filter, and per-browser status/
+checklist need code in the browser, and our sites are frozen static
+files (no running server, by design). But most of the page doesn't need
+JS at all. Proposed split:
+
+- **Built in Python (Frozen-Flask + Jinja), from the catalog**: the
+  workbench index, one real page per piece
+  (`/<locale>/workbench/<id>/`), every resource with its player, all in
+  both languages. Shareable URLs; works without JS; validated by
+  `pre-build-check.sh` like every other page.
+- **One small, readable script** (~80–100 lines, no build step needed)
+  only *enhances* those pages: search and filter (show/hide existing
+  items), the recent list, status and checklist saved in `localStorage`,
+  and the `/` keyboard shortcut. It never builds HTML from strings —
+  `textContent`, `hidden` and attributes only — so the injection surface
+  disappears entirely.
+- **Minify for deployment?** Not needed: at ~3 KB gzip already makes it
+  small, and nginx compresses text. Keeping the deployed file identical
+  to the readable source avoids a JS build tool (no Node) and keeps what's
+  served auditable. Can revisit if it grows.
+
+## Translation in a configuration-driven site
+
+The project rule — translations ship only after David reviews them —
+means "deploy generates the Spanish" can't be literal machine
+translation at deploy time. Proposed instead:
+
+- `catalog` (English) stays the single source of content.
+- A parallel Spanish file holds, per piece and resource, the translated
+  fields (summary, subtitle, desc, checklist, note…), each with a
+  fingerprint of the English text it was translated from.
+- Shared vocabulary (kinds, activities, instruments, genres, statuses,
+  resource types) is translated once, in the TOML catalog like other
+  sites. Song titles stay as titles.
+- Dates stored as `2021-09` and formatted per language
+  ("September 2021" / "septiembre de 2021").
+- The i18n check fails the build — and so the deploy — when a Spanish
+  entry is **missing or stale** (English changed since it was
+  translated), listing exactly which. Then: Claude drafts, David
+  reviews, deploy proceeds.
+
+## Other findings
+
+- **Fonts**: `style.css` imports DM Sans and Libre Baskerville from
+  Google Fonts. Our security policy blocks that — the live site would
+  silently fall back to system fonts. Fix: host the font files
+  ourselves (free licences), which also solves the deferred Atkinson
+  Hyperlegible item in one go.
+- **Text sizes**: base 14px, many labels 10–11px — small next to the
+  "calm" design brief (16–18px body).
+- **Contrast** (measured on the `#f8f6f0` paper): the main `--muted`
+  grey is 4.33:1, just under WCAG AA's 4.5:1; six hard-coded lighter
+  greys (`#9b9b92`, `#98978d`, `#99988e`, `#96988e`, `#a5a49d`,
+  `#92968e` — dates, footer, hints, ticked items) are 2.3–2.8:1. Accent
+  (7.5:1) and green (4.95:1) pass. Our contrast check doesn't see the
+  hard-coded ones because they aren't tokens; making them tokens fixes
+  both.
+- **No dark mode** (`color-scheme: light`); every other site has one.
+- **Footer date** "October 2026" is hard-coded — should come from the
+  build.
+- **Legacy URLs** (live server, checked): `/` and `/music.html` (the old
+  page), `/sounds/<file>` (all 35 media files), `/favicon.ico`. Propose
+  redirects `/music.html` → workbench and `/sounds/<file>` →
+  `/media/<file>` (needs a small prefix-redirect feature in
+  `vhosts.yml`). The legacy `/merida`, `/spain`, `/videos` folders moved
+  to `comunidad`/`callejerez` and retire.
+- **Media**: copied to `sites/music/media/` (gitignored, 537 MB). No
+  re-encoding in this round — the six videos (30–90 MB) are a candidate
+  for the media-tooling item in `tech-debt.md`.
+- **Cutover**: `music.davidstitt.net` is still on the legacy droplet;
+  same no-gap certificate pattern as taiji. Legacy teardown follows.
+
+## Questions for David
+
+1. Static pages + small script (recommended), or keep the prototype's
+   single-page app?
+
+A: static pages + small script.
+
+1. Translation flow as above (Claude drafts, you review, build blocks
+   stale Spanish)? Or do you want machine drafting at build time (needs
+   a translation service and an API key)?
+
+A: Follow same translation flow as other pages. (I think I mis-spoke - do NOT want auto-translate at deploy time.) Claude drafts, I review.
+
+1. Fonts: self-host DM Sans + Libre Baskerville now (and Atkinson
+   Hyperlegible with them)?
+
+A: Yes, let's go ahead and start self-hosting the fonts.
+
+1. OK to raise the smallest text sizes and turn the light greys into
+   tokens that pass AA? And: dark mode, or deliberately light-only?
+
+A: OK to raise smallest size and adjust light greys. This site is deliberately light-only.
+
+1. Catalog format: keep JSON (with the tweaks above: `file` instead of
+   legacy URLs, ISO dates, `featured` and section headings moved out of
+   the code), or switch to TOML/YAML, which allow comments?
+
+A: Let's switch to TOML. I find it easier to work with.
+
+1. The workbench is public: any visitor sees status controls and
+   checklists, saved only in *their* browser. Intended, or should those
+   be hidden?
+
+A: Hmm. Intersting question. This is really intended as personal site. I am OK with anyone seeing status controls and checklists. How would it work to hide them? Would that require some level of auth/auth?
+
+1. The music hub page: image and palette from you (like the other hubs),
+   or a stand-in until you have one?
+
+A: Come up with stand-in image for now.
+
+1. Legacy redirects for `/music.html` and `/sounds/<file>` — yes?
+
+A: I am not sure I entirely understand what this is getting at. What do you mean by "legacy redirects"?  My expectation is that all of the resources (sound files) will be hosted on the new server.  Once this site is built out, deployed, we are going to decommission the legacy server. 
+
+
+One additional note: I have not yet optimized the sound and video files. I will do that before we are ready for deploy to DO server. 

@@ -1,0 +1,578 @@
+# Music workbench catalog - the content of music.davidstitt.net/workbench/.
+# Edit this file to change the site; the build turns it into one page per
+# piece, in English and (from es-ES translations) Spanish.
+# Format guide: https://toml.io - strings in "quotes", lists in [brackets].
+#
+# Converted 2026-10-10 from the prototype's catalog.json
+# (heirloom/music-workbench-refined-v2/). The prototype's working note,
+# kept here as a comment: "Progress and checklist are new working fields,
+# not claims about historical completion. Descriptions are drawn from the
+# legacy site where possible; some titles and categories are inferred
+# from filenames."
+
+# Pieces shown as tiles on the workbench welcome page, in this order.
+featured = ["woodshed", "bella", "king-phillip"]
+
+# Checklist used by any piece that doesn't define its own.
+default_checklist = ["Listen / review existing material", "Decide on the next step"]
+
+# ---------------------------------------------------------------------
+# Vocabulary: the words pieces are tagged with. Left: the key used in
+# pieces below; right: the English label shown on the site. Order here is
+# display order. Add a word here before using it on a piece.
+# ---------------------------------------------------------------------
+
+[vocabulary.kind]
+song = "Song"
+arrangement = "Arrangement"
+arrangement-backing-track = "Arrangement / backing track"
+backing-track-experiment = "Backing-track experiment"
+original-composition = "Original composition"
+improvisation = "Improvisation"
+guitar-study = "Guitar study"
+sound-experiment = "Sound experiment"
+practice-plan = "Practice plan"
+
+[vocabulary.activity]
+composition = "Composition"
+performance = "Performance"
+repertoire = "Repertoire"
+practice = "Practice"
+
+[vocabulary.instrument]
+voice = "Voice"
+guitar = "Guitar"
+piano = "Piano"
+percussion = "Percussion"
+daw-mix = "DAW/Mix"
+ai = "AI"
+other = "Other"
+
+[vocabulary.genre]
+lessons = "Lessons"
+trad-folk = "Trad/Folk"
+pop-rock = "Pop/Rock"
+musicals-broadway = "Musicals/Broadway"
+other = "Other"
+
+[vocabulary.status]
+not-started = "Not started"
+learning = "Learning"
+in-progress = "In progress"
+developing = "Developing"
+ready = "Ready"
+on-hold = "On hold"
+archived = "Archived"
+
+[vocabulary.type]
+audio = "Audio"
+video = "Video"
+link = "Link"
+
+# ---------------------------------------------------------------------
+# Pieces. Required: id (used in the page address), title, kind, activity,
+# instrument, genre, summary, at least one resource.
+# Optional: subtitle, status (default "not-started"), checklist (default
+# above), resources_heading / checklist_heading (defaults "Recording &
+# sources" / "Next steps").
+#
+# Resources: either  file = "name.mp3"  (a recording hosted on this site,
+# in sites/music/media/ - audio or video from the extension) or
+# url = "https://..." with  type = "video" / "link"  (somewhere else).
+# date is "YYYY-MM" (or "YYYY"), optional.
+# ---------------------------------------------------------------------
+
+[[piece]]
+id = "woodshed"
+title = "Classical Guitar Woodshed"
+kind = "practice-plan"
+subtitle = "Sight-reading, studies and the small victories of repetition."
+activity = ["practice"]
+instrument = ["guitar"]
+genre = ["lessons"]
+status = "in-progress"
+summary = "Seven lesson recordings collected by exercise instead of by date."
+resources_heading = "Lesson recordings"
+checklist_heading = "Practice plan"
+checklist = ["Review Lesson 1A sight-reading", "Revisit Forest Glade", "Compare the Study No. 1 takes", "Choose the next lesson"]
+
+  [[piece.resource]]
+  title = "Lesson 1A · Sight-reading No. 1"
+  url = "https://youtu.be/25gx3EuE8C4"
+  type = "video"
+  date = "2023-07"
+  desc = "Classical Guitar Woodshed lesson recording."
+
+  [[piece.resource]]
+  title = "Lesson 1A · Forest Glade"
+  url = "https://youtu.be/10mqz8w_yK0"
+  type = "video"
+  date = "2023-07"
+  desc = "Classical Guitar Woodshed lesson recording."
+
+  [[piece.resource]]
+  title = "Lesson 1A · Third take"
+  url = "https://youtu.be/ZJpHBODTciE"
+  type = "video"
+  date = "2023-07"
+  desc = "Classical Guitar Woodshed lesson recording."
+
+  [[piece.resource]]
+  title = "Lesson 1B · Sight-reading practice"
+  url = "https://youtu.be/4xW_9OKaQMA"
+  type = "video"
+  date = "2023-09"
+  desc = "Classical Guitar Woodshed lesson recording."
+
+  [[piece.resource]]
+  title = "Lesson 1B · Sight-reading practice"
+  url = "https://youtu.be/1A71FHk7SlY"
+  type = "video"
+  date = "2023-10"
+  desc = "Classical Guitar Woodshed lesson recording."
+
+  [[piece.resource]]
+  title = "Lesson 1B · Study No. 1, first take"
+  url = "https://youtu.be/m1mpFviifFg"
+  type = "video"
+  date = "2023-09"
+  desc = "Classical Guitar Woodshed lesson recording."
+
+  [[piece.resource]]
+  title = "Lesson 1B · Study No. 1, second take"
+  url = "https://youtu.be/nKdrZzXAsdM"
+  type = "video"
+  date = "2023-11"
+  desc = "Classical Guitar Woodshed lesson recording."
+
+[[piece]]
+id = "amazing-grace"
+title = "Amazing Grace"
+kind = "arrangement-backing-track"
+activity = ["practice", "composition"]
+instrument = ["guitar", "percussion", "daw-mix"]
+genre = ["trad-folk"]
+summary = "Two experiments building accompaniment with drums, guitar, and software instruments."
+
+  [[piece.resource]]
+  title = "First backing-track experiment"
+  file = "Amazing_Grace_Backing_Track.mp3"
+  date = "2021-09"
+  desc = "Drums and guitar; an early experiment."
+
+  [[piece.resource]]
+  title = "Revised backing track"
+  file = "Amazing_Grace_backing_v3.mp3"
+  date = "2021-09"
+  desc = "Another pass at the arrangement."
+
+[[piece]]
+id = "lucy-jordan"
+title = "The Ballad of Lucy Jordan"
+kind = "song"
+activity = ["performance", "repertoire"]
+instrument = ["voice", "guitar"]
+genre = ["pop-rock"]
+summary = "A nylon-string guitar and vocal interpretation of Shel Silverstein’s song."
+
+  [[piece.resource]]
+  title = "Acoustic guitar and voice"
+  file = "Ballad_of_Lucy_Jordan_in_A_acoustic_vocal.mp3"
+  date = "2022-09"
+  desc = "A reflective acoustic take in A."
+
+[[piece]]
+id = "bella"
+title = "Bella Ciao"
+kind = "song"
+activity = ["performance", "repertoire", "practice"]
+instrument = ["voice", "guitar", "daw-mix"]
+genre = ["trad-folk"]
+summary = "Three approaches to the same song: unaccompanied singing, fingerpicked guitar and voice, and an electric arrangement."
+resources_heading = "Listen & compare"
+
+  [[piece.resource]]
+  title = "Voice only · English"
+  file = "Bella_Ciao_accapella_2nd_try.mp3"
+  date = "2021-05"
+  desc = "Unaccompanied vocal take."
+
+  [[piece.resource]]
+  title = "Classical guitar and voice"
+  file = "Bella_Ciao.mp4"
+  date = "2021-05"
+  desc = "Fingerpicked guitar with singing."
+
+  [[piece.resource]]
+  title = "Electric guitar arrangement"
+  file = "Bella_Ciao_electric.mp3"
+  date = "2022-07"
+  desc = "Voice, electric guitar, synthesized percussion, strings and backing voices."
+
+[[piece]]
+id = "betty-dupree"
+title = "Betty and Dupree"
+kind = "song"
+activity = ["practice", "performance"]
+instrument = ["guitar", "voice", "daw-mix"]
+genre = ["trad-folk"]
+summary = "Two early explorations of this traditional blues song."
+
+  [[piece.resource]]
+  title = "Instrumental · first try"
+  file = "Betty_and_Dupree_1st_try.mp3"
+  date = "2021-02"
+  desc = "Fingerpicked guitar through a GarageBand synth."
+
+  [[piece.resource]]
+  title = "Guitar and voice · second try"
+  file = "Betty_and_Dupree_2nd_try.mp3"
+  date = "2021-02"
+  desc = "A later attempt combining singing, picking and software processing."
+
+[[piece]]
+id = "big-boss"
+title = "Big Boss Man"
+kind = "song"
+activity = ["performance", "repertoire"]
+instrument = ["voice", "guitar"]
+genre = ["trad-folk"]
+summary = "A relaxed blues performance with fingerpicked guitar and vocals."
+
+  [[piece.resource]]
+  title = "Guitar and voice"
+  file = "Big_Boss_Man.mp3"
+  date = "2021-04"
+  desc = "Informal, lightly rehearsed performance."
+
+[[piece]]
+id = "doodling"
+title = "Doodling Around in Six Keys"
+kind = "original-composition"
+activity = ["composition", "practice"]
+instrument = ["piano", "daw-mix"]
+genre = ["other"]
+summary = "A playful MuseScore composition rendered using a grand-piano synthesizer."
+
+  [[piece.resource]]
+  title = "Piano synth rendering"
+  file = "Doodling_Around_jan27-22.mp3"
+  date = "2022-01"
+  desc = "Original keyboard composition."
+
+[[piece]]
+id = "every-time"
+title = "Ev’ry Time We Say Goodbye"
+kind = "song"
+activity = ["performance", "repertoire"]
+instrument = ["voice", "daw-mix"]
+genre = ["musicals-broadway"]
+summary = "Cole Porter song performed vocally over a homemade MIDI backing track."
+
+  [[piece.resource]]
+  title = "Vocal performance · video"
+  file = "Evry_Time_We_Say_Goodbye.mp4"
+  date = "2022-01"
+  desc = "Singing with a homemade MIDI accompaniment."
+
+[[piece]]
+id = "fields"
+title = "Fields of Athenry"
+kind = "song"
+activity = ["performance", "repertoire", "practice"]
+instrument = ["voice", "guitar"]
+genre = ["trad-folk"]
+summary = "Three versions offer a useful comparison of a cappella singing and guitar-accompanied takes."
+
+  [[piece.resource]]
+  title = "A cappella"
+  file = "Fields_of_Athenry_a_capella.mp3"
+  date = "2021-05"
+  desc = "Voice with light reverb and metronome."
+
+  [[piece.resource]]
+  title = "Guitar and voice · video"
+  file = "Fields_of_Athenry_take2.mp4"
+  date = "2021-04"
+  desc = "Early guitar-and-voice take."
+
+  [[piece.resource]]
+  title = "Acoustic guitar and voice"
+  file = "Fields_of_Athenry_take3.mp3"
+  date = "2022-07"
+  desc = "Later take; playing and singing while standing."
+
+[[piece]]
+id = "improv-c"
+title = "First Improvisation in C"
+kind = "improvisation"
+activity = ["composition", "practice"]
+instrument = ["guitar", "daw-mix"]
+genre = ["other"]
+summary = "A long-form freestyle guitar exploration in C, recorded through an amplifier."
+
+  [[piece.resource]]
+  title = "Improvisation in C"
+  file = "First_Improvisation_in_C.mp3"
+  date = "2021-06"
+  desc = "Six minutes of instrumental exploration."
+
+[[piece]]
+id = "glendale"
+title = "Glendale Train"
+kind = "song"
+activity = ["performance", "repertoire"]
+instrument = ["voice", "guitar"]
+genre = ["trad-folk"]
+summary = "Fingerpicked, amplified guitar with vocals."
+
+  [[piece.resource]]
+  title = "Guitar and voice"
+  file = "Glendale_Train.mp3"
+  date = "2021-05"
+  desc = "An early slow, echoey performance."
+
+[[piece]]
+id = "house"
+title = "House of the Rising Sun"
+kind = "song"
+activity = ["performance", "repertoire", "practice"]
+instrument = ["voice", "guitar", "daw-mix"]
+genre = ["trad-folk"]
+summary = "Three treatments ranging from a simple guitar-and-voice performance to an experimental loop-based arrangement."
+
+  [[piece.resource]]
+  title = "Simple guitar and voice · video"
+  file = "House_of_the_Rising_Sun_simple.mp4"
+  date = "2021-05"
+  desc = "Fingerpicked classical guitar and singing."
+
+  [[piece.resource]]
+  title = "Amplified guitar and voice"
+  file = "House_of_the_Rising_Sun_amped_vocals.mp3"
+  date = "2021-05"
+  desc = "Reverb, vocals and GarageBand synth textures."
+
+  [[piece.resource]]
+  title = "Loop-based arrangement"
+  file = "House_of_the_Rising_Sun_with_Loops.mp3"
+  date = "2021-04"
+  desc = "An instrumental experiment with amplified guitar, MIDI and loops."
+
+[[piece]]
+id = "hoochie"
+title = "I’m Your Hoochie Coochie Man"
+kind = "song"
+activity = ["performance", "practice"]
+instrument = ["voice", "daw-mix"]
+genre = ["trad-folk"]
+summary = "An a cappella blues experiment with GarageBand processing."
+
+  [[piece.resource]]
+  title = "Processed vocal take"
+  file = "Im_Your_Hoochie_Coochie_Man.mp3"
+  date = "2021-02"
+  desc = "Voice with synth and pitch processing."
+
+[[piece]]
+id = "king-phillip"
+title = "King Phillip’s Spirit Rises"
+kind = "original-composition"
+activity = ["composition", "performance"]
+instrument = ["voice", "percussion", "daw-mix"]
+genre = ["other"]
+summary = "Original poem and soundtrack drawing on a Coast Salish “Snake Song” transcription made by Thelma Adamson and George Herzog. The original notes describe synthesized pan flute and inherited seed rattles."
+
+  [[piece.resource]]
+  title = "Early vocal take"
+  file = "King_Phillips_Spirit_Rises_vocal_take_1.mp3"
+  date = "2022-04"
+  desc = "Poem and composed soundtrack."
+
+  [[piece.resource]]
+  title = "Thelma Adamson · background"
+  url = "https://www.northwestanthropology.com/"
+  type = "link"
+  desc = "Historical context link from the legacy site."
+
+[[piece]]
+id = "leavitt"
+title = "William Leavitt · Etude No. 2"
+kind = "guitar-study"
+activity = ["practice"]
+instrument = ["guitar"]
+genre = ["lessons"]
+summary = "Practice recording of the first part of Leavitt’s Etude No. 2."
+
+  [[piece.resource]]
+  title = "First part"
+  file = "Leavitt_Etude_No_2_first_part.mp3"
+  date = "2021-12"
+  desc = "Classical guitar exercise."
+
+[[piece]]
+id = "let-it-be"
+title = "Let It Be"
+kind = "song"
+activity = ["performance", "practice", "repertoire"]
+instrument = ["voice", "daw-mix"]
+genre = ["pop-rock"]
+summary = "Two early vocal recordings with software accompaniment or mixing."
+
+  [[piece.resource]]
+  title = "Voice only"
+  file = "Let_It_Be_Vocal_only.mp3"
+  date = "2021-06"
+  desc = "Vocal take with Ableton processing."
+
+  [[piece.resource]]
+  title = "Second take"
+  file = "Let_It_Be_take_two.mp3"
+  date = "2021-05"
+  desc = "Vocal performance with GarageBand synthesizing."
+
+[[piece]]
+id = "nine-to-five"
+title = "Nine to Five"
+kind = "backing-track-experiment"
+activity = ["composition", "practice"]
+instrument = ["daw-mix", "ai"]
+genre = ["pop-rock"]
+summary = "Experimental accompaniment derived from a source recording using SoundLab voice separation."
+
+  [[piece.resource]]
+  title = "Accompaniment experiment"
+  file = "Nine_to_Five_accompaniment_soundlab.m4a"
+  date = "2022-01"
+  desc = "An imperfect voice-separated backing track."
+
+[[piece]]
+id = "playground"
+title = "Playground 01"
+kind = "sound-experiment"
+activity = ["composition"]
+instrument = ["daw-mix"]
+genre = ["other"]
+summary = "An exploratory audio file. No description appears on the legacy site; classification is provisional."
+
+  [[piece.resource]]
+  title = "Playground 01"
+  file = "Playground_01.wav"
+  desc = "Unclassified audio experiment."
+
+[[piece]]
+id = "hand"
+title = "Put Your Hand in the Hand"
+kind = "song"
+activity = ["performance", "repertoire"]
+instrument = ["voice", "daw-mix"]
+genre = ["trad-folk"]
+summary = "Vocal-only performance mixed using Ableton Live."
+
+  [[piece.resource]]
+  title = "Vocal recording"
+  file = "Put_Your_Hand_in_the_Hand.mp3"
+  date = "2021-06"
+  desc = "Voice-only performance."
+
+[[piece]]
+id = "wagon"
+title = "Wagon Wheel"
+kind = "song"
+activity = ["performance", "repertoire", "practice"]
+instrument = ["voice", "guitar", "daw-mix"]
+genre = ["trad-folk"]
+summary = "Two takes of the same guitar-and-voice song, useful for comparison."
+
+  [[piece.resource]]
+  title = "Early take · Rock Me Mama"
+  file = "Rock_me_mama.mp3"
+  date = "2021-01"
+  desc = "Fingerpicked guitar and vocals, including an instrumental break."
+
+  [[piece.resource]]
+  title = "Second take"
+  file = "Wagon_Wheel_Take_Two.mp3"
+  date = "2021-08"
+  desc = "Nylon-string guitar, vocals and some Ableton mixing."
+
+[[piece]]
+id = "stand"
+title = "Stand By Me"
+kind = "arrangement"
+activity = ["composition", "performance"]
+instrument = ["piano", "daw-mix"]
+genre = ["pop-rock"]
+summary = "A MIDI score supplemented with keyboard, GarageBand synths, edits and loops."
+
+  [[piece.resource]]
+  title = "Keyboard / MIDI arrangement"
+  file = "Stand_By_Me.m4a"
+  date = "2021-05"
+  desc = "An early arrangement experiment."
+
+[[piece]]
+id = "circle"
+title = "Will the Circle Be Unbroken"
+kind = "song"
+activity = ["performance", "repertoire", "practice"]
+instrument = ["voice", "guitar", "daw-mix"]
+genre = ["trad-folk"]
+summary = "Multiple recordings of a traditional song, including layered guitar tracks and a later video."
+
+  [[piece.resource]]
+  title = "Second take"
+  file = "Will_the_Circle_Be_Unbroken_take_2.mp3"
+  date = "2021-08"
+  desc = "Vocals, guitar picking and multiple guitar tracks."
+
+  [[piece.resource]]
+  title = "Third take · video"
+  file = "Will_the_Circle_Be_Unbroken.mp4"
+  date = "2021-10"
+  desc = "Nylon-string fingerpicking and voice."
+
+[[piece]]
+id = "adios"
+title = "Adiós del Soldado"
+kind = "song"
+activity = ["performance", "repertoire"]
+instrument = ["voice", "guitar", "percussion", "daw-mix"]
+genre = ["trad-folk"]
+summary = "Classical guitar with vocals, a slow tango beat and light GarageBand mastering."
+
+  [[piece.resource]]
+  title = "Guitar and voice"
+  file = "adios_del_soldado.mp3"
+  date = "2023-03"
+  desc = "Carbon-string classical guitar, vocal and BeatBuddy accompaniment."
+
+[[piece]]
+id = "midnight"
+title = "Midnight Special"
+kind = "song"
+activity = ["performance", "repertoire"]
+instrument = ["voice", "guitar"]
+genre = ["trad-folk"]
+summary = "An early recording from the beginning of the collection."
+
+  [[piece.resource]]
+  title = "Early performance"
+  file = "midnight_special.mp3"
+  date = "2020-12"
+  desc = "The debut recording on the original site."
+
+[[piece]]
+id = "st-james"
+title = "St. James Infirmary"
+kind = "song"
+activity = ["performance", "repertoire", "practice"]
+instrument = ["voice", "guitar"]
+genre = ["trad-folk"]
+summary = "Practice performance for a beginners’ recital, combining storytelling and singing."
+
+  [[piece.resource]]
+  title = "Recital practice · video"
+  file = "st_james_infirmary.mp4"
+  date = "2021-10"
+  desc = "Fingerpicked nylon-string guitar and voice."

@@ -23,8 +23,9 @@ actionable version.
 - `sites/<site>/` — `content/<locale>/*.md`, `templates/`, `static/`
   (versioned), `media/` (large, gitignored), `heirloom/` (raw legacy
   copy, gitignored), `build/` (frozen output, gitignored).
-  `sites/_shared/` — `error-pages/` (404/50x) and `static/tokens.css`,
-  copied into every build.
+  `sites/_shared/` — `error-pages/` (404/50x) and `static/` (`tokens.css`
+  with the `@font-face` rules, `hub.css`, self-hosted `fonts/` with their
+  OFL licences), copied into every build.
 - `config/i18n/<site>/<locale>.toml` — short UI-string catalogs; `en-US`
   is the completeness floor.
 - Sites that aren't content sites: `genuinemerit` and `davidstitt` (hub

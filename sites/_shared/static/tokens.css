@@ -10,6 +10,54 @@
    pages intentionally use different moods (taiji's calm greens vs. the
    404 page's dark "abyss" theme) while sharing the same mechanism. */
 
+/* Self-hosted fonts (2026-10-10), served from /shared/fonts/ - Google
+   Fonts is blocked by our Content-Security-Policy and would leak
+   visitors to a third party anyway. Latin subset (covers English and
+   Spanish). SIL Open Font License 1.1, licence text beside each family.
+   A browser downloads a file only when a page uses that family and
+   weight, so declaring them all here costs other sites nothing.
+   font-display: swap shows text in the fallback font until it loads. */
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/shared/fonts/atkinson-hyperlegible/atkinson-hyperlegible-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/shared/fonts/atkinson-hyperlegible/atkinson-hyperlegible-700.woff2") format("woff2");
+}
+
+/* Variable fonts: one file covers the whole weight range. */
+@font-face {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 100 1000;
+  font-display: swap;
+  src: url("/shared/fonts/dm-sans/dm-sans-variable.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Libre Baskerville";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/shared/fonts/libre-baskerville/libre-baskerville-variable.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Libre Baskerville";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/shared/fonts/libre-baskerville/libre-baskerville-italic.woff2") format("woff2");
+}
+
 * {
   box-sizing: border-box;
 }

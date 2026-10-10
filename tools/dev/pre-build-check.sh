@@ -41,13 +41,19 @@ run_check "pymarkdown" \
 # build output. Order matters - the HTML/link/contrast checks read
 # sites/*/build/, so the build must run (and pass) first.
 
-# Every src/websites/<site>/ package except common/ is a site.
+# Every src/websites/<site>/ package (with an __init__.py) except
+# common/ is a site - same rule as validate_i18n.py.
 SITES=()
 for pkg in src/websites/*/; do
+    [[ -f "$pkg/__init__.py" ]] || continue
     pkg="$(basename "$pkg")"
-    [[ "$pkg" == "common" || "$pkg" == "__pycache__" ]] && continue
+    [[ "$pkg" == "common" ]] && continue
     SITES+=("$pkg")
 done
+
+# Content catalogs edited by hand - checked before anything is built.
+run_check "music catalog" \
+    poetry run python -m websites.music.catalog
 
 run_check "i18n completeness" \
     poetry run python tools/dev/validate_i18n.py
