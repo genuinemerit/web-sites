@@ -4,6 +4,9 @@
 # Written 2026-10-15 from David's two starting commands (a Ghostscript
 # /ebook rewrite and qpdf linearization), in the style of av_prep.sh.
 #
+# Writes to sites/<site>/static/docs/ - the site given by --site, or the one
+# the sources are in; -o DIR for anywhere else (rules: common.sh).
+#
 # Never touches the originals. Never overwrites an output. Never writes
 # into the folder a source PDF lives in.
 #
@@ -40,7 +43,11 @@
 
 set -uo pipefail
 
-OUTDIR="${WEBMEDIA_DIR:-$HOME/webmedia}"
+# shellcheck source=tools/studio/common.sh
+source "$(dirname -- "${BASH_SOURCE[0]}")/common.sh" || exit 1
+
+OUTDIR=""
+SITE=""
 PRESET=ebook
 LOSSLESS=0
 KEEP_INFO=0
@@ -56,7 +63,9 @@ Makes smaller, web-ready copies of PDF files (see the comments at the
 top of the script for exactly what happens to each file). Folders are
 searched recursively for *.pdf; hidden files are ignored.
 
-  -o DIR            Output folder (default: ~/webmedia or $WEBMEDIA_DIR);
+  --site NAME       Write to sites/NAME/static/docs/ (default: the site
+                    the sources are in, e.g. sites/NAME/raw/)
+  -o DIR            Write to DIR instead (one-off jobs outside the sites);
                     must not be a folder any source PDF is in
   --dry-run         Show what would be done, change nothing
   --map FILE        Also write "source<TAB>output" file names to FILE
@@ -70,9 +79,9 @@ searched recursively for *.pdf; hidden files are ignored.
   -h, --help        Show this help
 
 Examples:
-  pdf_prep.sh flyer.pdf
-  pdf_prep.sh -o ~/web/docs --map renames.tsv ~/scans/
-  pdf_prep.sh --preset printer --dry-run *.pdf
+  pdf_prep.sh sites/movement/raw/            # -> sites/movement/static/docs/
+  pdf_prep.sh --site movement --map renames.tsv ~/scans/
+  pdf_prep.sh -o ~/print-copies --preset printer --dry-run *.pdf
 HELP
 }
 
@@ -84,6 +93,7 @@ INPUTS=()
 while (($#)); do
   case "$1" in
     -o) need_arg "$@"; OUTDIR=$2; shift 2 ;;
+    --site) need_arg "$@"; SITE=$2; shift 2 ;;
     --dry-run) DRY_RUN=1; shift ;;
     --map) need_arg "$@"; MAP_FILE=$2; shift 2 ;;
     --skip-existing) SKIP_EXISTING=1; shift ;;
@@ -114,6 +124,7 @@ for input in "${INPUTS[@]}"; do
 done
 
 # The output folder's real path (it may not exist yet on a dry run).
+resolve_outdir static/docs "${INPUTS[@]}"
 OUTDIR_REAL=$(realpath -m -- "$OUTDIR")
 if ((DRY_RUN == 0)); then
   mkdir -p -- "$OUTDIR" || exit 1
@@ -122,12 +133,6 @@ if [[ -n "$MAP_FILE" ]]; then
   printf 'source\toutput\n' > "$MAP_FILE" || exit 1
 fi
 
-normalize() {
-  local s=$1
-  s=$(printf '%s' "$s" | LC_ALL=C.UTF-8 iconv -f UTF-8 -t ASCII//TRANSLIT 2>/dev/null || printf '%s' "$s")
-  s=$(printf '%s' "$s" | LC_ALL=C tr '[:upper:]' '[:lower:]' | LC_ALL=C sed -E 's/[^a-z0-9]+/_/g; s/^_+//; s/_+$//')
-  printf '%s' "${s:-document}"
-}
 
 size_of() { stat -c %s -- "$1"; }
 human() { numfmt --to=iec --suffix=B --format='%.1f' "$1"; }
@@ -212,7 +217,7 @@ process() {
     echo "FAILED (password-protected): $src" >&2; return 1
   fi
 
-  base=${src##*/}; stem=${base%.*}; safe=$(normalize "$stem")
+  base=${src##*/}; stem=${base%.*}; safe=$(normalize "$stem" document)
   dest="$OUTDIR_REAL/$safe.pdf"
   if [[ -n "${CLAIMED[$dest]:-}" ]]; then
     echo "FAILED (name clash: $src and ${CLAIMED[$dest]} both become $safe.pdf)" >&2

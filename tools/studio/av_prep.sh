@@ -5,6 +5,9 @@
 # (design/music.md, step 9). The standard prep step for any audio or
 # video published on these sites.
 #
+# Writes to sites/<site>/media/ - the site given by --site, or the one
+# the sources are in; -o DIR for anywhere else (rules: common.sh).
+#
 # Never touches the originals. Never overwrites an output. Never writes
 # into the folder a source file lives in. Decides by the real codec
 # (ffprobe), not the file extension.
@@ -45,7 +48,11 @@
 
 set -uo pipefail
 
-OUTDIR="${WEBMEDIA_DIR:-$HOME/webmedia}"
+# shellcheck source=tools/studio/common.sh
+source "$(dirname -- "${BASH_SOURCE[0]}")/common.sh" || exit 1
+
+OUTDIR=""
+SITE=""
 FORCE=0
 CRF=23
 MAX_HEIGHT=1080
@@ -67,7 +74,9 @@ Makes web-ready copies of audio/video files (see the comments at the top
 of the script for exactly what happens to each kind of file). Folders
 are searched recursively; hidden files are ignored.
 
-  -o DIR            Output folder (default: ~/webmedia or $WEBMEDIA_DIR);
+  --site NAME       Write to sites/NAME/media/ (default: the site
+                    the sources are in, e.g. sites/NAME/raw/)
+  -o DIR            Write to DIR instead (one-off jobs outside the sites);
                     must not be a folder any source file is in
   --dry-run         Show what would be done, change nothing
   --map FILE        Also write "source<TAB>output" file names to FILE
@@ -81,9 +90,9 @@ are searched recursively; hidden files are ignored.
   -h, --help        Show this help
 
 Examples:
-  av_prep.sh song.wav
-  av_prep.sh -o ~/web/music --map renames.tsv ~/recordings/
-  av_prep.sh --dry-run *.mp4
+  av_prep.sh sites/music/raw/                # -> sites/music/media/
+  av_prep.sh --site music --map renames.tsv ~/recordings/
+  av_prep.sh -o ~/web-copies --dry-run *.mp4
 HELP
 }
 
@@ -95,6 +104,7 @@ INPUTS=()
 while (($#)); do
   case "$1" in
     -o) need_arg "$@"; OUTDIR=$2; shift 2 ;;
+    --site) need_arg "$@"; SITE=$2; shift 2 ;;
     --dry-run) DRY_RUN=1; shift ;;
     --map) need_arg "$@"; MAP_FILE=$2; shift 2 ;;
     --skip-existing) SKIP_EXISTING=1; shift ;;
@@ -126,6 +136,7 @@ for input in "${INPUTS[@]}"; do
   fi
 done
 
+resolve_outdir media "${INPUTS[@]}"
 OUTDIR=$(realpath -m -- "$OUTDIR")
 if ((DRY_RUN == 0)); then
   mkdir -p -- "$OUTDIR" || exit 1
@@ -134,12 +145,6 @@ if [[ -n "$MAP_FILE" ]]; then
   printf 'source\toutput\n' > "$MAP_FILE" || exit 1
 fi
 
-normalize() {
-  local s=$1
-  s=$(printf '%s' "$s" | LC_ALL=C.UTF-8 iconv -f UTF-8 -t ASCII//TRANSLIT 2>/dev/null || printf '%s' "$s")
-  s=$(printf '%s' "$s" | LC_ALL=C tr '[:upper:]' '[:lower:]' | LC_ALL=C sed -E 's/[^a-z0-9]+/_/g; s/^_+//; s/_+$//')
-  printf '%s' "${s:-media}"
-}
 
 # probe FILE STREAM_SPECIFIER FIELD - first value, or empty.
 # "V" (capital) selects real video, never embedded cover art/thumbnails.
@@ -175,7 +180,7 @@ process() {
     echo "FAILED (source is inside the output folder - use another -o): $src" >&2
     return 1
   fi
-  base=${src##*/}; stem=${base%.*}; safe=$(normalize "$stem")
+  base=${src##*/}; stem=${base%.*}; safe=$(normalize "$stem" media)
   audio=$(probe "$src" a:0 codec_name)
   video=$(probe "$src" V:0 codec_name)
   abr=$(probe "$src" a:0 bit_rate)

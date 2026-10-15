@@ -35,25 +35,40 @@ also run any tool by hand at any time.
   100 files is cheap.
 - **Unit tests for every tool**, run on every pre-build check ("better
   safe than sorry"). They use generated sample files, never real media.
+- **Output folders (added 2026-10-15)**: no more `~/webmedia` default.
+  The tools write to the site's own folders:
+  - images to `sites/<site>/static/img/`
+  - PDFs to `sites/<site>/static/docs/` ("docs" leaves room for other
+    document formats later)
+  - audio/video to `sites/<site>/media/`. Not `static/`, because that is
+    in git: music's media alone is 342 MB, and git would keep it in its
+    history for good.
+
+  The site comes from `--site NAME`, or from where the sources are
+  (`sites/NAME/...`, e.g. `raw/`). `-o DIR` overrides it for one-off
+  jobs. If none of these applies, it's a usage error; the tools never
+  fall back to a default folder. The shared logic is in
+  `tools/studio/common.sh`.
 - **`prep.sh`** handles every supported type: it sends each file to the
-  right tool, writes into `sites/<site>/media/`, then runs the media
-  check.
+  right tool, which writes into the site's folders (above), then runs
+  the media check.
 
 ## Dev plan
 
-David reviews after steps 2, 3 and 5.
+David reviews after steps 2, 4 and 6.
 
 - [x] 1. Align `img_prep.sh` (above); `pdf_prep.sh --keep-info` keeps
   the title only.
 - [x] 2. Tests: pytest (dev dependency), `tests/studio/`, generated
   samples. Wired into `pre-build-check.sh`.
-- [ ] 3. `tools/dev/check_media.py`: per-type rules for every media file
+- [x] 3. Output folders by site and type (added 2026-10-15, below).
+- [ ] 4. `tools/dev/check_media.py`: per-type rules for every media file
   under `sites/*/media/` and `sites/*/static/`. Wired into
   `pre-build-check.sh`, plus a git pre-commit hook (staged files) that
   `tools/dev/install-git-hooks.sh` installs.
-- [ ] 4. `tools/studio/prep.sh SITE [FILES_OR_DIRS]`, defaulting to
+- [ ] 5. `tools/studio/prep.sh SITE [FILES_OR_DIRS]`, defaulting to
   `sites/<site>/raw/`; `raw/` added to `.gitignore`.
-- [ ] 5. `docs/media-prep.md`: how to run the tools, and how unprepped
+- [ ] 6. `docs/media-prep.md`: how to run the tools, and how unprepped
   files are kept out.
 
 ## Log
@@ -74,3 +89,10 @@ David reviews after steps 2, 3 and 5.
   - Proved the tests can fail: five deliberate breakages were each
     caught (the old GPS leak, PDF info kept, audio/video tags kept,
     overwriting allowed, no EXIF rotation).
+- 2026-10-15: steps 1-2 committed (`60d71db`). Step 3 done.
+  - Output folders follow the site and the file type, through the new
+    `tools/studio/common.sh`, which also holds the shared `normalize`.
+  - 36 new tests in `test_destination.py` (99 in total, about 11 s).
+    They run the tools from a fake repo in a temp folder, so the real
+    `sites/` is never written to.
+  - The tests caught the deliberate breakage, a silent fallback folder.

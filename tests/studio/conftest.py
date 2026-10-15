@@ -7,6 +7,7 @@ which Ubuntu's AppArmor profile for qpdf allows).
 
 import hashlib
 import json
+import shutil
 import subprocess
 from pathlib import Path
 
@@ -23,10 +24,13 @@ TECH_TAGS = {
 }  # fmt: skip
 
 
-def run_tool(tool: str, *args: str | Path) -> subprocess.CompletedProcess:
-    """Run tools/studio/<tool> and capture its output (never raises)."""
+def run_tool(
+    tool: str, *args: str | Path, studio: Path = STUDIO
+) -> subprocess.CompletedProcess:
+    """Run tools/studio/<tool> and capture its output (never raises).
+    studio: run copies from a fake repo instead (see fake_repo)."""
     return subprocess.run(
-        ["bash", str(STUDIO / tool), *map(str, args)],
+        ["bash", str(studio / tool), *map(str, args)],
         capture_output=True,
         text=True,
         stdin=subprocess.DEVNULL,
@@ -71,6 +75,18 @@ def src_dir(tmp_path: Path) -> Path:
 @pytest.fixture
 def out_dir(tmp_path: Path) -> Path:
     return tmp_path / "out"
+
+
+@pytest.fixture
+def fake_repo(tmp_path: Path) -> Path:
+    """A throwaway repo: the studio tools plus sites/demo, sites/other,
+    sites/_shared and sites/heirloom. The tools find the repo from their
+    own location, so copies here never write into the real sites/."""
+    repo = tmp_path / "repo"
+    shutil.copytree(STUDIO, repo / "tools" / "studio")
+    for name in ("demo", "other", "_shared", "heirloom"):
+        (repo / "sites" / name / "raw").mkdir(parents=True)
+    return repo
 
 
 def make_wav(path: Path, seconds: int = 2) -> Path:

@@ -7,6 +7,9 @@
 # names, never overwrites, and no metadata left in "kept original"
 # copies. The image processing itself is unchanged.
 #
+# Writes to sites/<site>/static/img/ - the site given by --site, or the one
+# the sources are in; -o DIR for anywhere else (rules: common.sh).
+#
 # Never touches the originals. Never overwrites an output. Never writes
 # into the folder a source image lives in.
 #
@@ -40,7 +43,11 @@
 
 set -uo pipefail
 
-OUTDIR="${WEBMEDIA_DIR:-$HOME/webmedia}"
+# shellcheck source=tools/studio/common.sh
+source "$(dirname -- "${BASH_SOURCE[0]}")/common.sh" || exit 1
+
+OUTDIR=""
+SITE=""
 MAX_EDGE=2048
 QUALITY=85
 ENHANCE=0
@@ -56,7 +63,9 @@ Makes web-ready copies of images (see the comments at the top of the
 script for exactly what happens to each one). Folders are searched
 recursively for images; hidden files are ignored.
 
-  -o DIR              Output folder (default: ~/webmedia or $WEBMEDIA_DIR);
+  --site NAME         Write to sites/NAME/static/img/ (default: the site
+                      the sources are in, e.g. sites/NAME/raw/)
+  -o DIR              Write to DIR instead (one-off jobs outside the sites);
                       must not be a folder any source image is in
   --dry-run           Show what would be done, change nothing
   --map FILE          Also write "source<TAB>output" file names to FILE
@@ -67,9 +76,9 @@ recursively for images; hidden files are ignored.
   -h, --help          Show this help
 
 Examples:
-  img_prep.sh photo.jpg
-  img_prep.sh -o ~/web/photos --map renames.tsv ~/Pictures/trip/
-  img_prep.sh -s 1600 --dry-run *.png
+  img_prep.sh sites/taiji/raw/               # -> sites/taiji/static/img/
+  img_prep.sh --site taiji --map renames.tsv ~/Pictures/trip/
+  img_prep.sh -o ~/facebook -s 1600 --dry-run *.png
 HELP
 }
 
@@ -81,6 +90,7 @@ INPUTS=()
 while (($#)); do
   case "$1" in
     -o) need_arg "$@"; OUTDIR=$2; shift 2 ;;
+    --site) need_arg "$@"; SITE=$2; shift 2 ;;
     --dry-run) DRY_RUN=1; shift ;;
     --map) need_arg "$@"; MAP_FILE=$2; shift 2 ;;
     --skip-existing) SKIP_EXISTING=1; shift ;;
@@ -123,6 +133,7 @@ for input in "${INPUTS[@]}"; do
   fi
 done
 
+resolve_outdir static/img "${INPUTS[@]}"
 OUTDIR_REAL=$(realpath -m -- "$OUTDIR")
 if ((DRY_RUN == 0)); then
   mkdir -p -- "$OUTDIR" || exit 1
@@ -131,12 +142,6 @@ if [[ -n "$MAP_FILE" ]]; then
   printf 'source\toutput\n' > "$MAP_FILE" || exit 1
 fi
 
-normalize() {
-  local s=$1
-  s=$(printf '%s' "$s" | LC_ALL=C.UTF-8 iconv -f UTF-8 -t ASCII//TRANSLIT 2>/dev/null || printf '%s' "$s")
-  s=$(printf '%s' "$s" | LC_ALL=C tr '[:upper:]' '[:lower:]' | LC_ALL=C sed -E 's/[^a-z0-9]+/_/g; s/^_+//; s/_+$//')
-  printf '%s' "${s:-image}"
-}
 
 size_of() { stat -c %s -- "$1"; }
 kb() { echo $(( ($1 + 1023) / 1024 )); }
@@ -167,7 +172,7 @@ process() {
   fi
   read -r magic w h opaque orient <<<"$info"
 
-  base=${src##*/}; stem=${base%.*}; safe=$(normalize "$stem")
+  base=${src##*/}; stem=${base%.*}; safe=$(normalize "$stem" image)
   if [[ "$opaque" == False ]]; then ext=png; else ext=jpg; fi
   dest="$OUTDIR_REAL/$safe.$ext"
   if [[ -n "${CLAIMED[$dest]:-}" ]]; then
