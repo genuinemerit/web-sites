@@ -347,6 +347,11 @@ and nothing deploys before step 8.
   - Batch 1, Standard: `ba-duan-jin`, `daily-routine`,
     `morning-routine`, `qigong-and-stretch`, following the glossary.
     Approved by David; 29 pages to go.
+  - Batch 1 committed locally (`1ec9a1a`). Batch 2, Ancient:
+    `daoyin-tu` (44 exercises), `wuqinxi`, `yi-jin-jing`. Waiting for
+    Approved by David; 26 pages to go. Pushed at David's request
+    (session end), with the i18n check still failing on the 26 missing
+    pages; deploy.sh would refuse until they exist.
 
 ## Questions for David (answered 2026-10-15)
 
