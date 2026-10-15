@@ -23,6 +23,11 @@ translated from. Changed English makes the fingerprint stale and the
 check fails ("out of date") until the translation is updated and
 reviewed; missing blocks fail the same way.
 
+The translated pages (content/<locale>/qigong-about.md and
+content/<locale>/qigong/<id>.md) work the same way: each records
+`translated_from: <fingerprint>` of its English page in its front
+matter, and a changed English page makes the translation "out of date".
+
     python -m websites.movement.check            # check, exit 1 on problems
     python -m websites.movement.check --status   # the fingerprints to record
 """
@@ -170,6 +175,43 @@ def check_translation(data: dict, tr: dict, locale: str) -> list[str]:
                     f"{where} out of date - the English changed; update the"
                     f" translation, then record source = {source!r}"
                 )
+    return problems
+
+
+def english_pages() -> list[Path]:
+    """The English pages translations follow (About + set/reference pages)."""
+    base = CONTENT_DIR / BASE_LOCALE
+    return [base / "qigong-about.md", *sorted((base / "qigong").glob("*.md"))]
+
+
+def page_fingerprint(english: Path) -> str:
+    return fingerprint(english.read_text(encoding="utf-8"))
+
+
+def check_page_translations(locale: str) -> list[str]:
+    """Every translated page that exists records the fingerprint of its
+    English page. (Missing pages are the i18n check's business.)"""
+    problems: list[str] = []
+    base = CONTENT_DIR / BASE_LOCALE
+    for english in english_pages():
+        rel = english.relative_to(base)
+        page = CONTENT_DIR / locale / rel
+        if not page.is_file():
+            continue
+        match = re.search(
+            r"^translated_from:\s*\"?([0-9a-f]{12})\"?\s*$",
+            page.read_text(encoding="utf-8").split("\n---", 1)[0],
+            re.MULTILINE,
+        )
+        wanted = page_fingerprint(english)
+        where = f"content/{locale}/{rel.as_posix()}"
+        if not match:
+            problems.append(f"{where}: no translated_from (record {wanted!r})")
+        elif match.group(1) != wanted:
+            problems.append(
+                f"{where}: out of date - the English changed; update the"
+                f" translation, then record translated_from: {wanted}"
+            )
     return problems
 
 

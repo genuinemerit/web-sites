@@ -14,9 +14,13 @@ import sys
 from websites.movement import LOCALES
 from websites.movement.catalog import (
     BASE_LOCALE,
+    CONTENT_DIR,
     CatalogError,
+    check_page_translations,
+    english_pages,
     expected_sources,
     load_catalog,
+    page_fingerprint,
     read_catalog,
 )
 
@@ -27,6 +31,10 @@ def print_status() -> None:
     for kind, sources in expected_sources(data).items():
         for ident, source in sources.items():
             print(f"  [{kind}.{ident}] source = {source!r}")
+    print("Fingerprints each translated page records (translated_from):")
+    for english in english_pages():
+        rel = english.relative_to(CONTENT_DIR / BASE_LOCALE).as_posix()
+        print(f"  {rel}: {page_fingerprint(english)}")
 
 
 def main(argv: list[str]) -> int:
@@ -38,6 +46,12 @@ def main(argv: list[str]) -> int:
             load_catalog(locale)
     except CatalogError as exc:
         print(f"Qigong catalog problems:\n{exc}", file=sys.stderr)
+        return 1
+    problems = [
+        p for loc in LOCALES if loc != BASE_LOCALE for p in check_page_translations(loc)
+    ]
+    if problems:
+        print("Qigong page translations:", *problems, sep="\n", file=sys.stderr)
         return 1
     others = [loc for loc in LOCALES if loc != BASE_LOCALE]
     print(f"Qigong catalog OK ({BASE_LOCALE}{''.join(', ' + o for o in others)}).")

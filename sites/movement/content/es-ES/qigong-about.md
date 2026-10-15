@@ -1,5 +1,6 @@
 ---
 title: Sobre el qigong
+translated_from: d768d9c80323
 ---
 
 **Qigong y estiramientos** (*QiGong and Stretching*) es el nombre de una

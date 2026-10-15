@@ -339,6 +339,14 @@ and nothing deploys before step 8.
 - 2026-10-15: glossary approved: imperative; the ATP quotations are
   translated with a note; book descriptions are translated, with titles
   kept in English; the terms stand.
+- 2026-10-15: glossary committed locally (`6fb48a3`). Step 6 started.
+  - Each Spanish page now records `translated_from`, the fingerprint of
+    its English page, and `websites.movement.check` reports a page as
+    out of date when its English changes (as the catalog overlay already
+    did). The approved About page got its fingerprint.
+  - Batch 1, Standard: `ba-duan-jin`, `daily-routine`,
+    `morning-routine`, `qigong-and-stretch`, following the glossary.
+    Approved by David; 29 pages to go.
 
 ## Questions for David (answered 2026-10-15)
 
