@@ -7,8 +7,11 @@
 # "significant build" moments that already trigger a GitHub push.
 #
 # Excludes .git/ (GitHub already covers version-history backup).
-# Includes sites/*/media/ deliberately — that's the one thing with no
-# other backup, since it's intentionally un-versioned in git.
+# Includes sites/*/media/ and sites/*/raw/ (media originals) deliberately
+# — they have no other backup, since both are intentionally un-versioned
+# in git. --delete mirrors deletions, EXCEPT under sites/*/raw/: an
+# original removed locally (e.g. once prepped) stays in the Dropbox copy
+# (David, 2026-10-15; docs/media-prep.md). Prune it there by hand.
 #
 # Usage:
 #   bash tools/dev/backup-to-laptop.sh [--dry-run]
@@ -20,15 +23,19 @@ cd "$(dirname "$0")/../.." || exit 1
 REMOTE="${REMOTE:-wingchun}"
 DEST="${DEST:-/home/dave/Dropbox/Code/web_sites/}"
 
-RSYNC_FLAGS="-avz --delete --exclude=.git/ --exclude=__pycache__/ --exclude=.venv/ --exclude=.pytest_cache/ --exclude=.ruff_cache/"
+RSYNC_FLAGS=(
+    -avz --delete
+    --filter='P /sites/*/raw/***'   # protect: never delete originals there
+    --exclude=.git/ --exclude=__pycache__/ --exclude=.venv/
+    --exclude=.pytest_cache/ --exclude=.ruff_cache/
+)
 
 if [[ "${1:-}" == "--dry-run" ]]; then
-    RSYNC_FLAGS="$RSYNC_FLAGS --dry-run"
+    RSYNC_FLAGS+=(--dry-run)
     echo "[DRY RUN] no files will actually be copied"
 fi
 
 echo "Backing up $(pwd) -> $REMOTE:$DEST"
-# shellcheck disable=SC2086
-rsync $RSYNC_FLAGS ./ "$REMOTE:$DEST"
+rsync "${RSYNC_FLAGS[@]}" ./ "$REMOTE:$DEST"
 
 echo "[DONE] backup complete."

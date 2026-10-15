@@ -1,6 +1,6 @@
 # Studio tools — media prep in the dev pipeline
 
-2026-10-15. Status: **decided, in progress** (dev plan below). Covers
+2026-10-15. Status: **done** (dev plan below, all steps ticked). Covers
 `tools/studio/` (`av_prep.sh`, `img_prep.sh`, `pdf_prep.sh`, and the
 planned `prep.sh`), the media check and the tools' tests.
 
@@ -68,7 +68,7 @@ David reviews after steps 2, 4 and 6.
   `tools/dev/install-git-hooks.sh` installs.
 - [x] 5. `tools/studio/prep.sh SITE [FILES_OR_DIRS]`, defaulting to
   `sites/<site>/raw/`; `raw/` added to `.gitignore`.
-- [ ] 6. `docs/media-prep.md`: how to run the tools, and how unprepped
+- [x] 6. `docs/media-prep.md`: how to run the tools, and how unprepped
   files are kept out.
 
 ## Log
@@ -144,3 +144,14 @@ David reviews after steps 2, 4 and 6.
   - Gotcha: David's shell sets `VIRTUAL_ENV` (pyenv), so the check
     always goes through `poetry -C <repo> run`, except in the tests'
     throwaway repo.
+- 2026-10-15: step 5 committed (`6fdd84f`). Step 6 done: `docs/media-prep.md`
+  (where things live, `prep.sh`, single tools, the four barriers,
+  backups, setup, gotchas). Plan complete.
+- 2026-10-15: found while writing the guide: the Dropbox backup uses
+  `rsync --delete`, so removing an original from `raw/` would also remove
+  it from Dropbox at the next backup. David: originals must never be
+  pruned there. `backup-to-laptop.sh` now protects `sites/*/raw/` with
+  `--filter='P /sites/*/raw/***'`; deletions still mirror everywhere
+  else. Tested on a local copy: the raw originals, subfolders included,
+  were kept, while a removed `media/` file and a stray file were
+  deleted.

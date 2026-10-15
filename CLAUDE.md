@@ -16,7 +16,8 @@ actionable version.
   has a "parking lot" for not-now ideas.
 - `legacy/` — review of the legacy droplet (inventory, DNS, nginx,
   certs, security findings).
-- `docs/` — operational guides (e.g. `local-dev-testing.md`).
+- `docs/` — operational guides (e.g. `local-dev-testing.md`,
+  `media-prep.md` for images/sound/video/PDFs).
 - `src/websites/<site>/` — thin per-site Flask app (`create_app()`,
   routes, `LOCALES`). `src/websites/common/` — shared i18n,
   Markdown/front-matter loading, freeze orchestration.
