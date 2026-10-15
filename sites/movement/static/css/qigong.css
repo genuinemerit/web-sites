@@ -432,6 +432,120 @@ footer a:hover {
   text-decoration: underline;
 }
 
+/* --- Set and reference pages (qigong_page.html) ------------------------------------- */
+
+.page-head {
+  padding: 3rem 0 1.5rem;
+  border-bottom: 1px solid var(--line);
+  /* The title has the whole column here, not half of it. */
+  --title-col: calc(min(100vw - 16.25rem, 70rem) - 6.2rem);
+}
+
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.crumbs a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.crumbs a:hover {
+  text-decoration: underline;
+}
+
+.page-head .lead {
+  max-width: 40rem;
+  margin: 0;
+}
+
+.prose {
+  max-width: 44rem;
+  padding: 1rem 0 2.5rem;
+  font-size: 1.0625rem;
+  line-height: 1.7;
+}
+
+.prose h2 {
+  margin: 2.2rem 0 0.6rem;
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+}
+
+.prose h3 {
+  margin: 1.6rem 0 0.4rem;
+  font-size: 1.0625rem;
+  font-weight: 700;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.4rem;
+}
+
+.prose li {
+  margin: 0.25rem 0;
+}
+
+.prose li > ul,
+.prose li > ol {
+  margin: 0.25rem 0 0.5rem;
+}
+
+.prose a {
+  color: var(--accent);
+  overflow-wrap: anywhere;
+}
+
+.prose img {
+  display: block;
+  max-width: min(100%, 22rem);
+  height: auto;
+  margin: 1.5rem 0;
+}
+
+.prose blockquote {
+  margin: 1rem 0;
+  padding-left: 1rem;
+  border-left: 3px solid var(--line);
+  color: var(--muted);
+}
+
+.print-source {
+  display: none;
+}
+
+.pager {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  padding: 1.5rem 0 2rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.9375rem;
+}
+
+.pager a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.pager a:hover {
+  text-decoration: underline;
+}
+
+.pager-next {
+  margin-left: auto;
+  text-align: right;
+}
+
 /* --- Narrower screens ------------------------------------------------------------------ */
 
 @media (max-width: 60rem) {
@@ -446,6 +560,10 @@ footer a:hover {
   .content {
     padding: 0 1.75rem;
     --title-col: calc((100vw - 13rem) * 0.5);
+  }
+
+  .page-head {
+    --title-col: calc(100vw - 13rem - 3.5rem);
   }
 
   .hero {
@@ -488,6 +606,15 @@ footer a:hover {
   .content {
     padding: 0 1.2rem;
     --title-col: calc(100vw - 2.4rem - 7rem);
+  }
+
+  .page-head {
+    padding-top: 2rem;
+    --title-col: calc(100vw - 2.4rem);
+  }
+
+  .prose {
+    font-size: 1rem;
   }
 
   .hero {
@@ -576,6 +703,86 @@ footer a:hover {
 
   .content {
     --title-col: calc(100vw - 2.4rem);
+  }
+}
+
+/* --- Print: a set page becomes a clean handout (the pages replace the
+   prototype's PDFs - design/movement.md). Only the title, summary,
+   note, the set itself and where it came from. -------------------------------------- */
+
+@media print {
+  @page {
+    margin: 1.6cm 1.8cm;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+    font-size: 11pt;
+  }
+
+  .skip,
+  .sidebar,
+  .crumbs,
+  .pager,
+  footer {
+    display: none;
+  }
+
+  .layout {
+    display: block;
+  }
+
+  .content {
+    max-width: none;
+    padding: 0;
+  }
+
+  .page-head {
+    padding: 0 0 0.6rem;
+  }
+
+  .page-head .fit-title {
+    margin: 0 0 0.4rem;
+    font-size: 22pt;
+  }
+
+  .note {
+    margin: 0.6rem 0 0;
+    padding: 0.3rem 0.6rem;
+    font-size: 9pt;
+  }
+
+  .prose {
+    max-width: none;
+    padding: 0.4rem 0 0;
+    font-size: 11pt;
+    line-height: 1.45;
+  }
+
+  .prose h2 {
+    margin-top: 1.1rem;
+    font-size: 14pt;
+    break-after: avoid;
+  }
+
+  .prose li {
+    break-inside: avoid;
+  }
+
+  .prose a {
+    color: #000;
+  }
+
+  .prose img {
+    max-width: 6cm;
+  }
+
+  .print-source {
+    display: block;
+    margin-top: 1rem;
+    font-size: 8.5pt;
+    color: #444;
   }
 }
 

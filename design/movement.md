@@ -240,6 +240,28 @@ and nothing deploys before step 8.
     name, then through `img_prep.sh`. The meridians chart went from
     1.2 MB to 194 KB, the ATP diagram from 420 KB to 77 KB; the bagua
     stays a transparent PNG.
+- 2026-10-15: committed and pushed step 2 (`302526a`). Step 3, first
+  part, waiting for David's check:
+  - Built the set page (`qigong_page.html`): breadcrumb, fitted title,
+    summary, medical note, the transcription, previous/next links, and a
+    print stylesheet. In print, only the title, summary, note, the set
+    and its source address remain.
+  - Transcribed the Standard category: `ba-duan-jin`, `daily-routine`,
+    `morning-routine`, `qigong-and-stretch`.
+  - Conventions: the PDF's sections become subheadings; run-in exercise
+    names are bold; Chinese terms are italic (as in the PDFs); the
+    nesting follows the PDF; page headers and numbers are dropped; "w/"
+    is spelled "with".
+  - Typos fixed: vigrous → vigorous; Spinal Chord → Spinal Cord; Strork
+    → Stork; sqaut → squat; Nuture → Nurture; "left left foot" / "left
+    right foot" → lift; a stray ". .".
+  - Kept as in the PDFs: "Tai Qi Opening", "Stork Spreads Its Feather".
+    "(see separate notes)" under the Samurai form was removed (David: the
+    notes aren't part of the collection).
+  - The i18n check now compares content pages in sub-folders too. The
+    movement catalog check rejects a page file with no catalog entry.
+- 2026-10-15: David checked the Standard pages: format and print preview
+  fine, previous/next links liked. On to the other 29.
 
 ## Questions for David (answered 2026-10-15)
 

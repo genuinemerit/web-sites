@@ -1,0 +1,41 @@
+{#- One exercise set or reference (/<locale>/qigong/<id>/), transcribed
+    from the prototype's PDF into content/<locale>/qigong/<id>.md. The
+    print stylesheet turns it into a clean handout (design/movement.md:
+    the pages replace the PDFs). -#}
+{% extends "qigong_base.html" %}
+{% block title %}{{ item.title }} · {{ t(locale, "qigong.title") }}{% endblock %}
+{% block description %}{{ item.summary }}{% endblock %}
+{% block locale_url %}{{ url_for('qigong_page', locale=loc, page_id=item.id) }}{% endblock %}
+
+{% block content %}
+<header class="page-head">
+  <nav class="crumbs" aria-label="{{ t(locale, 'qigong.crumbs_label') }}">
+    <a href="{{ url_for('qigong', locale=locale) }}">{{ t(locale, "qigong.title") }}</a>
+    <span aria-hidden="true">›</span>
+    {% if category %}
+    <a href="{{ url_for('qigong', locale=locale) }}#{{ category.id }}">{{ category.title }}</a>
+    {% else %}
+    <a href="{{ url_for('qigong', locale=locale) }}#references">{{ t(locale, "qigong.references") }}</a>
+    {% endif %}
+  </nav>
+  {{ fit_title([item.title]) }}
+  <p class="lead">{{ item.summary }}</p>
+</header>
+
+<p class="note">{{ t(locale, "qigong.note") }}</p>
+
+<article class="prose">
+{{ body | safe }}
+</article>
+
+<p class="print-source">{{ t(locale, "qigong.print_source") }} movement.davidstitt.net{{ url_for('qigong_page', locale=locale, page_id=item.id) }}</p>
+
+<nav class="pager" aria-label="{{ t(locale, 'qigong.pager_label') }}">
+  {% if prev %}
+  <a class="pager-prev" href="{{ url_for('qigong_page', locale=locale, page_id=prev.id) }}"><span aria-hidden="true">←</span> {{ prev.title }}</a>
+  {% else %}<span></span>{% endif %}
+  {% if next %}
+  <a class="pager-next" href="{{ url_for('qigong_page', locale=locale, page_id=next.id) }}">{{ next.title }} <span aria-hidden="true">→</span></a>
+  {% endif %}
+</nav>
+{% endblock %}

@@ -8,6 +8,9 @@ Routes:
   /<locale>/qigong/         the qigong index: categories, exercise sets,
                             references and "About the class", built from
                             sites/movement/content/qigong.toml
+  /<locale>/qigong/<id>/    one page per set or reference, from
+                            sites/movement/content/<locale>/qigong/<id>.md
+                            (transcribed from the prototype's PDFs)
 
 English only until design step 4 adds Spanish (the i18n check requires
 every declared locale to be complete). No JavaScript.
@@ -47,6 +50,22 @@ HUB_IMAGE = [{"file": "img/taiji_tree.jpg", "w": 1500, "h": 994}]
 def catalog() -> dict:
     """Loaded and checked once, on first use."""
     return load_catalog()
+
+
+def pages_in_order() -> list[dict]:
+    """Every set (in category order), then every reference - the order
+    of the previous/next links on the pages."""
+    data = catalog()
+    sets = [s for c in data["category"] for s in c["sets"]]
+    return sets + data["reference"]
+
+
+def freeze_urls(locale: str):
+    """Set and reference pages for websites.common.freeze - only those
+    written so far."""
+    for p in pages_in_order():
+        if page_exists(locale, p["id"]):
+            yield "qigong_page", {"locale": locale, "page_id": p["id"]}
 
 
 def page_exists(locale: str, page_id: str) -> bool:
@@ -97,6 +116,28 @@ def create_app() -> Flask:
         _, about = load_page(SITE, locale, "qigong-about")
         return render_template(
             "qigong_index.html", locale=locale, set_count=len(data["set"]), about=about
+        )
+
+    @app.route("/<locale>/qigong/<page_id>/")
+    def qigong_page(locale: str, page_id: str):
+        order = [p for p in pages_in_order() if page_exists(locale, p["id"])]
+        ids = [p["id"] for p in order]
+        if locale not in LOCALES or page_id not in ids:
+            abort(404)
+        i = ids.index(page_id)
+        item = order[i]
+        category = next(
+            (c for c in data["category"] if c["id"] == item.get("category")), None
+        )
+        _, body = load_page(SITE, locale, f"qigong/{page_id}")
+        return render_template(
+            "qigong_page.html",
+            locale=locale,
+            item=item,
+            category=category,
+            body=body,
+            prev=order[i - 1] if i > 0 else None,
+            next=order[i + 1] if i + 1 < len(order) else None,
         )
 
     return app

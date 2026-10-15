@@ -16,8 +16,8 @@ Checks, per site:
      en-US, the completeness floor.
   4. Missing translation: a tag in en-US absent from a declared locale.
   5. Long-form content parity: every declared locale has the same set
-     of sites/<site>/content/<locale>/*.md pages (only when the site
-     has a content/ folder).
+     of sites/<site>/content/<locale>/**/*.md pages, sub-folders
+     included (only when the site has a content/ folder).
 
 All five are hard errors. sask treats check 4 as a warning except at
 deploy time (--strict); this project has a single gate, run before any
@@ -98,8 +98,12 @@ def check_site(site: str) -> list[str]:
     # Check 5: long-form content parity.
     content_dir = SITES_DIR / site / "content"
     if content_dir.is_dir():
+        # Sub-folders count too (e.g. movement's content/<locale>/qigong/).
         pages = {
-            locale: {p.name for p in (content_dir / locale).glob("*.md")}
+            locale: {
+                p.relative_to(content_dir / locale).as_posix()
+                for p in (content_dir / locale).rglob("*.md")
+            }
             for locale in locales
         }
         base_pages = pages[BASE_LOCALE]

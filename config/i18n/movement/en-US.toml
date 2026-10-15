@@ -50,3 +50,8 @@
 "qigong.footer" = "Qigong · A reference for ongoing practice"
 "qigong.hub_link" = "Movement"
 "qigong.top" = "Back to top"
+
+# Set and reference pages (/<locale>/qigong/<id>/).
+"qigong.crumbs_label" = "Breadcrumb"
+"qigong.pager_label" = "Previous and next"
+"qigong.print_source" = "From"
