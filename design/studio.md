@@ -62,7 +62,7 @@ David reviews after steps 2, 4 and 6.
 - [x] 2. Tests: pytest (dev dependency), `tests/studio/`, generated
   samples. Wired into `pre-build-check.sh`.
 - [x] 3. Output folders by site and type (added 2026-10-15, below).
-- [ ] 4. `tools/dev/check_media.py`: per-type rules for every media file
+- [x] 4. `tools/dev/check_media.py`: per-type rules for every media file
   under `sites/*/media/` and `sites/*/static/`. Wired into
   `pre-build-check.sh`, plus a git pre-commit hook (staged files) that
   `tools/dev/install-git-hooks.sh` installs.
@@ -96,3 +96,23 @@ David reviews after steps 2, 4 and 6.
     They run the tools from a fake repo in a temp folder, so the real
     `sites/` is never written to.
   - The tests caught the deliberate breakage, a silent fallback folder.
+- 2026-10-15: step 3 committed (`e8aee6e`). Step 4 done.
+  - `tools/dev/check_media.py` checks every media file under `sites/`
+    (97 today) in about 2 s. It skips `raw/`, `heirloom/`, `build/`,
+    `_shared` and favicons. `--staged` checks the staged version of
+    files staged anywhere in the repo.
+  - `pre-commit-hook.sh` is linked into `.git/hooks` by
+    `install-git-hooks.sh`. It is installed on `ubuvm`, and was tested in
+    a throwaway clone: it refused a JPEG with GPS data and accepted the
+    prepped copy.
+  - 40 tests in `test_check_media.py`, 138 in total. The main one is a
+    round trip: each tool's output passes and the raw samples fail.
+  - Shown to fail when they should: dropping the linearization,
+    faststart or PDF-info rules each failed a test. Dropping the EXIF
+    rule at first didn't, because the only EXIF samples also had GPS; an
+    EXIF-only test was added.
+  - Real finding: taiji's two videos (`media/vid/Taiji_for_Balance*.mp4`)
+    fail. They have capitals in their names and no faststart (the index
+    is at the end, so playback waits for the whole download). The fix
+    changes live URLs, so it waits for David's decision. Until then
+    `pre-build-check.sh` fails, which blocks deploys.

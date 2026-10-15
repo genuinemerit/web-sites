@@ -35,6 +35,13 @@ run_check "shellcheck" \
 run_check "studio tool tests" \
     poetry run pytest -q tests/studio
 
+# Every media file (image, sound, video, PDF) in the site folders must
+# be prepped - analysed file by file, nothing changed. The git
+# pre-commit hook (tools/dev/install-git-hooks.sh) runs the same check
+# on staged files.
+run_check "media prepped" \
+    poetry run python tools/dev/check_media.py
+
 # planning/ and design/ are both excluded — David's call 2026-09-30,
 # "more noise than we need for this project." Both are discussion/
 # decision-record docs, not user-facing content; only README.md,

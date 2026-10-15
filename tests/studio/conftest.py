@@ -9,19 +9,19 @@ import hashlib
 import json
 import shutil
 import subprocess
+import sys
 from pathlib import Path
 
 import pytest
 from PIL import Image
 
-STUDIO = Path(__file__).resolve().parents[2] / "tools" / "studio"
+REPO = Path(__file__).resolve().parents[2]
+STUDIO = REPO / "tools" / "studio"
 
-# Tags FFmpeg writes itself (container brand, encoder, track handler) -
-# technical, not about the recording. Anything else is metadata.
-TECH_TAGS = {
-    "major_brand", "minor_version", "compatible_brands", "encoder",
-    "handler_name", "vendor_id", "language",
-}  # fmt: skip
+sys.path.insert(0, str(REPO / "tools" / "dev"))
+import check_media  # needs the path above
+
+TECH_TAGS = check_media.TECH_TAGS
 
 
 def run_tool(

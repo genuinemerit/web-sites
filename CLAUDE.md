@@ -48,7 +48,8 @@ actionable version.
   Design and plan: `design/studio.md`.
 - `tools/dev/` — dev-host setup, checks, backup. `init-dev-host.sh` is
   the record of every apt install on `ubuvm`; add to it as packages are
-  added.
+  added. `install-git-hooks.sh` (once per clone) links the pre-commit
+  hook that refuses unprepped media.
 
 Build order and phase status: `planning/roadmap.md`. Per-site build
 steps: `planning/site-build-checklist.md`.
@@ -136,8 +137,9 @@ bash tools/dev/pre-build-check.sh
 ```
 
 Every check must pass. In order: ruff lint + format, shellcheck, the
-studio tool tests (`tests/studio/`, pytest on generated samples),
-pymarkdown (`README.md`, `CLAUDE.md`, `docs/` only), i18n completeness
+studio tool tests (`tests/studio/`, pytest on generated samples), media
+prepped (`tools/dev/check_media.py`: every image, sound, video and PDF
+under `sites/` passes the prep rules), pymarkdown (`README.md`, `CLAUDE.md`, `docs/` only), i18n completeness
 (catalogs + content pages, all locales), the Frozen-Flask build of every
 site, HTML/CSS validity (W3C vnu), internal links (including `/media/`),
 WCAG AA colour contrast on every page's tokens in light and dark mode,
