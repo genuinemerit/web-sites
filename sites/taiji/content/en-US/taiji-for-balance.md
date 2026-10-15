@@ -17,8 +17,8 @@ first, followed by the mirrored direction. The intention is to help
 students following the video imitate the instructor's movements. There
 is no sound on these videos.
 
-- [Front View](/media/vid/Taiji_for_Balance_720p.mp4)
-- [Rear View](/media/vid/Taiji_for_Balance_rear_view_720p.mp4)
+- [Front View](/media/taiji_for_balance_720p_video.mp4)
+- [Rear View](/media/taiji_for_balance_rear_view_720p_video.mp4)
 
 Instructor: **Louise Sebra**, at the YMCA, Barnstable, Massachusetts,
 USA — 2022

@@ -1,6 +1,10 @@
 # Large, un-versioned per-site media (see planning/architecture.md)
 sites/*/media/
 
+# Originals waiting to be prepped (design/studio.md) - never versioned,
+# never deployed; backed up to Dropbox by tools/dev/backup-to-laptop.sh
+sites/*/raw/
+
 # Raw legacy-droplet content staged for reference during rebuild - not
 # worth versioning (some very large, backed up to Dropbox separately via
 # tools/dev/backup-to-laptop.sh, see planning/roadmap.md Phase 2)

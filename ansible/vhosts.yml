@@ -72,11 +72,15 @@ vhosts:
     # sites/taiji/heirloom/, which was reworked locally on 2026-10-01):
     # the old site was one page, taiji.html, served at "/" - links,
     # bookmarks and Louise's printed material use these. The full-size
-    # legacy videos map to the 720p versions now published.
+    # legacy videos map to the 720p versions now published. Those were
+    # renamed 2026-10-15 when av_prep.sh added faststart (design/studio.md);
+    # their first URLs (live 2026-10-02 to 2026-10-15) redirect too.
     redirects:
       - { from: /taiji.html, to: "/{lang}/taiji-for-balance/" }
-      - { from: /vid/Taiji_for_Balance.mp4, to: /media/vid/Taiji_for_Balance_720p.mp4 }
-      - { from: /vid/Taiji_for_Balance_rear_view.mp4, to: /media/vid/Taiji_for_Balance_rear_view_720p.mp4 }
+      - { from: /vid/Taiji_for_Balance.mp4, to: /media/taiji_for_balance_720p_video.mp4 }
+      - { from: /vid/Taiji_for_Balance_rear_view.mp4, to: /media/taiji_for_balance_rear_view_720p_video.mp4 }
+      - { from: /media/vid/Taiji_for_Balance_720p.mp4, to: /media/taiji_for_balance_720p_video.mp4 }
+      - { from: /media/vid/Taiji_for_Balance_rear_view_720p.mp4, to: /media/taiji_for_balance_rear_view_720p_video.mp4 }
       - { from: /img/taiji-tree.jpg, to: /static/img/taiji-tree.webp }
 
   # Community projects (design/comunidad.md): collections index at

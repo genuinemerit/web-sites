@@ -19,8 +19,8 @@ primero, seguida de la dirección reflejada. La intención es ayudar a
 los estudiantes que siguen el video a imitar los movimientos de la
 instructora. Estos videos no tienen sonido.
 
-- [Vista Frontal](/media/vid/Taiji_for_Balance_720p.mp4)
-- [Vista Trasera](/media/vid/Taiji_for_Balance_rear_view_720p.mp4)
+- [Vista Frontal](/media/taiji_for_balance_720p_video.mp4)
+- [Vista Trasera](/media/taiji_for_balance_rear_view_720p_video.mp4)
 
 Instructora: **Louise Sebra**, en el YMCA, Barnstable, Massachusetts,
 EE. UU. — 2022

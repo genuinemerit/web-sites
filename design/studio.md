@@ -116,3 +116,16 @@ David reviews after steps 2, 4 and 6.
     is at the end, so playback waits for the whole download). The fix
     changes live URLs, so it waits for David's decision. Until then
     `pre-build-check.sh` fails, which blocks deploys.
+- 2026-10-15: step 4 committed (`ee65e29`). Taiji videos fixed with
+  option A (David):
+  - originals moved to `sites/taiji/raw/` (the first real use of `raw/`,
+    now gitignored);
+  - `av_prep.sh` copied them losslessly with faststart, as
+    `media/taiji_for_balance{,_rear_view}_720p_video.mp4`;
+  - links updated in both languages;
+  - the legacy `/vid/` redirects now point at the new names, and the
+    `/media/vid/` URLs (live from 2026-10-02) redirect too.
+
+  Deployed: failed=0, public smoke test 119/119. On the droplet only the
+  new files are left, and the index is in the first 64 KB, so playback
+  starts straight away.
