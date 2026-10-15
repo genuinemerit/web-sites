@@ -1,0 +1,97 @@
+{#- The qigong index (/<locale>/qigong/): hero, category menu for narrow
+    screens, counts, one section per category, references, About. Sets
+    and references link to their pages once written (page_exists). -#}
+{% extends "qigong_base.html" %}
+{% block title %}{{ t(locale, "qigong.page_title") }}{% endblock %}
+{% block description %}{{ t(locale, "qigong.meta_description") }}{% endblock %}
+
+{% macro entry(item, cls) -%}
+{% if page_exists(locale, item.id) %}
+<a class="{{ cls }}" href="{{ url_for('qigong', locale=locale) }}{{ item.id }}/">
+  <span class="entry-copy"><strong>{{ item.title }}</strong><span class="entry-desc">{{ item.summary }}</span></span>
+  <span class="entry-go" aria-hidden="true">→</span>
+</a>
+{% else %}
+<div class="{{ cls }} pending">
+  <span class="entry-copy"><strong>{{ item.title }}</strong><span class="entry-desc">{{ item.summary }}</span></span>
+  <span class="entry-go">{{ t(locale, "qigong.in_preparation") }}</span>
+</div>
+{% endif %}
+{%- endmacro %}
+
+{% block content %}
+<header class="hero">
+  <div class="hero-copy">
+    <span class="eyebrow">{{ t(locale, "qigong.eyebrow") }}</span>
+    {{ fit_title([t(locale, "qigong.title")]) }}
+    <p class="lead">{{ t(locale, "qigong.lead") }}</p>
+    <a class="primary-link" href="#{{ categories[0].id }}">{{ t(locale, "qigong.browse") }} <span aria-hidden="true">↓</span></a>
+  </div>
+  <img class="hero-art" src="{{ url_for('static', filename='img/taiji_tree.jpg') }}" width="1500" height="994" alt="{{ t(locale, 'image.alt') }}">
+</header>
+
+<details class="mobile-jump">
+  <summary>{{ t(locale, "qigong.jump") }}</summary>
+  <ul>
+    {% for c in categories %}
+    <li><a href="#{{ c.id }}">{{ c.title }} ({{ c.sets | length }})</a></li>
+    {% endfor %}
+    <li><a href="#references">{{ t(locale, "qigong.references") }} ({{ references | length }})</a></li>
+    <li><a href="#about">{{ t(locale, "qigong.about_nav") }}</a></li>
+  </ul>
+</details>
+
+<p class="intro-bar">
+  <span>{{ t(locale, "qigong.count_sets", n=set_count) }}</span>
+  <span>{{ t(locale, "qigong.count_categories", n=categories | length) }}</span>
+  <span>{{ t(locale, "qigong.count_references", n=references | length) }}</span>
+</p>
+
+<p class="note">{{ t(locale, "qigong.note") }}</p>
+
+{% for c in categories %}
+<section id="{{ c.id }}" class="set-section" aria-labelledby="{{ c.id }}-title">
+  <div class="section-head">
+    <div>
+      <span class="eyebrow">{{ t(locale, "qigong.section_eyebrow", n=c.sets | length) }}</span>
+      <h2 id="{{ c.id }}-title">{{ c.title }}</h2>
+      <p>{{ c.subtitle }}</p>
+    </div>
+    <figure class="section-image section-image--{{ c.id }}">
+      <img src="{{ url_for('static', filename='img/' ~ c.image) }}" loading="lazy" alt="{{ c.alt }}">
+    </figure>
+  </div>
+  <div class="set-list">
+    {% for s in c.sets %}{{ entry(s, "set-link") }}{% endfor %}
+  </div>
+</section>
+{% endfor %}
+
+<section id="references" class="set-section" aria-labelledby="references-title">
+  <div class="section-head">
+    <div>
+      <span class="eyebrow">{{ t(locale, "qigong.references_eyebrow") }}</span>
+      <h2 id="references-title">{{ t(locale, "qigong.references") }}</h2>
+      <p>{{ t(locale, "qigong.references_intro") }}</p>
+    </div>
+    <figure class="section-image">
+      <img src="{{ url_for('static', filename='img/image61.jpg') }}" loading="lazy" alt="{{ t(locale, 'qigong.references_alt') }}">
+    </figure>
+  </div>
+  <div class="references">
+    {% for r in references %}{{ entry(r, "reference-link") }}{% endfor %}
+  </div>
+</section>
+
+<section id="about" class="about-section" aria-labelledby="about-title">
+  <span class="eyebrow">{{ t(locale, "qigong.about_eyebrow") }}</span>
+  <h2 id="about-title">{{ t(locale, "qigong.about_nav") }}</h2>
+  <div class="about-grid">
+    <div class="about-copy">{{ about | safe }}</div>
+    <figure>
+      <img src="{{ url_for('static', filename='img/qigong_gang.jpg') }}" loading="lazy" width="1024" height="1024" alt="{{ t(locale, 'qigong.about_image_alt') }}">
+      <figcaption>{{ t(locale, "qigong.about_caption") }}</figcaption>
+    </figure>
+  </div>
+</section>
+{% endblock %}

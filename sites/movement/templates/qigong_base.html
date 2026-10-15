@@ -1,0 +1,85 @@
+{#- Qigong layout (from David's prototype, heirloom/qigong/): a sticky
+    category sidebar beside the main column; on narrow screens the
+    sidebar collapses to the brand and a plain-HTML category menu
+    (<details>, no script). Pages extend this and fill `title`,
+    `description` and `content`. Light only (design/movement.md). -#}
+{% from "macros.html" import fit_title %}
+{% set index_url = url_for('qigong', locale=locale) %}
+<!doctype html>
+<html lang="{{ locale }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#f5f2e9">
+  <meta name="description" content="{% block description %}{% endblock %}">
+  <title>{% block title %}{% endblock %}</title>
+  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32.png') }}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+  <link rel="stylesheet" href="/shared/tokens.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/qigong.css') }}">
+  <style>
+    /* Qigong palette - light only (design/movement.md). --surface is
+       the sidebar, so the contrast check covers text there too. */
+    :root {
+      --background: #f5f2e9;
+      --surface: #eeeee7;
+      --text: #29332f;
+      --muted: #636d66;
+      --accent: #496e60;
+      --accent-hover: #355c4e;
+      --line: #d9ddd5;
+      --card: #f9f8f2;
+      --soft: #e3eae2;
+      --focus: #496e60;
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#content">{{ t(locale, "qigong.skip") }}</a>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="side-top">
+        <a class="brand" href="{{ index_url }}">
+          <img src="{{ url_for('static', filename='favicon.svg') }}" alt="" width="33" height="33">
+          <span>{{ t(locale, "qigong.title") }}</span>
+        </a>
+        {% if locales | length > 1 %}
+        <nav class="languages" aria-label="{{ t(locale, 'nav.language') }}">
+          {% for loc in locales %}
+          <a href="{% block locale_url scoped %}{{ url_for('qigong', locale=loc) }}{% endblock %}" lang="{{ loc }}"
+             {%- if loc == locale %} aria-current="page"{% endif %}>{{ t(loc, "lang." ~ loc) }}</a>
+          {% if not loop.last %}<span class="separator" aria-hidden="true">|</span>{% endif %}
+          {% endfor %}
+        </nav>
+        {% endif %}
+      </div>
+      <p class="sidebar-note">{{ t(locale, "qigong.tagline") }}</p>
+      <nav class="categories" aria-label="{{ t(locale, 'qigong.categories_label') }}">
+        <span class="nav-label">{{ t(locale, "qigong.sets_heading") }}</span>
+        <ul>
+          {% for c in categories %}
+          <li><a href="{{ index_url }}#{{ c.id }}"><span>{{ c.title }}</span><span class="count">{{ c.sets | length }}</span></a></li>
+          {% endfor %}
+          <li><a href="{{ index_url }}#references"><span>{{ t(locale, "qigong.references") }}</span><span class="count">{{ references | length }}</span></a></li>
+          <li><a href="{{ index_url }}#about"><span>{{ t(locale, "qigong.about_nav") }}</span></a></li>
+        </ul>
+      </nav>
+      <p class="sidebar-foot">{{ t(locale, "qigong.foot_tagline") }}</p>
+    </aside>
+
+    <main id="top">
+      <div class="content" id="content">
+        {% block content %}{% endblock %}
+        <footer>
+          <span>{{ t(locale, "qigong.footer") }} · <a href="{{ url_for('index', locale=locale) }}">{{ t(locale, "qigong.hub_link") }}</a></span>
+          <a href="#top">{{ t(locale, "qigong.top") }} <span aria-hidden="true">↑</span></a>
+        </footer>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

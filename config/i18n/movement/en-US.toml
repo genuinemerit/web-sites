@@ -1,0 +1,52 @@
+# Localization catalog: base locale (completeness floor) for movement.
+# Interface text only - the qigong catalog (categories, sets,
+# references) lives in sites/movement/content/qigong.toml, the About
+# text in sites/movement/content/<locale>/qigong-about.md.
+# Strings taken from David's prototype (heirloom/qigong/).
+
+[tags]
+"lang.en-US" = "English"
+"lang.es-ES" = "Español"
+"nav.language" = "Language"
+
+# Hub page (/<locale>/), shared hub layout.
+"hub.title" = "Movement"
+"hub.coming_soon" = "coming soon"
+"nav.sites" = "Practices"
+"site.qigong" = "Qigong"
+"site.taiji" = "Taiji"
+"site.xingyi" = "Xingyi"
+"site.pilates" = "Pilates"
+"site.stretching" = "Stretching"
+"image.alt" = "Ink-style illustration of a tree in a mountain landscape"
+
+# Qigong index (/<locale>/qigong/).
+"qigong.page_title" = "Qigong · David Stitt"
+"qigong.meta_description" = "Qigong exercise sets, stretching routines, and background materials from David Stitt's class."
+"qigong.title" = "Qigong"
+"qigong.skip" = "Skip to the exercise sets"
+"qigong.tagline" = "A personal practice reference"
+"qigong.categories_label" = "Exercise set categories"
+"qigong.sets_heading" = "Exercise sets"
+"qigong.foot_tagline" = "Breathe. Move. Practice."
+"qigong.eyebrow" = "A collection for practice"
+"qigong.lead" = "Exercise sets, stretching routines, and background materials — easy to find, ready to use."
+"qigong.browse" = "Browse the sets"
+"qigong.jump" = "Jump to a category"
+"qigong.count_sets" = "{n} exercise sets"
+"qigong.count_categories" = "{n} categories"
+"qigong.count_references" = "{n} references"
+"qigong.section_eyebrow" = "Exercise sets · {n}"
+"qigong.in_preparation" = "page in preparation"
+"qigong.references_eyebrow" = "Background materials"
+"qigong.references" = "References"
+"qigong.references_intro" = "Reading and principles to accompany the exercise sets."
+"qigong.references_alt" = "Diagram of the bagua and yin-yang symbol"
+"qigong.about_eyebrow" = "A note from the original class"
+"qigong.about_nav" = "About the class"
+"qigong.about_image_alt" = "Group practicing qigong outdoors"
+"qigong.about_caption" = "From the original class materials"
+"qigong.note" = "These are traditional practice notes, not medical advice. Move gently, adapt every exercise to your own body, and ask a health professional about any condition."
+"qigong.footer" = "Qigong · A reference for ongoing practice"
+"qigong.hub_link" = "Movement"
+"qigong.top" = "Back to top"

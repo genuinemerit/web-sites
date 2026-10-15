@@ -1,0 +1,301 @@
+# Qigong catalog (design/movement.md): the categories, the exercise sets
+# in each, and the background references - in page order. The index
+# page, its counts, the sidebar and the category menu are built from
+# this file. Checked by websites.movement.catalog.
+#
+# Every id becomes a page address, /<locale>/qigong/<id>/, so ids are
+# unique lowercase slugs across sets AND references. Where a set has both
+# a Chinese (romanized) and an English name, the id is the Chinese one,
+# e.g. wuqinxi for the Five Animal Frolics (David, 2026-10-15). A set or reference
+# appears as a link only once its page exists
+# (sites/movement/content/<locale>/qigong/<id>.md, design step 3).
+#
+#   category   id, title, subtitle, image (file in static/img/), alt
+#              ("" = decorative, as in the prototype)
+#   set        id, category, title, summary, source (the prototype PDF
+#              it comes from, heirloom/qigong/sets/ - for the record)
+#   reference  id, title, summary, source (heirloom/qigong/img/)
+#
+# Titles and summaries from David's prototype (heirloom/qigong/).
+
+[[category]]
+id = "standard"
+title = "Standard"
+subtitle = "Everyday practice"
+image = "qigong_gang.jpg"
+alt = ""
+
+[[category]]
+id = "ancient"
+title = "Ancient"
+subtitle = "Traditional forms and historical roots"
+image = "daoyin_tu_tapestry.jpg"
+alt = ""
+
+[[category]]
+id = "focus"
+title = "Focus"
+subtitle = "Movement, flexibility, and cultivation"
+image = "qigong_poster_8_5x8_5_softglow.jpg"
+alt = ""
+
+[[category]]
+id = "healing"
+title = "Healing"
+subtitle = "Practice organized around particular needs"
+image = "yin_yang_pond.jpg"
+alt = ""
+
+[[category]]
+id = "seasonal"
+title = "Seasonal"
+subtitle = "Practice in the rhythm of the seasons"
+image = "image61.jpg"
+alt = ""
+
+[[category]]
+id = "dragon-spirit"
+title = "Dragon Spirit"
+subtitle = "Energetic forms and specialized sets"
+image = "window_at_dawn_600x600.jpg"
+alt = ""
+
+# --- Standard ---------------------------------------------------------------
+
+[[set]]
+id = "ba-duan-jin"
+category = "standard"
+title = "Ba Duan Jin — Eight Silk Brocades"
+summary = "A guide to the eight brocades, with variations and practice tips."
+source = "Ba_Duan_Jin-Eight_Silk_Brocades.pdf"
+
+[[set]]
+id = "daily-routine"
+category = "standard"
+title = "Daily Qigong Routine"
+summary = "Warm-ups, movement, and a complete daily sequence."
+source = "Daily_Qigong_Routine.pdf"
+
+[[set]]
+id = "morning-routine"
+category = "standard"
+title = "Morning Qigong Routine"
+summary = "Welcoming the day with breath and movement."
+source = "Morning_Qi_Gong.pdf"
+
+[[set]]
+id = "qigong-and-stretch"
+category = "standard"
+title = "Qigong and Stretch"
+summary = "A compact series of qigong movements and stretches."
+source = "Qigong_and_Stretch.pdf"
+
+# --- Ancient ----------------------------------------------------------------
+
+[[set]]
+id = "daoyin-tu"
+category = "ancient"
+title = "Daoyin-tu — Gathering and Pulling"
+summary = "Ancient exercises inspired by the Han-era Daoyin diagram."
+source = "Daoyin_tu-Gathering_and_Pulling.pdf"
+
+[[set]]
+id = "wuqinxi"
+category = "ancient"
+title = "Five Animal Frolics"
+summary = "Traditional animal-inspired movement sequences."
+source = "Five_Animal_Frolics.pdf"
+
+[[set]]
+id = "yi-jin-jing"
+category = "ancient"
+title = "Yi Jin Jing — Muscle and Tendon Cleansing"
+summary = "Muscle and tendon cleansing, with breath and movement."
+source = "yi_jin_jing.pdf"
+
+# --- Focus ------------------------------------------------------------------
+
+[[set]]
+id = "conserve-and-nurture"
+category = "focus"
+title = "Conserve and Nurture"
+summary = "A 24-section brocade practice."
+source = "Conserving_Nuturing.pdf"
+
+[[set]]
+id = "dredge-tone-root-relax"
+category = "focus"
+title = "Dredge, Tone, Root, Relax"
+summary = "A sequence organized around four complementary intentions."
+source = "Dredge_Tone_Root_Relax.pdf"
+
+[[set]]
+id = "flex-and-stretch"
+category = "focus"
+title = "Flex and Stretch"
+summary = "Joint warm-ups, stretches, and qigong."
+source = "Flex_and_Stretch_Qigong.pdf"
+
+[[set]]
+id = "preserve-and-strengthen"
+category = "focus"
+title = "Preserve and Strengthen"
+summary = "Preserving, clearing, energizing, and strengthening."
+source = "Preserve_and_Strengthen.pdf"
+
+[[set]]
+id = "stretchy-qigong"
+category = "focus"
+title = "Stretchy Qigong"
+summary = "A stretching-focused set, especially for cool weather."
+source = "Stretchy_QiGong.pdf"
+
+[[set]]
+id = "seven-stretches"
+category = "focus"
+title = "Seven Stretches"
+summary = "Seven targeted stretches for the whole body."
+source = "Seven_Stretches.pdf"
+
+[[set]]
+id = "shake-out-the-kinks"
+category = "focus"
+title = "Shake Out the Kinks"
+summary = "A cleansing and loosening sequence."
+source = "Shake_Out_the_Kinks.pdf"
+
+# --- Healing ----------------------------------------------------------------
+
+[[set]]
+id = "back-and-leg-pain"
+category = "healing"
+title = "Back and Leg Pain"
+summary = "Movement and stretching for lower-back and leg discomfort."
+source = "Back_Leg_Pain_Qigong.pdf"
+
+[[set]]
+id = "qigong-for-balance"
+category = "healing"
+title = "Qigong for Balance"
+summary = "Warm-ups and exercises focused on balance."
+source = "Qigong_for_Balance.pdf"
+
+[[set]]
+id = "kidney-qigong"
+category = "healing"
+title = "Kidney-Related Qigong"
+summary = "A set of kidney-related meridian exercises."
+source = "Kidney-Related_Qi_Gong.pdf"
+
+[[set]]
+id = "cold-and-flu"
+category = "healing"
+title = "Qigong for Cold and Flu"
+summary = "Traditional qigong practices for cold and flu season."
+source = "QIgong_for_Cold_and_Flu.pdf"
+
+[[set]]
+id = "elbow-and-balance"
+category = "healing"
+title = "Qigong for Elbow Pain and Balance"
+summary = "Exercises for elbow discomfort and balance."
+source = "Qigong_for_Elbow_and_Balance.pdf"
+
+# --- Seasonal ---------------------------------------------------------------
+
+[[set]]
+id = "ready-for-summer"
+category = "seasonal"
+title = "Get Ready for Summer"
+summary = "A seasonal sequence addressing stiffness and fatigue."
+source = "Get_Ready_for_Summer.pdf"
+
+[[set]]
+id = "high-energy-day"
+category = "seasonal"
+title = "High Energy Day Routine"
+summary = "A more energetic practice sequence."
+source = "High_Energy_Day.pdf"
+
+[[set]]
+id = "wake-up-the-earth"
+category = "seasonal"
+title = "Wake Up the Earth!"
+summary = "An early-spring practice."
+source = "Wake_Up_the_Earth.pdf"
+
+[[set]]
+id = "preparing-for-autumn"
+category = "seasonal"
+title = "Preparing for Autumn"
+summary = "A seasonal sequence with attention to lung and core."
+source = "Preparing_for_Autumn.pdf"
+
+# --- Dragon Spirit ------------------------------------------------------------
+
+[[set]]
+id = "lian-gong-shi-ba-fa"
+category = "dragon-spirit"
+title = "18 Beneficial Exercises"
+summary = "The first part of an 18-exercise therapeutic sequence."
+source = "Lian_Gong_Shi_Ba_Fa_18_Exercises.pdf"
+
+[[set]]
+id = "lift-the-spirit"
+category = "dragon-spirit"
+title = "Qigong to Lift the Spirit"
+summary = "An uplifting practice drawing on the eight brocades."
+source = "Qigong_to_Lift_the_Spirit.pdf"
+
+[[set]]
+id = "shaolin-qigong"
+category = "dragon-spirit"
+title = "Shaolin Qigong"
+summary = "Warm-ups for a more strenuous Shaolin-style practice."
+source = "Shaolin_qigong_short_list.pdf"
+
+[[set]]
+id = "taiji-jiangan"
+category = "dragon-spirit"
+title = "Taiji Jiangan — Exercise Wand"
+summary = "A sequence of health-pole / exercise-wand movements."
+source = "Taiji_Jiangan.pdf"
+
+[[set]]
+id = "taijiquan-qigong"
+category = "dragon-spirit"
+title = "Taijiquan Qigong"
+summary = "Taiji qigong exercises attributed to Dr. Yang, Jwing-Ming."
+source = "Taiji_Qigong_Yang-Jwing-Ming.pdf"
+
+# --- References ---------------------------------------------------------------
+
+[[reference]]
+id = "types-of-qigong"
+title = "Types of Qigong"
+summary = "An overview of major approaches."
+source = "Types_of_Qigong.pdf"
+
+[[reference]]
+id = "references-and-links"
+title = "References & links"
+summary = "Books, teachers, and further reading."
+source = "Qigong_References.pdf"
+
+[[reference]]
+id = "qigong-and-atp"
+title = "Qigong and ATP"
+summary = "A discussion of qigong and energy."
+source = "Qigong_and_ATP.pdf"
+
+[[reference]]
+id = "seven-corrections"
+title = "Seven Corrections"
+summary = "Postural and practice principles."
+source = "Seven_Corrections.pdf"
+
+[[reference]]
+id = "si-zheng"
+title = "Four Uprights"
+summary = "Foundational alignment principles."
+source = "Four_Uprights.pdf"

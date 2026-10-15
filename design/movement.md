@@ -1,0 +1,277 @@
+# `movement` — rebuild plan (evaluation of the qigong prototype)
+
+2026-10-15. Status: **decided; in progress** (decisions below, David's
+answers at the end). Source: David's prototype `sites/movement/heirloom/qigong/`
+(a one-page static site, its README, 7 images, 33 PDFs, favicons).
+
+## Target shape (from David's brief)
+
+- `movement.davidstitt.net/<locale>/`: a new hub, same aesthetics as
+  the other hubs, listing sub-sites. For now only **Qigong**.
+- `movement.davidstitt.net/<locale>/qigong/`: the prototype's page, in
+  its own aesthetic, which David considers an excellent starting point
+  for layout and design.
+- English and Spanish, with much more Spanish than before: the PDFs get
+  translated too.
+- Every resource file goes through the studio tools (`tools/studio/`,
+  `docs/media-prep.md`). Published files follow the standard layout
+  (`static/img/`, `static/docs/`), not the prototype's `img/` and
+  `sets/` folders.
+- Typography follows the established standards, using fonts we already
+  host.
+
+## Decisions (David, 2026-10-15)
+
+- **The PDFs become pages**, one per set and reference, in both
+  languages, at `/<locale>/qigong/<set>/`. URL rule (David, after step
+  1): where a set has both a Chinese (romanized) and an English name,
+  the URL uses the Chinese one, e.g. `daoyin-tu`, `wuqinxi`,
+  `lian-gong-shi-ba-fa`, `si-zheng`.
+- **The original PDFs are dropped** from the new build; the pages
+  replace them. A print stylesheet makes each page a clean handout, so
+  the browser's "Save as PDF" gives a PDF in either language. The
+  prototype's PDFs stay in `heirloom/` as source material only.
+- **The pictures inside the PDFs move onto the pages**: extracted,
+  prepped with `img_prep.sh`, and given alt text.
+- **The hub** (`/<locale>/`) lists **Qigong** (live) plus **Taiji,
+  Xingyi, Pilates, Stretching** as "coming soon", not linked.
+  - Taiji here is David's own future sub-site, separate from Louise's
+    standalone `taiji.genuinemerit.com`.
+  - The hub image is the prototype's ink-style tree (`taiji-tree.jpg`).
+- **The sub-site is called "Qigong"** (not "Qigong & Stretching", since
+  Stretching will be its own sub-site). The About text still names the
+  original class.
+- **A short "not medical advice" note** on the index and every set
+  page, in both languages.
+- **`image61.jpg` stays** in both places (Seasonal and References).
+- **No link to the taiji site** from the About text.
+- **The "Breathe. Move. Practice." tagline and the category names stay.**
+- **Agreed as recommended**:
+  - a catalog (TOML) plus a Spanish overlay with fingerprints;
+  - DM Sans and Libre Baskerville (already hosted);
+  - light-only colours, with the greys fixed for AA;
+  - no JavaScript;
+  - a Spanish glossary before the set translations;
+  - the fixes listed under "Findings".
+
+## What's in the prototype (verified)
+
+- **One page**: hero, 6 exercise-set categories (Standard, Ancient,
+  Focus, Healing, Seasonal, Dragon Spirit) linking all **28 set PDFs**,
+  a References section with **5 background PDFs**, and "About the class"
+  (the original introduction), with a sticky category sidebar on desktop
+  and a jump menu on mobile.
+- **The PDFs are real text, not scans**: about 17,000 words, 1-4 pages
+  each.
+  - The structure is simple: a title, a source line or link, headings,
+    nested numbered and bulleted lists, italic terms, Chinese characters
+    (八段錦), YouTube links.
+  - 5 PDFs carry pictures: Five Animal Frolics (a yin-yang/bagua
+    diagram), Types of Qigong (a dharma wheel and yin-yang), Preserve
+    and Strengthen, Qigong and ATP, and the References list.
+- **Images**: 7, from 600 to 1900 px, mostly JPEG.
+  - `yin_yang_pond.png` is 1.7 MB.
+  - `image61.jpg` is used twice: as the Seasonal picture, and in
+    References with the alt text "bagua and yin-yang diagram".
+- **Favicons**: a complete set (SVG yin-yang, ICO, 32/192/512 PNG,
+  apple-touch) plus `site.webmanifest`.
+- **Fonts**: DM Sans (body) and Libre Baskerville (headings) from Google
+  Fonts, with Georgia for the About text. We already host DM Sans and
+  Libre Baskerville (roman and italic) ourselves (`tokens.css`, added for
+  music), so no Google request and no new font files are needed.
+
+## Findings to fix (not design questions)
+
+- **Contrast**: on the paper colour, `--muted` `#69736c` is 4.39:1 and
+  the sidebar footer grey `#777d73` is 3.78:1; both fail WCAG AA (4.5).
+  They need darkening, as music's greys did. The other colours pass.
+- **Small text**: much of it is 10-12 px (counts, descriptions, file
+  info, the mobile menu). Raise it as for music.
+- **Inline JavaScript**: the mobile jump menu uses
+  `onchange="location.hash=..."`. Our CSP (`script-src 'self'`) blocks
+  inline handlers. A plain-HTML disclosure (`<details>`) of category
+  links does the same with no script at all.
+- **The counts are wrong**:
+  - The sidebar says 5 sets per category; the real numbers are 4, 3, 7,
+    5, 4 and 5.
+  - The "Exercise sets / 04" eyebrows don't match either.
+  - Built from data, they'll always be right.
+- **Typos**: "Barstable, MA." should be Barnstable, MA.; the file
+  `Conserving_Nuturing.pdf` has "Nuturing"; `QIgong_for_Cold_and_Flu.pdf`
+  has a capital I. The file names disappear anyway (the tools rename
+  them).
+- **Medical claims**: the README notes that the PDFs contain some
+  traditional medical claims, kept as source material and not checked.
+
+## Recommendation: translating the PDFs
+
+**Each PDF becomes a page on the site, in both languages; the original
+English PDFs stay available.**
+
+- **Pages, one per set and reference:**
+  `/<locale>/qigong/<set>/`, 33 pages × 2 languages.
+- **Content** in `sites/movement/content/<locale>/qigong/<set>.md`. That
+  is the same Markdown and front matter as taiji's pages, so the
+  existing i18n check (every content page in every locale) covers the
+  Spanish for free, and the translation flow is the usual one: Claude
+  drafts, David reviews, nothing ships unreviewed.
+- **Print**: a print stylesheet makes each page a clean handout. The
+  browser's "Print / Save as PDF" then gives a Spanish PDF without any
+  PDF-making tool on our side.
+- **Original PDFs**: each set's page links its original English PDF
+  (prepped by `pdf_prep.sh`, in `static/docs/`) as "Original handout
+  (PDF, English)".
+- **Why pages rather than Spanish PDFs**:
+  - Pages are readable on a phone, searchable, accessible to screen
+    readers, and use the site's own type.
+  - They go through the checks we already have (HTML validity, links,
+    contrast, i18n).
+  - Making Spanish PDFs instead would need a PDF generator, a new tool
+    to install, test and maintain (WeasyPrint or LibreOffice). It would
+    also leave the English as PDFs only, not pages.
+- **The work itself**: transcribing the 33 PDFs into Markdown, checked
+  against the rendered pages. I'd do one category first, for David to
+  check fidelity and format, before the rest.
+
+## Other recommendations
+
+- **Data**: a small catalog (`sites/movement/content/qigong.toml`) with
+  categories, sets (title, one-line description, original PDF, page
+  count), images and their alt text, and the Spanish strings in an
+  overlay with fingerprints, as music has. The index, counts, sidebar
+  and mobile menu are all built from it.
+- **Typography**:
+  - Body text in **DM Sans**, headings and the About text in **Libre
+    Baskerville** (instead of Georgia, which visitors may not have).
+    Both are already hosted, so this adds no new files.
+  - Page titles use the shared `fit_title` rule (standing rule).
+  - The hub uses the shared hub layout, like the other hubs.
+- **Light-only, like music**: the prototype's palette is light. The
+  contrast check still checks every token.
+- **No JavaScript at all** on the qigong pages (the `<details>` menu
+  above).
+- **Spanish glossary first**: before translating the sets, a short
+  glossary for David to approve. It would cover the terms kept in
+  Chinese or pinyin (qi, dantian, wuji, Ba Duan Jin...), stances
+  ("horse stance" → "postura del jinete"?) and recurring phrases. That
+  keeps 33 pages consistent.
+- **Go-live**:
+  - a new DNS record and certificate for `movement.davidstitt.net`;
+  - a `vhosts.yml` entry;
+  - flip "Movement" from "coming soon" to live on the `davidstitt.net`
+    hub;
+  - add the hostname to Red Sift.
+
+  The old `qigong.genuinemerit.com` is retired (`design/domains.md`), so
+  there are no redirects.
+
+## Dev plan
+
+**To resume**: read this section, take the first unticked step, check
+the log. **When stopping**: tick what's done and add a log line. Each
+step ends at a review point. Nothing is committed without David's OK,
+and nothing deploys before step 8.
+
+- [x] **1. Scaffold** (English, local only):
+  - the `movement` site package (`LOCALES = ["en-US"]` until step 4);
+  - the hub (Qigong live, four "coming soon");
+  - the qigong index, built from a catalog: the prototype's layout
+    with hosted fonts, AA greys, larger small text, the no-script
+    category menu, correct counts, and the medical note.
+  - The prototype images and favicons went in here (`raw/` +
+    `img_prep.sh`), because `static/` must pass the media check. The
+    `vhosts.yml` entry waits for go-live (step 8): there is no
+    local-only switch, and the dev nginx already has a movement vhost.
+- [ ] **2. PDF pictures**: extract the pictures inside the 5 PDFs into
+  `raw/`, prep them, and note where each belongs (used in step 3).
+- [ ] **3. Set pages, English**:
+  - page template plus print stylesheet;
+  - one category transcribed from the PDFs, for David to check fidelity
+    and format;
+  - then the other 27 sets plus the 5 references.
+- [ ] **4. Spanish interface**: UI strings, catalog overlay (titles,
+  descriptions), hub, About, and the medical note.
+- [ ] **5. Spanish glossary**, for David to approve.
+- [ ] **6. Spanish set pages**, one category per review batch.
+- [ ] **7. Polish**: accessibility, contrast, narrow screens, print
+  check, David's manual review.
+- [ ] **8. Go-live**:
+  - DNS `movement.davidstitt.net` and its certificate;
+  - deploy and smoke test;
+  - the `davidstitt.net` hub entry goes live;
+  - Red Sift.
+
+## Log
+
+- 2026-10-15: prototype evaluated; David answered the questions (below)
+  and three follow-ups: hub image, the hub's taiji entry, the sub-site
+  name. Decisions recorded above.
+- 2026-10-15: step 1 done, waiting for David's review.
+  - Built in `src/websites/movement/` (with `catalog.py`),
+    `sites/movement/content/qigong.toml` and `content/en-US/qigong-about.md`,
+    templates `hub_index.html`, `qigong_base.html` and
+    `qigong_index.html`, `static/css/qigong.css`, and
+    `config/i18n/movement/en-US.toml`.
+  - Images were prepped at a 1200 px long edge, except `taiji_tree`:
+    its 1500 px original was smaller than any re-save.
+  - Sets and references show "page in preparation" until their pages
+    exist (step 3).
+  - The About text says "presents the exercise sets" instead of
+    "downloadable lists", since the PDFs are gone.
+  - The full pre-build check passes (vnu, links, contrast included).
+- 2026-10-15: step 1 reviewed (David: looks good). Slugs follow the
+  Chinese-name rule: `wuqinxi`, `lian-gong-shi-ba-fa` and `si-zheng`
+  replace their English forms.
+
+## Questions for David (answered 2026-10-15)
+
+1. **PDF translation**: pages in both languages, plus the original
+   English PDFs as downloads (recommended above)? Or something else,
+   such as Spanish PDFs?
+
+A: Agree with this approach, but drop the original PDFs.
+
+2. **Keep the original PDFs** at all, once every set has its own page?
+   Recommended: yes, as the authentic handouts.
+
+A: Drop the original PDFs from new build.
+
+3. **URLs**: `/<locale>/qigong/` for the index and
+   `/<locale>/qigong/<set>/` for each set (e.g.
+   `/es-ES/qigong/ba-duan-jin/`). OK?
+
+A: Yes. May tweak some set names if needed.
+
+4. **The hub**:
+   - Is Qigong the only entry for now, or are other sub-sites planned
+     to show as "coming soon"?
+   - Which image should the hub use? (music's uses your photo; I can
+     make a stand-in, or reuse one of the qigong images.)
+
+A: Other possible sub-sites are: taiji, xingyi, pilates, and stretching
+
+5. **Medical claims**: add a short, calm note ("traditional practice
+   notes, not medical advice; adapt to your own body")? It would sit on
+   the index and the set pages, in both languages.
+
+A: Yes, good idea. Thanks.
+
+6. **Images**:
+   - `image61.jpg` appears twice (Seasonal and References). Keep both,
+     or would you rather pick a different Seasonal image?
+   - The pictures inside the 5 PDFs: carry them onto the set pages,
+     where they help, or leave them in the original PDFs only?
+
+A: OK to use it twice.  Carry PDF images onto the pages.
+
+7. **The About text** mentions the YMCA class. Should it link to the
+   taiji site (Louise's class), as `planning/target-sites.md`
+   anticipated ("may get a link *from* `movement`")?
+
+A: No.
+
+8. **Anything in the prototype to drop or change** beyond the fixes
+   above, e.g. the "Breathe. Move. Practice." tagline or the
+   category names?
+
+A: No, that tagline is OK.

@@ -1,0 +1,21 @@
+{#- movement.davidstitt.net hub: the shared hub layout (sites/_shared/
+    templates/hub.html) listing the movement practices - Qigong live,
+    the rest coming soon (design/movement.md). Light only, in the
+    qigong palette. -#}
+{% extends "hub.html" %}
+{% block palette %}
+    :root {
+      --background: #f5f2e9;
+      --surface: #fcfbf7;
+      --text: #29332f;
+      --muted: #636d66;
+      --accent: #496e60;
+      --accent-hover: #355c4e;
+      --line: #d9ddd5;
+    }
+    /* The ink-wash tree has a pale ground: blend it into the paper, as
+       on the qigong page. */
+    figure img {
+      mix-blend-mode: multiply;
+    }
+{% endblock %}

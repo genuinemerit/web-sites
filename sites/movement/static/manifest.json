@@ -1,0 +1,11 @@
+{
+  "name": "David Stitt / Movement",
+  "short_name": "Movement",
+  "icons": [
+    { "src": "/static/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/static/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "display": "standalone",
+  "background_color": "#f5f2e9",
+  "theme_color": "#f5f2e9"
+}

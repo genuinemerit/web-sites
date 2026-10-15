@@ -1,0 +1,586 @@
+/* Qigong (movement.davidstitt.net/<locale>/qigong/) - layout and type
+   from David's prototype (heirloom/qigong/styles.css), adapted
+   2026-10-15 (design/movement.md):
+   - fonts self-hosted (tokens.css): DM Sans for text, Libre Baskerville
+     for headings and the About text (instead of Georgia);
+   - colours are the page's :root tokens (qigong_base.html), with the
+     greys darkened to pass WCAG AA;
+   - the smallest text raised from 10-12px to at least 0.8125rem (13px);
+   - the mobile category menu is a <details> (no script);
+   - sizes in rem. */
+
+:root {
+  --sans: "DM Sans", system-ui, sans-serif;
+  --serif: "Libre Baskerville", Georgia, serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 1.5rem;
+}
+
+body {
+  font-family: var(--sans);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+a {
+  color: inherit;
+}
+
+.skip {
+  position: absolute;
+  top: -6rem;
+  left: 0.75rem;
+  z-index: 20;
+  padding: 0.5rem 0.75rem;
+  background: var(--card);
+  color: var(--text);
+}
+
+.skip:focus {
+  top: 0.75rem;
+}
+
+.eyebrow,
+.nav-label {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* --- Layout and sidebar ---------------------------------------------------- */
+
+.layout {
+  display: grid;
+  grid-template-columns: 16.25rem minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 2.2rem 1.4rem 1.6rem;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--line);
+}
+
+.side-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font: 700 1.2rem/1.25 var(--serif);
+  letter-spacing: -0.03em;
+  text-decoration: none;
+}
+
+.languages {
+  font-size: 0.8125rem;
+}
+
+.languages a {
+  color: var(--muted);
+}
+
+.languages a[aria-current="page"] {
+  color: var(--text);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.sidebar-note {
+  margin: 0.7rem 0 2.6rem 2.8rem;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+.categories ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.categories .nav-label {
+  margin-left: 0.65rem;
+}
+
+.categories a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.55rem 0.7rem;
+  border-radius: 5px;
+  font-size: 0.9375rem;
+  text-decoration: none;
+}
+
+.categories a:hover,
+.categories a:focus-visible {
+  background: var(--soft);
+}
+
+.count {
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+.sidebar-foot {
+  margin: auto 0 0 0.65rem;
+  padding-top: 1.5rem;
+  font: italic 0.875rem var(--serif);
+  color: var(--muted);
+}
+
+main {
+  min-width: 0;
+}
+
+.content {
+  max-width: 70rem;
+  margin: 0 auto;
+  padding: 0 3.1rem;
+  /* Title column for .fit-title (tokens.css): the hero's text column. */
+  --title-col: calc(min(100vw - 16.25rem, 70rem) * 0.5);
+}
+
+/* --- Hero ------------------------------------------------------------------------ */
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 1.5rem;
+  align-items: center;
+  min-height: 26rem;
+  padding: 4rem 0 3.75rem;
+  border-bottom: 1px solid var(--line);
+}
+
+/* Page titles follow the shared .fit-title rule (CLAUDE.md), with the
+   prototype's light serif look. */
+.hero .fit-title,
+.page-head .fit-title {
+  margin: 0.9rem 0 1.4rem;
+  font-family: var(--serif);
+  font-size: clamp(2rem, calc(var(--title-col) / var(--title-em)), 4.4rem);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.05em;
+}
+
+.lead {
+  max-width: 28rem;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+.primary-link {
+  display: inline-flex;
+  gap: 1.4rem;
+  align-items: center;
+  margin-top: 1rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--accent);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--accent-hover);
+  text-decoration: none;
+}
+
+.hero-art {
+  width: 100%;
+  height: auto;
+  max-height: 20.5rem;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+  opacity: 0.8;
+}
+
+/* --- Category menu (narrow screens), counts, note ------------------------------- */
+
+.mobile-jump {
+  display: none;
+}
+
+.intro-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.75rem;
+  margin: 0;
+  padding: 1.2rem 0 0.95rem;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.note {
+  margin: 1.5rem 0 0;
+  padding: 0.8rem 1rem;
+  border-left: 3px solid var(--accent);
+  background: var(--card);
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+/* --- Category sections and set lists ---------------------------------------------- */
+
+.set-section {
+  padding: 3.5rem 0 0.9rem;
+  scroll-margin-top: 1.1rem;
+}
+
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.75rem;
+  min-height: 9rem;
+  margin-bottom: 1.1rem;
+}
+
+.section-head h2,
+.about-section h2 {
+  margin: 0.6rem 0 0.4rem;
+  font-family: var(--serif);
+  font-size: clamp(1.95rem, 3.2vw, 2.75rem);
+  font-weight: 400;
+  line-height: 1.22;
+  letter-spacing: -0.05em;
+}
+
+.section-head p {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--muted);
+}
+
+.section-image {
+  flex: none;
+  width: 12.8rem;
+  height: 8.6rem;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 3px;
+  background: var(--card);
+}
+
+.section-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* The Daoyin tapestry is a wide scroll: show it whole. */
+.section-image--ancient {
+  width: 16rem;
+}
+
+.section-image--ancient img {
+  object-fit: contain;
+}
+
+.set-list {
+  border-top: 1px solid var(--line);
+}
+
+.set-link,
+.reference-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  text-decoration: none;
+}
+
+.set-link {
+  padding: 0.95rem 0.5rem 0.95rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+a.set-link:hover,
+a.set-link:focus-visible {
+  padding-left: 0.6rem;
+  background: var(--soft);
+}
+
+.entry-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.entry-copy strong {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.entry-desc {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.entry-go {
+  flex: none;
+  font-size: 0.8125rem;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.pending .entry-go {
+  font-style: italic;
+  color: var(--muted);
+}
+
+.references {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+
+.reference-link {
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--card);
+}
+
+a.reference-link:hover,
+a.reference-link:focus-visible {
+  border-color: var(--accent);
+  background: var(--soft);
+}
+
+/* --- About ---------------------------------------------------------------------------- */
+
+.about-section {
+  margin-top: 4.4rem;
+  padding: 4.25rem 0 2.5rem;
+  border-top: 1px solid var(--line);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(11rem, 0.6fr);
+  gap: 2.4rem;
+  align-items: start;
+}
+
+.about-copy {
+  font-family: var(--serif);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.about-copy p:first-child {
+  margin-top: 0;
+}
+
+.about-grid figure {
+  margin: 0;
+}
+
+.about-grid img {
+  width: 100%;
+  height: auto;
+  border-radius: 3px;
+}
+
+.about-grid figcaption {
+  margin-top: 0.4rem;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem 1.25rem;
+  padding: 1.6rem 0 3.1rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+footer a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+/* --- Narrower screens ------------------------------------------------------------------ */
+
+@media (max-width: 60rem) {
+  .layout {
+    grid-template-columns: 13rem minmax(0, 1fr);
+  }
+
+  .sidebar {
+    padding: 1.9rem 0.95rem;
+  }
+
+  .content {
+    padding: 0 1.75rem;
+    --title-col: calc((100vw - 13rem) * 0.5);
+  }
+
+  .hero {
+    min-height: 20rem;
+  }
+
+  .section-image {
+    width: 9.7rem;
+    height: 7rem;
+  }
+
+  .section-image--ancient {
+    width: 11.25rem;
+  }
+}
+
+@media (max-width: 44rem) {
+  .layout {
+    display: block;
+  }
+
+  .sidebar {
+    position: static;
+    height: auto;
+    padding: 1.1rem 1.25rem;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .brand {
+    font-size: 1.1rem;
+  }
+
+  .sidebar-note,
+  .categories,
+  .sidebar-foot {
+    display: none;
+  }
+
+  .content {
+    padding: 0 1.2rem;
+    --title-col: calc(100vw - 2.4rem - 7rem);
+  }
+
+  .hero {
+    grid-template-columns: 1fr 6.25rem;
+    gap: 0.5rem;
+    min-height: 0;
+    padding: 2.6rem 0 2.2rem;
+  }
+
+  .lead {
+    font-size: 0.9375rem;
+  }
+
+  .hero-art {
+    max-height: 9.7rem;
+    opacity: 0.65;
+  }
+
+  .mobile-jump {
+    display: block;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .mobile-jump summary {
+    cursor: pointer;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--accent-hover);
+  }
+
+  .mobile-jump ul {
+    margin: 0.6rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .mobile-jump a {
+    display: block;
+    padding: 0.45rem 0;
+    text-decoration: none;
+  }
+
+  .set-section {
+    padding-top: 2.3rem;
+  }
+
+  .section-head {
+    gap: 0.75rem;
+    min-height: 6.5rem;
+  }
+
+  .section-image,
+  .section-image--ancient {
+    width: 6.6rem;
+    height: 6rem;
+  }
+
+  .set-link {
+    padding: 0.8rem 0;
+  }
+
+  .references,
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-grid figure {
+    max-width: 16rem;
+  }
+
+  .about-section {
+    margin-top: 3rem;
+    padding-top: 2.7rem;
+  }
+}
+
+@media (max-width: 24.5rem) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-art {
+    display: none;
+  }
+
+  .content {
+    --title-col: calc(100vw - 2.4rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
