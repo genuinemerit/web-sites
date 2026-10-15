@@ -1,0 +1,58 @@
+# Localization catalog: es-ES (Iberian Spanish) for movement - interface
+# text only (the qigong catalog: sites/movement/content/qigong.es-ES.toml;
+# the About text: content/es-ES/qigong-about.md). Drafted by Claude,
+# reviewed and approved by David 2026-10-15. Informal "tú", as on the
+# other sites.
+
+[tags]
+"lang.en-US" = "English"
+"lang.es-ES" = "Español"
+"nav.language" = "Idioma"
+
+# Hub page (/<locale>/), shared hub layout. The practices keep their
+# names (Qigong, Taiji, Xingyi, Pilates); Stretching is "Estiramientos".
+"hub.title" = "Movimiento"
+"hub.coming_soon" = "próximamente"
+"nav.sites" = "Prácticas"
+"site.qigong" = "Qigong"
+"site.taiji" = "Taiji"
+"site.xingyi" = "Xingyi"
+"site.pilates" = "Pilates"
+"site.stretching" = "Estiramientos"
+"image.alt" = "Ilustración de estilo tinta de un árbol en un paisaje de montaña"
+
+# Qigong index (/<locale>/qigong/).
+"qigong.page_title" = "Qigong · David Stitt"
+"qigong.meta_description" = "Series de ejercicios de qigong, rutinas de estiramiento y materiales de consulta de la clase de David Stitt."
+"qigong.title" = "Qigong"
+"qigong.skip" = "Saltar a las series de ejercicios"
+"qigong.tagline" = "Una guía personal de práctica"
+"qigong.categories_label" = "Categorías de las series de ejercicios"
+"qigong.sets_heading" = "Series de ejercicios"
+"qigong.foot_tagline" = "Respira. Muévete. Practica."
+"qigong.eyebrow" = "Una colección para practicar"
+"qigong.lead" = "Series de ejercicios, rutinas de estiramiento y materiales de consulta — fáciles de encontrar, listos para usar."
+"qigong.browse" = "Ver las series"
+"qigong.jump" = "Ir a una categoría"
+"qigong.count_sets" = "{n} series de ejercicios"
+"qigong.count_categories" = "{n} categorías"
+"qigong.count_references" = "{n} referencias"
+"qigong.section_eyebrow" = "Series de ejercicios · {n}"
+"qigong.in_preparation" = "página en preparación"
+"qigong.references_eyebrow" = "Materiales de consulta"
+"qigong.references" = "Referencias"
+"qigong.references_intro" = "Lecturas y principios para acompañar las series de ejercicios."
+"qigong.references_alt" = "Diagrama del bagua y del símbolo del yin y el yang"
+"qigong.about_eyebrow" = "Una nota de la clase original"
+"qigong.about_nav" = "Sobre la clase"
+"qigong.about_image_alt" = "Un grupo practicando qigong al aire libre"
+"qigong.about_caption" = "De los materiales originales de la clase"
+"qigong.note" = "Estas son notas de práctica tradicional, no consejo médico. Muévete con suavidad, adapta cada ejercicio a tu propio cuerpo y consulta a un profesional de la salud ante cualquier dolencia."
+"qigong.footer" = "Qigong · Una guía para la práctica continua"
+"qigong.hub_link" = "Movimiento"
+"qigong.top" = "Volver arriba"
+
+# Set and reference pages (/<locale>/qigong/<id>/).
+"qigong.crumbs_label" = "Ruta de navegación"
+"qigong.pager_label" = "Anterior y siguiente"
+"qigong.print_source" = "De"

@@ -102,7 +102,7 @@ source = "Daoyin_tu-Gathering_and_Pulling.pdf"
 [[set]]
 id = "wuqinxi"
 category = "ancient"
-title = "Five Animal Frolics"
+title = "Wuqinxi — Five Animal Frolics"
 summary = "Traditional animal-inspired movement sequences."
 source = "Five_Animal_Frolics.pdf"
 
@@ -236,7 +236,7 @@ source = "Preparing_for_Autumn.pdf"
 [[set]]
 id = "lian-gong-shi-ba-fa"
 category = "dragon-spirit"
-title = "18 Beneficial Exercises"
+title = "Lian Gong Shi Ba Fa — 18 Beneficial Exercises"
 summary = "The first part of an 18-exercise therapeutic sequence."
 source = "Lian_Gong_Shi_Ba_Fa_18_Exercises.pdf"
 
@@ -296,6 +296,6 @@ source = "Seven_Corrections.pdf"
 
 [[reference]]
 id = "si-zheng"
-title = "Four Uprights"
+title = "Si Zheng — Four Uprights"
 summary = "Foundational alignment principles."
 source = "Four_Uprights.pdf"

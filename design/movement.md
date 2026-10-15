@@ -46,6 +46,10 @@ answers at the end). Source: David's prototype `sites/movement/heirloom/qigong/`
 - **`image61.jpg` stays** in both places (Seasonal and References).
 - **No link to the taiji site** from the About text.
 - **The "Breathe. Move. Practice." tagline and the category names stay.**
+- **Spanish arrives in batches, committed locally; nothing is pushed
+  until all of it is done** (David, after step 3). Declaring `es-ES`
+  makes the i18n check fail until every page exists, and pushes need a
+  passing check. GitHub lags until step 6 is finished.
 - **Agreed as recommended**:
   - a catalog (TOML) plus a Spanish overlay with fingerprints;
   - DM Sans and Libre Baskerville (already hosted);
@@ -196,7 +200,7 @@ and nothing deploys before step 8.
   - one category transcribed from the PDFs, for David to check fidelity
     and format;
   - then the other 27 sets plus the 5 references.
-- [ ] **4. Spanish interface**: UI strings, catalog overlay (titles,
+- [x] **4. Spanish interface**: UI strings, catalog overlay (titles,
   descriptions), hub, About, and the medical note.
 - [ ] **5. Spanish glossary**, for David to approve.
 - [ ] **6. Spanish set pages**, one category per review batch.
@@ -305,6 +309,27 @@ and nothing deploys before step 8.
     - lian-gong-shi-ba-fa, no. 16: "grasp left knee with both hands. Keeping right hand on knee, lift right hand up" - should the lifted hand be the left?
     - kidney-qigong, Kidney Stimulation: "rotate hands left ... Repeat on left side" - should the repeat be the right side?
     - shaolin-qigong, Splits: Shu Cha is called a side split, Hen Cha a forward split - usually it's the other way round (shu = vertical/forward, heng = horizontal/side)?
+- 2026-10-15: committed and pushed step 3 (`36884b5`). Step 4 done,
+  waiting for David's review of the Spanish:
+  - `LOCALES` is now en-US and es-ES.
+  - `config/i18n/movement/es-ES.toml` holds the interface: hub, index,
+    pages, medical note. `content/es-ES/qigong-about.md` is the About
+    text.
+  - `content/qigong.es-ES.toml` translates every category, set and
+    reference title and summary. Each block carries a fingerprint of
+    its English. A deliberate test confirmed that changing an English
+    summary makes `websites.movement.check` report the block "out of
+    date".
+  - The new `websites.movement.check` (with `--status`) runs in
+    `pre-build-check.sh` after the music catalog check.
+  - Language switch: a set page whose Spanish isn't written yet links to
+    the Spanish index instead (no dead link).
+  - As decided, the i18n check fails until step 6 (33 Spanish pages);
+    HTML, links and contrast pass when run directly.
+- 2026-10-15: David approved the Spanish so far. Three English titles
+  gained their Chinese names: "Wuqinxi — Five Animal Frolics", "Lian
+  Gong Shi Ba Fa — 18 Beneficial Exercises", "Si Zheng — Four Uprights".
+  The Spanish follows the same form. Committed locally, not pushed.
 
 ## Questions for David (answered 2026-10-15)
 

@@ -12,8 +12,11 @@ Routes:
                             sites/movement/content/<locale>/qigong/<id>.md
                             (transcribed from the prototype's PDFs)
 
-English only until design step 4 adds Spanish (the i18n check requires
-every declared locale to be complete). No JavaScript.
+English and Spanish (Spanish from design step 4): interface strings in
+config/i18n/movement/, the catalog's Spanish in qigong.es-ES.toml (with
+fingerprints - see websites.movement.catalog), the pages in
+content/es-ES/. A page not yet translated shows as "in preparation" in
+that language. No JavaScript.
 """
 
 from __future__ import annotations
@@ -29,7 +32,7 @@ from websites.common.i18n import load_site_catalogs, translate
 from websites.movement.catalog import load_catalog
 
 SITE = "movement"
-LOCALES = ["en-US"]
+LOCALES = ["en-US", "es-ES"]
 REPO_ROOT = Path(__file__).resolve().parents[3]
 SITE_DIR = REPO_ROOT / "sites" / SITE
 
@@ -47,15 +50,15 @@ HUB_IMAGE = [{"file": "img/taiji_tree.jpg", "w": 1500, "h": 994}]
 
 
 @cache
-def catalog() -> dict:
-    """Loaded and checked once, on first use."""
-    return load_catalog()
+def catalogs() -> dict[str, dict]:
+    """The catalog in each locale, loaded and checked once, on first use."""
+    return {locale: load_catalog(locale) for locale in LOCALES}
 
 
-def pages_in_order() -> list[dict]:
+def pages_in_order(locale: str) -> list[dict]:
     """Every set (in category order), then every reference - the order
     of the previous/next links on the pages."""
-    data = catalog()
+    data = catalogs()[locale]
     sets = [s for c in data["category"] for s in c["sets"]]
     return sets + data["reference"]
 
@@ -63,7 +66,7 @@ def pages_in_order() -> list[dict]:
 def freeze_urls(locale: str):
     """Set and reference pages for websites.common.freeze - only those
     written so far."""
-    for p in pages_in_order():
+    for p in pages_in_order(locale):
         if page_exists(locale, p["id"]):
             yield "qigong_page", {"locale": locale, "page_id": p["id"]}
 
@@ -83,7 +86,7 @@ def create_app() -> Flask:
         ]
     )
     ui = load_site_catalogs(SITE, LOCALES)
-    data = catalog()
+    data = catalogs()
 
     def t(locale: str, tag: str, **values) -> str:
         text = translate(ui, locale, tag)
@@ -91,15 +94,18 @@ def create_app() -> Flask:
 
     @app.context_processor
     def inject_globals():
-        # The sidebar (qigong_base.html) lists the categories on every page.
-        return {
-            "locales": LOCALES,
-            "site": SITE,
-            "t": t,
-            "page_exists": page_exists,
-            "categories": data["category"],
-            "references": data["reference"],
-        }
+        return {"locales": LOCALES, "site": SITE, "t": t, "page_exists": page_exists}
+
+    def page(template: str, locale: str, **context):
+        """Render with this locale's catalog (the sidebar lists the
+        categories on every qigong page)."""
+        return render_template(
+            template,
+            locale=locale,
+            categories=data[locale]["category"],
+            references=data[locale]["reference"],
+            **context,
+        )
 
     @app.route("/<locale>/")
     def index(locale: str):
@@ -114,25 +120,31 @@ def create_app() -> Flask:
         if locale not in LOCALES:
             abort(404)
         _, about = load_page(SITE, locale, "qigong-about")
-        return render_template(
-            "qigong_index.html", locale=locale, set_count=len(data["set"]), about=about
+        return page(
+            "qigong_index.html",
+            locale,
+            set_count=len(data[locale]["set"]),
+            about=about,
         )
 
     @app.route("/<locale>/qigong/<page_id>/")
     def qigong_page(locale: str, page_id: str):
-        order = [p for p in pages_in_order() if page_exists(locale, p["id"])]
+        if locale not in LOCALES:
+            abort(404)
+        order = [p for p in pages_in_order(locale) if page_exists(locale, p["id"])]
         ids = [p["id"] for p in order]
-        if locale not in LOCALES or page_id not in ids:
+        if page_id not in ids:
             abort(404)
         i = ids.index(page_id)
         item = order[i]
         category = next(
-            (c for c in data["category"] if c["id"] == item.get("category")), None
+            (c for c in data[locale]["category"] if c["id"] == item.get("category")),
+            None,
         )
         _, body = load_page(SITE, locale, f"qigong/{page_id}")
-        return render_template(
+        return page(
             "qigong_page.html",
-            locale=locale,
+            locale,
             item=item,
             category=category,
             body=body,

@@ -68,6 +68,9 @@ done
 run_check "music catalog" \
     poetry run python -m websites.music.check
 
+run_check "movement catalog" \
+    poetry run python -m websites.movement.check
+
 # JavaScript: ES2017 syntax + no HTML/code built from strings (no Node
 # toolchain in this project - see the script's docstring).
 run_check "JavaScript" \

@@ -1,0 +1,220 @@
+# Spanish (es-ES) translation of qigong.toml - the qigong catalog's
+# titles, summaries and category text (design/movement.md, step 4).
+# Drafted by Claude, reviewed and approved by David 2026-10-15. Iberian
+# Spanish, "tú".
+#
+# Each block's `source` is a fingerprint of the English it was
+# translated from. When the English changes, the check stops with "out
+# of date" for that block: update the Spanish, then record the new
+# fingerprint shown by
+#     poetry run python -m websites.movement.check --status
+#
+# Chinese (romanized) names stay as they are, with the English part of a
+# title translated (e.g. "Ba Duan Jin — Ocho piezas de brocado").
+
+# --- category ---
+
+[category.standard]
+source = "b94191f39449"
+title = "Estándar"
+subtitle = "Práctica diaria"
+alt = ""
+
+[category.ancient]
+source = "bfb074568de5"
+title = "Antiguas"
+subtitle = "Formas tradicionales y raíces históricas"
+alt = ""
+
+[category.focus]
+source = "c011dd3ac0e3"
+title = "Enfoque"
+subtitle = "Movimiento, flexibilidad y cultivo"
+alt = ""
+
+[category.healing]
+source = "f7a39a6239ff"
+title = "Sanación"
+subtitle = "Práctica pensada para necesidades concretas"
+alt = ""
+
+[category.seasonal]
+source = "3ae9befc8483"
+title = "Estacionales"
+subtitle = "Practicar al ritmo de las estaciones"
+alt = ""
+
+[category.dragon-spirit]
+source = "7c25a1a59514"
+title = "Espíritu del dragón"
+subtitle = "Formas enérgicas y series especializadas"
+alt = ""
+
+# --- set ---
+
+[set.ba-duan-jin]
+source = "a8170feaa700"
+title = "Ba Duan Jin — Ocho piezas de brocado"
+summary = "Una guía de los ocho brocados, con variantes y consejos de práctica."
+
+[set.daily-routine]
+source = "feb6136f2d55"
+title = "Rutina diaria de qigong"
+summary = "Calentamiento, movimiento y una secuencia diaria completa."
+
+[set.morning-routine]
+source = "96a72c277de6"
+title = "Rutina matinal de qigong"
+summary = "Dar la bienvenida al día con respiración y movimiento."
+
+[set.qigong-and-stretch]
+source = "4d9830760e50"
+title = "Qigong y estiramientos"
+summary = "Una serie breve de movimientos de qigong y estiramientos."
+
+[set.daoyin-tu]
+source = "b940518e8d6c"
+title = "Daoyin-tu — Recoger y estirar"
+summary = "Ejercicios antiguos inspirados en el diagrama Daoyin de la dinastía Han."
+
+[set.wuqinxi]
+source = "743c20b00f6f"
+title = "Wuqinxi — Juego de los cinco animales"
+summary = "Secuencias tradicionales de movimiento inspiradas en animales."
+
+[set.yi-jin-jing]
+source = "c48d482cf891"
+title = "Yi Jin Jing — Limpieza de músculos y tendones"
+summary = "Limpieza de músculos y tendones, con respiración y movimiento."
+
+[set.conserve-and-nurture]
+source = "812f5b0378c4"
+title = "Conservar y nutrir"
+summary = "Una práctica de brocado en 24 secciones."
+
+[set.dredge-tone-root-relax]
+source = "cf9409f0c195"
+title = "Desbloquear, tonificar, enraizar, relajar"
+summary = "Una secuencia organizada en torno a cuatro intenciones complementarias."
+
+[set.flex-and-stretch]
+source = "a4b504a85d18"
+title = "Flexionar y estirar"
+summary = "Calentamiento articular, estiramientos y qigong."
+
+[set.preserve-and-strengthen]
+source = "7a0f4fa29b49"
+title = "Preservar y fortalecer"
+summary = "Preservar, limpiar, energizar y fortalecer."
+
+[set.stretchy-qigong]
+source = "b082f07be765"
+title = "Qigong elástico"
+summary = "Una serie centrada en los estiramientos, especialmente para el tiempo fresco."
+
+[set.seven-stretches]
+source = "2dd0fca79086"
+title = "Siete estiramientos"
+summary = "Siete estiramientos dirigidos a todo el cuerpo."
+
+[set.shake-out-the-kinks]
+source = "6e4282355714"
+title = "Sacudirse las tensiones"
+summary = "Una secuencia de limpieza y soltura."
+
+[set.back-and-leg-pain]
+source = "aa35db4452f5"
+title = "Dolor de espalda y piernas"
+summary = "Movimiento y estiramientos para molestias en la zona lumbar y las piernas."
+
+[set.qigong-for-balance]
+source = "dff9ef6c51a6"
+title = "Qigong para el equilibrio"
+summary = "Calentamiento y ejercicios centrados en el equilibrio."
+
+[set.kidney-qigong]
+source = "c8e8d57eca06"
+title = "Qigong de los riñones"
+summary = "Una serie de ejercicios del meridiano de los riñones."
+
+[set.cold-and-flu]
+source = "a00bc60378cc"
+title = "Qigong para resfriados y gripe"
+summary = "Prácticas tradicionales de qigong para la temporada de resfriados y gripe."
+
+[set.elbow-and-balance]
+source = "2cfc4ffb8702"
+title = "Qigong para el dolor de codo y el equilibrio"
+summary = "Ejercicios para las molestias de codo y para el equilibrio."
+
+[set.ready-for-summer]
+source = "340e8ff8fe56"
+title = "Preparándose para el verano"
+summary = "Una secuencia estacional contra la rigidez y el cansancio."
+
+[set.high-energy-day]
+source = "2b90445abe63"
+title = "Rutina para un día de mucha energía"
+summary = "Una secuencia de práctica más enérgica."
+
+[set.wake-up-the-earth]
+source = "27360196a99c"
+title = "¡Despertar la tierra!"
+summary = "Una práctica para el comienzo de la primavera."
+
+[set.preparing-for-autumn]
+source = "551ed23bb8da"
+title = "Preparándose para el otoño"
+summary = "Una secuencia estacional que atiende a los pulmones y al centro del cuerpo."
+
+[set.lian-gong-shi-ba-fa]
+source = "20647c7a0848"
+title = "Lian Gong Shi Ba Fa — 18 ejercicios beneficiosos"
+summary = "La primera parte de una secuencia terapéutica de 18 ejercicios."
+
+[set.lift-the-spirit]
+source = "7f960ce00f2e"
+title = "Qigong para elevar el espíritu"
+summary = "Una práctica estimulante basada en los ocho brocados."
+
+[set.shaolin-qigong]
+source = "5e2eaffad90e"
+title = "Qigong Shaolin"
+summary = "Calentamiento para una práctica más exigente al estilo Shaolin."
+
+[set.taiji-jiangan]
+source = "5e5a5f8ee29c"
+title = "Taiji Jiangan — La vara de ejercicio"
+summary = "Una secuencia de movimientos con la vara o bastón de ejercicio."
+
+[set.taijiquan-qigong]
+source = "9957f5795437"
+title = "Qigong de taijiquan"
+summary = "Ejercicios de qigong de taiji atribuidos al Dr. Yang Jwing-Ming."
+
+# --- reference ---
+
+[reference.types-of-qigong]
+source = "5bf5def41b1d"
+title = "Tipos de qigong"
+summary = "Una visión general de los principales enfoques."
+
+[reference.references-and-links]
+source = "5f5390ba3d05"
+title = "Referencias y enlaces"
+summary = "Libros, maestros y otras lecturas."
+
+[reference.qigong-and-atp]
+source = "509004457b3b"
+title = "El qigong y el ATP"
+summary = "Un análisis del qigong y la energía."
+
+[reference.seven-corrections]
+source = "a3410dbb0a6e"
+title = "Las siete correcciones"
+summary = "Principios de postura y de práctica."
+
+[reference.si-zheng]
+source = "0ca4a667dbe6"
+title = "Si Zheng — Las cuatro rectitudes"
+summary = "Principios fundamentales de alineación."

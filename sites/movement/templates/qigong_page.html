@@ -5,7 +5,7 @@
 {% extends "qigong_base.html" %}
 {% block title %}{{ item.title }} · {{ t(locale, "qigong.title") }}{% endblock %}
 {% block description %}{{ item.summary }}{% endblock %}
-{% block locale_url %}{{ url_for('qigong_page', locale=loc, page_id=item.id) }}{% endblock %}
+{% block locale_url %}{% if page_exists(loc, item.id) %}{{ url_for('qigong_page', locale=loc, page_id=item.id) }}{% else %}{{ url_for('qigong', locale=loc) }}{% endif %}{% endblock %}
 
 {% block content %}
 <header class="page-head">
