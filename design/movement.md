@@ -182,8 +182,15 @@ and nothing deploys before step 8.
     `img_prep.sh`), because `static/` must pass the media check. The
     `vhosts.yml` entry waits for go-live (step 8): there is no
     local-only switch, and the dev nginx already has a movement vhost.
-- [ ] **2. PDF pictures**: extract the pictures inside the 5 PDFs into
-  `raw/`, prep them, and note where each belongs (used in step 3).
+- [x] **2. PDF pictures**: extract the pictures inside the 5 PDFs into
+  `raw/`, prep them, and note where each belongs (used in step 3):
+
+  | Picture (`static/img/`) | Goes on |
+  | --- | --- |
+  | `bagua_yin_yang.png` (transparent) | `wuqinxi`, `types-of-qigong`, `preserve-and-strengthen` |
+  | `dharma_wheel.jpg` | `types-of-qigong`, `preserve-and-strengthen` |
+  | `qigong_atp_diagram.jpg` | `qigong-and-atp` |
+  | `meridians_chart.jpg` | `references-and-links` |
 - [ ] **3. Set pages, English**:
   - page template plus print stylesheet;
   - one category transcribed from the PDFs, for David to check fidelity
@@ -222,6 +229,17 @@ and nothing deploys before step 8.
 - 2026-10-15: step 1 reviewed (David: looks good). Slugs follow the
   Chinese-name rule: `wuqinxi`, `lian-gong-shi-ba-fa` and `si-zheng`
   replace their English forms.
+- 2026-10-15: committed and pushed step 1 (`230fc32`). Step 2 done.
+  - The 5 PDFs hold 7 embedded images but only 4 distinct pictures (the
+    bagua and dharma wheel appear in several).
+  - Extracted with qpdf: the JPEG streams were dumped as is, and the
+    transparency masks rebuilt from raw pixels. Gotcha: every mask is
+    stored inverted (`/Decode [1 0]`), so it has to be flipped, or the
+    pictures come out as black squares or fully transparent.
+  - The largest copy of each went to `raw/pdf/` under a descriptive
+    name, then through `img_prep.sh`. The meridians chart went from
+    1.2 MB to 194 KB, the ATP diagram from 420 KB to 77 KB; the bagua
+    stays a transparent PNG.
 
 ## Questions for David (answered 2026-10-15)
 
