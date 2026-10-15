@@ -22,7 +22,9 @@ echo "[1/2] nginx (local dev vhost-per-site, mirrors prod) + gh CLI (GitHub repo
 sudo apt-get update -qq
 # ffmpeg (2026-10-10): tools/studio/av_prep.sh - web-ready copies of
 # audio/video (ffmpeg + ffprobe; iconv is in the base system).
-sudo apt-get install -y gh nginx ffmpeg
+# ghostscript + qpdf (2026-10-15): tools/studio/pdf_prep.sh - web-ready
+# PDFs (ghostscript was already present, pulled in by ImageMagick).
+sudo apt-get install -y gh nginx ffmpeg ghostscript qpdf
 
 echo "[2/2] poetry, shellcheck — already present on ubuvm as of 2026-09-30, skipping"
 # poetry:    /home/dave/.local/bin/poetry (2.4.1)

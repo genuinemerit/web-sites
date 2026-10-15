@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# fb-prep.sh — make web/Facebook-ready copies of a folder of JPEGs.
+# img_prep.sh — make web/Facebook-ready copies of a folder of JPEGs.
 #
 # Never touches the originals. Mirrors the source folder structure into the
 # output folder. Safe to re-run: existing outputs are skipped unless -f.

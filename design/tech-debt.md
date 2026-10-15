@@ -53,7 +53,7 @@ the same lightweight principle as everything else here.
   item.
   **Home and scope, from David 2026-10-04**: `tools/studio/` (same name
   as `sask`'s `tools/studio/`) is where he's collecting his own clean-up
-  scripts for images, sound and video — first one `fb-prep.sh`
+  scripts for images, sound and video — first one `fb-prep.sh` (renamed `img_prep.sh` 2026-10-15)
   (resize, EXIF-orient, strip metadata incl. GPS, keep colour profile,
   progressive JPEG). When this item is picked up, as a deliberate
   tangent: gather his scripts, review `sask`'s studio tooling, add what's
@@ -120,3 +120,10 @@ the same lightweight principle as everything else here.
   trying to renew it). Fine while sites are only being added; handle it
   (a small cleanup task, or a documented manual step) before the first
   real removal.
+- **`pdf_prep.sh` and fillable PDF forms — untested.** Noted
+  2026-10-15. The script skips the Ghostscript rewrite (qpdf clean-up
+  only) when qpdf reports a form (`hasacroform`), because Ghostscript
+  can drop form fields, but no real form PDF has been through it yet.
+  David isn't concerned for now; analyse and test with a real form
+  (fields still fillable, values kept) if a site ever needs to publish
+  one.

@@ -43,8 +43,8 @@ actionable version.
   deploy; `docs/cutover-runbook.md` is the switch-over procedure.
 - `tools/studio/` — media clean-up scripts (versioned since 2026-10-10):
   `av_prep.sh` is the standard prep step for any audio/video before it
-  goes into `sites/<site>/media/`; `fb-prep.sh` makes web/Facebook-ready
-  JPEG copies.
+  goes into `sites/<site>/media/`, `pdf_prep.sh` the same for PDFs;
+  `img_prep.sh` makes web/Facebook-ready JPEG copies.
 - `tools/dev/` — dev-host setup, checks, backup. `init-dev-host.sh` is
   the record of every apt install on `ubuvm`; add to it as packages are
   added.
