@@ -66,7 +66,7 @@ David reviews after steps 2, 4 and 6.
   under `sites/*/media/` and `sites/*/static/`. Wired into
   `pre-build-check.sh`, plus a git pre-commit hook (staged files) that
   `tools/dev/install-git-hooks.sh` installs.
-- [ ] 5. `tools/studio/prep.sh SITE [FILES_OR_DIRS]`, defaulting to
+- [x] 5. `tools/studio/prep.sh SITE [FILES_OR_DIRS]`, defaulting to
   `sites/<site>/raw/`; `raw/` added to `.gitignore`.
 - [ ] 6. `docs/media-prep.md`: how to run the tools, and how unprepped
   files are kept out.
@@ -129,3 +129,18 @@ David reviews after steps 2, 4 and 6.
   Deployed: failed=0, public smoke test 119/119. On the droplet only the
   new files are left, and the index is in the first 64 KB, so playback
   starts straight away.
+- 2026-10-15: taiji fix committed (`d129257`). Step 5 done.
+  `tools/studio/prep.sh SITE [FILES_OR_DIRS]`:
+  - It reads `sites/<site>/raw/` by default, sends images, PDFs and
+    audio/video to their tools with `--site`, then runs `check_media.py`
+    over the whole site. That means anything unprepped already in the
+    site also fails the run.
+  - Other file types are reported as UNSUPPORTED and count as a failure.
+  - It passes `--dry-run`, `--skip-existing` and `--map` through (map
+    rows from every tool go into one file). A tool's special options
+    mean running that tool directly with `--site`.
+  - 12 tests (151 in total); dropping the check or ignoring unsupported
+    files each failed a test.
+  - Gotcha: David's shell sets `VIRTUAL_ENV` (pyenv), so the check
+    always goes through `poetry -C <repo> run`, except in the tests'
+    throwaway repo.

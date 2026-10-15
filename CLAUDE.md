@@ -41,7 +41,9 @@ actionable version.
   (OpenTofu), configuration (Ansible roles `base`, `nginx`, `sites`), and
   the scripts that drive them. `tools/ops/smoke_test.py` verifies a live
   deploy; `docs/cutover-runbook.md` is the switch-over procedure.
-- `tools/studio/` — media prep tools (versioned since 2026-10-10):
+- `tools/studio/` — media prep tools (versioned since 2026-10-10).
+  `prep.sh SITE` preps everything in `sites/<site>/raw/` (gitignored
+  originals inbox) by type, then runs the media check. Underneath:
   `av_prep.sh` (audio/video → `sites/<site>/media/`), `img_prep.sh`
   (images → `static/img/`), `pdf_prep.sh` (PDFs → `static/docs/`); the
   site comes from `--site` or the sources' location, `-o` overrides.

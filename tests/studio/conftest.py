@@ -79,11 +79,13 @@ def out_dir(tmp_path: Path) -> Path:
 
 @pytest.fixture
 def fake_repo(tmp_path: Path) -> Path:
-    """A throwaway repo: the studio tools plus sites/demo, sites/other,
-    sites/_shared and sites/heirloom. The tools find the repo from their
+    """A throwaway repo: the studio tools, the media check, and
+    sites/demo, sites/other, sites/_shared and sites/heirloom. The tools find the repo from their
     own location, so copies here never write into the real sites/."""
     repo = tmp_path / "repo"
     shutil.copytree(STUDIO, repo / "tools" / "studio")
+    (repo / "tools" / "dev").mkdir()
+    shutil.copy(REPO / "tools" / "dev" / "check_media.py", repo / "tools" / "dev")
     for name in ("demo", "other", "_shared", "heirloom"):
         (repo / "sites" / name / "raw").mkdir(parents=True)
     return repo

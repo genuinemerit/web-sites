@@ -84,7 +84,8 @@ FIX = {
 
 
 def max_media_bytes() -> int:
-    text = (REPO_ROOT / "ansible" / "vhosts.yml").read_text(encoding="utf-8")
+    vhosts = REPO_ROOT / "ansible" / "vhosts.yml"
+    text = vhosts.read_text(encoding="utf-8") if vhosts.is_file() else ""
     match = re.search(r"^media_max_mb:\s*(\d+)", text, re.MULTILINE)
     return int(match.group(1) if match else 100) * 1024 * 1024
 
