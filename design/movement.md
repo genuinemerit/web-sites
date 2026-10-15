@@ -202,7 +202,8 @@ and nothing deploys before step 8.
   - then the other 27 sets plus the 5 references.
 - [x] **4. Spanish interface**: UI strings, catalog overlay (titles,
   descriptions), hub, About, and the medical note.
-- [ ] **5. Spanish glossary**, for David to approve.
+- [x] **5. Spanish glossary**, for David to approve:
+  `design/movement-glossary.md`.
 - [ ] **6. Spanish set pages**, one category per review batch.
 - [ ] **7. Polish**: accessibility, contrast, narrow screens, print
   check, David's manual review.
@@ -330,6 +331,14 @@ and nothing deploys before step 8.
   gained their Chinese names: "Wuqinxi — Five Animal Frolics", "Lian
   Gong Shi Ba Fa — 18 Beneficial Exercises", "Si Zheng — Four Uprights".
   The Spanish follows the same form. Committed locally, not pushed.
+- 2026-10-15: step 4 committed locally (`6a74602`). Step 5 drafted:
+  `design/movement-glossary.md` covers style conventions, concepts,
+  stances and hands, recurring exercises, and acupressure point names,
+  built from the terms that recur across the 33 English pages. Four
+  questions for David.
+- 2026-10-15: glossary approved: imperative; the ATP quotations are
+  translated with a note; book descriptions are translated, with titles
+  kept in English; the terms stand.
 
 ## Questions for David (answered 2026-10-15)
 
