@@ -23,5 +23,7 @@ def load_page(site: str, locale: str, slug: str) -> tuple[dict, str]:
     not something to paper over)."""
     path = REPO_ROOT / "sites" / site / "content" / locale / f"{slug}.md"
     post = frontmatter.load(path)
-    html_body = markdown(post.content)
+    # attr_list: a picture can carry a class, e.g. ![alt](src){: .small }
+    # (movement's set pages size their pictures this way).
+    html_body = markdown(post.content, extensions=["attr_list"])
     return post.metadata, html_body

@@ -191,7 +191,7 @@ and nothing deploys before step 8.
   | `dharma_wheel.jpg` | `types-of-qigong`, `preserve-and-strengthen` |
   | `qigong_atp_diagram.jpg` | `qigong-and-atp` |
   | `meridians_chart.jpg` | `references-and-links` |
-- [ ] **3. Set pages, English**:
+- [x] **3. Set pages, English**:
   - page template plus print stylesheet;
   - one category transcribed from the PDFs, for David to check fidelity
     and format;
@@ -262,6 +262,49 @@ and nothing deploys before step 8.
     movement catalog check rejects a page file with no catalog entry.
 - 2026-10-15: David checked the Standard pages: format and print preview
   fine, previous/next links liked. On to the other 29.
+- 2026-10-15: committed and pushed step 3 part 1 (`67863c9`). Step 3
+  done: all 28 sets and 5 references transcribed (33 pages, nothing "in
+  preparation" any more).
+  - Pictures are sized in the Markdown: `{: .small }` for the emblems,
+    `{: .wide }` for the meridians chart and ATP diagram. That needed
+    `attr_list` in the shared content loader; taiji and comunidad build
+    unchanged.
+  - Every page's word count is within 5% of its PDF's (headers dropped,
+    "w/" spelled out, a few articles added).
+  - Typo and spelling fixes, per page (content left as in the PDFs):
+    - daoyin-tu: Zaragosa → Zaragoza; "Gwang Zhou Gung Fu" → "Gwong Zau Kung Fu" (as the school's own address spells it); Foward → Forward; degress → degrees; lifing → lifting; Thursting → Thrusting
+    - wuqinxi: "Lift both hand" → hands
+    - yi-jin-jing: "eyes slowly being to glare" → begin; sqaut → squat; thorasic → thoracic; hyper-tension → hypertension; "continued.." note dropped (the two columns are merged)
+    - conserve-and-nurture: "12 time" → times; "Tap at Top Spine" → "Top of Spine"; degress → degrees
+    - dredge-tone-root-relax: "back of neck neck" → neck
+    - flex-and-stretch: sligthtly → slightly
+    - preserve-and-strengthen: nuture → nurture; elixier → elixir; "thenc omb" → "then comb"; "Bell,and" spacing
+    - stretchy-qigong: foreams → forearms
+    - shake-out-the-kinks: "either standing or sitting or standing" → "either standing or sitting"
+    - back-and-leg-pain: tarsul → tarsal; "knee.Repeat" spacing
+    - kidney-qigong: "Lay on back" → Lie; hell → heel ("from toes to heel"); vertebrae → vertebra (one vertebra); missing closing bracket
+    - cold-and-flu: practicising → practicing; lifing → lifting; strenghtening → strengthening; "fend of" → off; phoenxi → phoenix; "draws arms" → draw
+    - elbow-and-balance: transtions → transitions; sidess → sides; simulaneously → simultaneously; "left the heavy hand" → lift; "only really move only" → once
+    - ready-for-summer: "laying on back" → lying
+    - high-energy-day: conepts → concepts; "[see p. 2 for details …]" → "the acupressure points are listed below" (no pages any more)
+    - wake-up-the-earth: "Ankle rolls and circle" → circles
+    - preparing-for-autumn: impermanance → impermanence; Streatch → Stretch; "is the good to augment" → "is good to"; "In Part One noted" → "Part One noted"
+    - lian-gong-shi-ba-fa: "watch first right" → fist; "Hands on at side" → "Hands at side"
+    - lift-the-spirit: lifing → lifting; "left both hands" → lift; "Pol stance" → Pole; "hand forward and back" → hands
+    - shaolin-qigong: "on leg forward" → one; "down to onto knee" → "down onto knee"; "If can" → "If you can"
+    - taiji-jiangan: Tun → Turn; "alternatingly" → alternately; ".." → "."; ORDER: the PDF's page 2 "Warm-up: extended 8 treasures" now comes first, before exercise 1 (it's a warm-up)
+    - taijiquan-qigong: Presss → Press; "the the horizons" → the
+    - types-of-qigong: "according the" → "according to"; "Buddhist, Daoism and Confucianism" → Buddhism; aides → aids; "starting the 1960s" → "starting in"; "focus strengthening" → "focus on strengthening"
+    - references-and-links: "etc.." → "etc."; "My favorite 2.." → "My favorite 2:"
+    - seven-corrections: Sprit → Spirit; synch → sync
+    - qigong-and-atp: Shenzen → Shenzhen; "UCal/Irvine" → UC Irvine; O2 and Ca2+ written with proper sub/superscripts; the article's quoted text otherwise untouched
+  - Content questions, answered by David the same day: Lian Gong no. 16
+    now lifts the left hand; Kidney Stimulation keeps "repeat on left";
+    the Shaolin splits are swapped (Shu Cha forward split, Hen Cha side
+    split). The questions were:
+    - lian-gong-shi-ba-fa, no. 16: "grasp left knee with both hands. Keeping right hand on knee, lift right hand up" - should the lifted hand be the left?
+    - kidney-qigong, Kidney Stimulation: "rotate hands left ... Repeat on left side" - should the repeat be the right side?
+    - shaolin-qigong, Splits: Shu Cha is called a side split, Hen Cha a forward split - usually it's the other way round (shu = vertical/forward, heng = horizontal/side)?
 
 ## Questions for David (answered 2026-10-15)
 

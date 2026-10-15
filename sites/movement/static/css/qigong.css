@@ -511,6 +511,16 @@ footer a:hover {
   margin: 1.5rem 0;
 }
 
+/* Sizes set in the Markdown with {: .small } or {: .wide } (attr_list). */
+.prose img.small {
+  max-width: min(100%, 9rem);
+  margin: 0.75rem 0;
+}
+
+.prose img.wide {
+  max-width: 100%;
+}
+
 .prose blockquote {
   margin: 1rem 0;
   padding-left: 1rem;
@@ -776,6 +786,14 @@ footer a:hover {
 
   .prose img {
     max-width: 6cm;
+  }
+
+  .prose img.small {
+    max-width: 3cm;
+  }
+
+  .prose img.wide {
+    max-width: 100%;
   }
 
   .print-source {
