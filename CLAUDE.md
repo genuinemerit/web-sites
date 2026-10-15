@@ -44,7 +44,7 @@ actionable version.
 - `tools/studio/` — media clean-up scripts (versioned since 2026-10-10):
   `av_prep.sh` is the standard prep step for any audio/video before it
   goes into `sites/<site>/media/`, `pdf_prep.sh` the same for PDFs;
-  `img_prep.sh` makes web/Facebook-ready JPEG copies.
+  `img_prep.sh` for images (design: `design/studio.md`).
 - `tools/dev/` — dev-host setup, checks, backup. `init-dev-host.sh` is
   the record of every apt install on `ubuvm`; add to it as packages are
   added.
@@ -134,7 +134,8 @@ precedence-safe drop-in — both repaired in this repo's Ansible).
 bash tools/dev/pre-build-check.sh
 ```
 
-Every check must pass. In order: ruff lint + format, shellcheck,
+Every check must pass. In order: ruff lint + format, shellcheck, the
+studio tool tests (`tests/studio/`, pytest on generated samples),
 pymarkdown (`README.md`, `CLAUDE.md`, `docs/` only), i18n completeness
 (catalogs + content pages, all locales), the Frozen-Flask build of every
 site, HTML/CSS validity (W3C vnu), internal links (including `/media/`),

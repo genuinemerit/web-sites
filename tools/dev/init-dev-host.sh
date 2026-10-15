@@ -24,7 +24,9 @@ sudo apt-get update -qq
 # audio/video (ffmpeg + ffprobe; iconv is in the base system).
 # ghostscript + qpdf (2026-10-15): tools/studio/pdf_prep.sh - web-ready
 # PDFs (ghostscript was already present, pulled in by ImageMagick).
-sudo apt-get install -y gh nginx ffmpeg ghostscript qpdf
+# libjpeg-turbo-progs (2026-10-15): jpegtran, img_prep.sh's lossless
+# metadata strip (ImageMagick itself was already present).
+sudo apt-get install -y gh nginx ffmpeg ghostscript qpdf libjpeg-turbo-progs
 
 echo "[2/2] poetry, shellcheck — already present on ubuvm as of 2026-09-30, skipping"
 # poetry:    /home/dave/.local/bin/poetry (2.4.1)

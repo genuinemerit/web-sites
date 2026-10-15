@@ -21,13 +21,19 @@ run_check() {
 }
 
 run_check "ruff lint" \
-    poetry run ruff check src/ tools/
+    poetry run ruff check src/ tools/ tests/
 
 run_check "ruff format" \
-    poetry run ruff format --check src/ tools/
+    poetry run ruff format --check src/ tools/ tests/
 
 run_check "shellcheck" \
     shellcheck -S warning tools/*/*.sh
+
+# The media prep tools (tools/studio/), run against generated samples
+# in a temp folder - design/studio.md. Needs ffmpeg, ImageMagick,
+# jpegtran, Ghostscript and qpdf (tools/dev/init-dev-host.sh).
+run_check "studio tool tests" \
+    poetry run pytest -q tests/studio
 
 # planning/ and design/ are both excluded — David's call 2026-09-30,
 # "more noise than we need for this project." Both are discussion/

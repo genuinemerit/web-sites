@@ -22,7 +22,7 @@
 #     software, creation date) and XMP metadata, packs objects into
 #     compressed object streams, and linearizes ("fast web view": the
 #     first page shows before the download ends). --keep-info keeps the
-#     document information and metadata.
+#     title (browsers show it in the tab) and nothing else.
 #   - the result is checked with `qpdf --check` before it is kept
 #
 # Two inputs that would produce the same output name are an error (the
@@ -65,8 +65,8 @@ searched recursively for *.pdf; hidden files are ignored.
                     ebook (150 dpi, default) or printer (300 dpi)
   --lossless        Skip Ghostscript: no image downsampling, only the
                     qpdf clean-up (metadata, object streams, linearize)
-  --keep-info       Keep the document information (title, author, ...)
-                    and XMP metadata
+  --keep-info       Keep the document title (shown in the browser tab);
+                    everything else (author, software, dates, XMP) goes
   -h, --help        Show this help
 
 Examples:
@@ -98,7 +98,7 @@ while (($#)); do
 done
 if ((${#INPUTS[@]} == 0)); then usage >&2; exit 2; fi
 if ! [[ "$PRESET" =~ ^(screen|ebook|printer)$ ]]; then echo 'preset must be screen, ebook or printer' >&2; exit 2; fi
-for cmd in gs qpdf iconv; do
+for cmd in gs qpdf python3 iconv; do
   command -v "$cmd" >/dev/null 2>&1 || { echo "Missing dependency: $cmd" >&2; exit 1; }
 done
 
@@ -145,16 +145,53 @@ run_gs() {
     -sOutputFile="${2//%/%%}" -f "$1" </dev/null
 }
 
-# run_qpdf SRC DEST - exit 3 means "succeeded with warnings".
+# title_update PDF - print a qpdf --update-from-json document that
+# replaces the document information with just its title; print nothing
+# if the PDF has no title.
+title_update() {
+  qpdf --json=2 --json-key=qpdf --json-object=trailer -- "$1" 2>/dev/null \
+    | python3 -I -c '
+import json, subprocess, sys
+head, objs = json.load(sys.stdin)["qpdf"]
+info = objs["trailer"]["value"].get("/Info")
+if not isinstance(info, str):
+    sys.exit()
+out = subprocess.run(
+    ["qpdf", "--json=2", "--json-key=qpdf", f"--json-object={info}", "--", sys.argv[1]],
+    capture_output=True, text=True, check=True).stdout
+title = json.loads(out)["qpdf"][1][f"obj:{info}"]["value"].get("/Title")
+if title:
+    json.dump({"qpdf": [head, {f"obj:{info}": {"value": {"/Title": title}}}]}, sys.stdout)
+' "$1"
+}
+
+# run_qpdf SRC DEST - linearize, object streams, metadata removal.
+# --warning-exit-0: warnings alone are not a failure.
 run_qpdf() {
-  local -a args=(--linearize --object-streams=generate --compress-streams=y)
-  ((KEEP_INFO)) || args+=(--remove-info --remove-metadata)
-  qpdf --warning-exit-0 "${args[@]}" -- "$1" "$2"
+  local src=$1 update
+  local -a args=(--linearize --object-streams=generate --compress-streams=y --remove-metadata)
+  if ((KEEP_INFO)); then
+    # --update-from-json silently skips objects stored inside object
+    # streams (where Ghostscript puts the document information), so
+    # unpack them first.
+    qpdf --warning-exit-0 --object-streams=disable -- "$src" "$TMP_PLAIN" || return 1
+    src=$TMP_PLAIN
+  fi
+  if ((KEEP_INFO)) && update=$(title_update "$src") && [[ -n "$update" ]]; then
+    printf '%s' "$update" > "$TMP_JSON" || return 1
+    args+=(--update-from-json="$TMP_JSON")
+  else
+    args+=(--remove-info)
+  fi
+  qpdf --warning-exit-0 "${args[@]}" -- "$src" "$2"
 }
 
 declare -A CLAIMED=()   # output path -> source that claimed it this run
-TMP_GS="" TMP_OUT=""
-cleanup() { rm -f -- "$TMP_GS" "$TMP_OUT"; TMP_GS="" TMP_OUT=""; }
+TMP_GS="" TMP_PLAIN="" TMP_OUT="" TMP_JSON=""
+cleanup() {
+  rm -f -- "$TMP_GS" "$TMP_PLAIN" "$TMP_OUT" "$TMP_JSON"
+  TMP_GS="" TMP_PLAIN="" TMP_OUT="" TMP_JSON=""
+}
 trap cleanup EXIT
 
 done_count=0 rewritten=0 cleaned=0 skipped=0 failures=0
@@ -202,10 +239,12 @@ process() {
 
   # Work in hidden temp files beside the output, then link the result
   # into place: ln refuses to replace an existing file.
-  # Temp names end in .pdf: Ubuntu's AppArmor profile for qpdf only
-  # lets it open files with that extension.
+  # Temp names end in .pdf/.json: Ubuntu's AppArmor profile for qpdf
+  # only lets it open files with those extensions.
   TMP_GS=$(mktemp -p "$OUTDIR_REAL" --suffix=.pdf .pdf_prep.XXXXXX) || return 1
   TMP_OUT=$(mktemp -p "$OUTDIR_REAL" --suffix=.pdf .pdf_prep.XXXXXX) || { cleanup; return 1; }
+  TMP_PLAIN=$(mktemp -p "$OUTDIR_REAL" --suffix=.pdf .pdf_prep.XXXXXX) || { cleanup; return 1; }
+  TMP_JSON=$(mktemp -p "$OUTDIR_REAL" --suffix=.json .pdf_prep.XXXXXX) || { cleanup; return 1; }
   base_pdf=$src
   if [[ "$mode" == rewrite ]]; then
     if ! run_gs "$src" "$TMP_GS"; then

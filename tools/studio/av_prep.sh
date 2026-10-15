@@ -5,8 +5,9 @@
 # (design/music.md, step 9). The standard prep step for any audio or
 # video published on these sites.
 #
-# Never touches the originals. Never overwrites an output. Decides by
-# the real codec (ffprobe), not the file extension.
+# Never touches the originals. Never overwrites an output. Never writes
+# into the folder a source file lives in. Decides by the real codec
+# (ffprobe), not the file extension.
 #
 # Run it on ORIGINALS, not on its own outputs: a re-encoded video can
 # still sit above the copy threshold and would be re-encoded again,
@@ -66,7 +67,8 @@ Makes web-ready copies of audio/video files (see the comments at the top
 of the script for exactly what happens to each kind of file). Folders
 are searched recursively; hidden files are ignored.
 
-  -o DIR            Output folder (default: ~/webmedia or $WEBMEDIA_DIR)
+  -o DIR            Output folder (default: ~/webmedia or $WEBMEDIA_DIR);
+                    must not be a folder any source file is in
   --dry-run         Show what would be done, change nothing
   --map FILE        Also write "source<TAB>output" file names to FILE
   --skip-existing   Skip inputs whose output already exists (default: error)
@@ -124,9 +126,9 @@ for input in "${INPUTS[@]}"; do
   fi
 done
 
+OUTDIR=$(realpath -m -- "$OUTDIR")
 if ((DRY_RUN == 0)); then
   mkdir -p -- "$OUTDIR" || exit 1
-  OUTDIR=$(cd -- "$OUTDIR" && pwd -P)
 fi
 if [[ -n "$MAP_FILE" ]]; then
   printf 'source\toutput\n' > "$MAP_FILE" || exit 1
@@ -167,6 +169,12 @@ process() {
   local src=$1 base stem safe audio video height width pix vbr fps abr ext dest
   local vmode="" amode="" web_ready=0 action
   if [[ ! -f "$src" ]]; then echo "FAILED (not a file): $src" >&2; return 1; fi
+  local src_dir
+  src_dir=$(realpath -- "$(dirname -- "$src")")
+  if [[ "$src_dir" == "$OUTDIR" || "$src_dir" == "$OUTDIR"/* ]]; then
+    echo "FAILED (source is inside the output folder - use another -o): $src" >&2
+    return 1
+  fi
   base=${src##*/}; stem=${base%.*}; safe=$(normalize "$stem")
   audio=$(probe "$src" a:0 codec_name)
   video=$(probe "$src" V:0 codec_name)
