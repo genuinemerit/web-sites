@@ -12,6 +12,7 @@
 # Hub page (/<locale>/), shared hub layout. The practices keep their
 # names (Qigong, Taiji, Xingyi, Pilates); Stretching is "Estiramientos".
 "hub.title" = "Movimiento"
+"hub.description" = "Las prácticas de movimiento de David Stitt, empezando por el qigong: series de ejercicios, rutinas de estiramiento y lecturas de consulta."
 "hub.coming_soon" = "próximamente"
 "nav.sites" = "Prácticas"
 "site.qigong" = "Qigong"

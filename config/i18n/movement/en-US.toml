@@ -11,6 +11,7 @@
 
 # Hub page (/<locale>/), shared hub layout.
 "hub.title" = "Movement"
+"hub.description" = "David Stitt's movement practices, starting with qigong: exercise sets, stretching routines and background reading."
 "hub.coming_soon" = "coming soon"
 "nav.sites" = "Practices"
 "site.qigong" = "Qigong"

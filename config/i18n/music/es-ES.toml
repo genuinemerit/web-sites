@@ -11,6 +11,7 @@
 # Hub page. "Taller" (workshop) for Workbench reads more naturally in
 # Spanish than the literal "banco de trabajo".
 "hub.title" = "Música"
+"hub.description" = "La música de David Stitt: un taller de canciones, arreglos, experimentos y planes de práctica, con grabaciones."
 "hub.coming_soon" = "próximamente"
 "nav.sites" = "Secciones"
 "site.workbench" = "Taller"

@@ -30,7 +30,7 @@ exercises aimed at relieving specific symptoms of unease, pain or
 illness. The *Water Up, Fire Down* book focuses on energy circulation.
 
 **Michael Davies, *JIANGAN: The Chinese Health Wand*, Singing Dragon.**
-See <https://www.singingdragon.com> and
+See <https://uk.singingdragon.com/products/jiangan-the-chinese-health-wand> and
 <https://youtu.be/11VRNrKEa2A?list=PLR2J2RAlH-Q4icVYbR-7cO1PEVTNTmhHm>
 
 Michael Davies is a *taijiquan* instructor who popularized a practice
@@ -40,15 +40,6 @@ exercise wand that purportedly has ancient origins. He renamed this set
 *jiangan* a way of saying "exercise wand" in Mandarin. This form was
 originally described in Bruce L. Johnson's 1977 book *Chinese Exercise
 Wand*.
-
-**Scott Meredith, *Advanced Xingyi Energetics*, SeeOtter Media
-Productions.** See <https://www.amazon.com/s?k=Scott+Meredith>
-
-Scott Meredith is an MIT Ph.D. with a strong interest in a wide variety
-of martial arts. He's written a number of instructional books in a
-popular style on a variety of topics relating to his experience with
-these forms. His book on *Xingyi* provides clear, direct instructions on
-getting started with *santishi* and related *xingyi* practices.
 
 ## Websites
 

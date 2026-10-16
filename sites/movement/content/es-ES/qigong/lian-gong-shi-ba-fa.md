@@ -1,10 +1,10 @@
 ---
 source: Lian_Gong_Shi_Ba_Fa_18_Exercises.pdf
-translated_from: 9d2056f477fc
+translated_from: 75837407dca0
 ---
 
 **Lian Gong Shi Ba Fa: 18 ejercicios terapéuticos y de cuidado de la
-salud.** Dr. Zhuang Yuan Ming, <https://www.liangong.org>
+salud.** Dr. Zhuang Yuan Ming.
 
 ## Sección uno: zona cervical
 

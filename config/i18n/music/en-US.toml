@@ -10,6 +10,7 @@
 
 # Hub page (/<locale>/), shared hub layout.
 "hub.title" = "Music"
+"hub.description" = "David Stitt's music: a workbench of songs, arrangements, experiments and practice plans, with recordings."
 "hub.coming_soon" = "coming soon"
 "nav.sites" = "Sections"
 "site.workbench" = "Workbench"

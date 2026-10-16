@@ -1,6 +1,6 @@
 ---
 source: Qigong_References.pdf
-translated_from: 1d47e7d4fad1
+translated_from: 55e722fafc82
 ---
 
 **Referencias sobre el *qìgōng* (cultivo de la energía vital).**
@@ -32,7 +32,7 @@ malestar, dolor o enfermedad. El libro *Water Up, Fire Down* se centra en
 la circulación de la energía.
 
 **Michael Davies, *JIANGAN: The Chinese Health Wand*, Singing Dragon.**
-Consulta <https://www.singingdragon.com> y
+Consulta <https://uk.singingdragon.com/products/jiangan-the-chinese-health-wand> y
 <https://youtu.be/11VRNrKEa2A?list=PLR2J2RAlH-Q4icVYbR-7cO1PEVTNTmhHm>
 
 Michael Davies es un instructor de *taijiquan* que popularizó una
@@ -42,16 +42,6 @@ antiguo. Llamó a esta serie *Taiji Jiangan*: *taiji* por sus
 movimientos fluidos y *jiangan*, una forma de decir «vara de ejercicio»
 en mandarín. La forma se describió originalmente en el libro *Chinese
 Exercise Wand*, de Bruce L. Johnson (1977).
-
-**Scott Meredith, *Advanced Xingyi Energetics*, SeeOtter Media
-Productions.** Consulta <https://www.amazon.com/s?k=Scott+Meredith>
-
-Scott Meredith es doctor por el MIT y tiene un gran interés por una gran
-variedad de artes marciales. Ha escrito varios libros didácticos, de
-estilo divulgativo, sobre diversos temas relacionados con su experiencia
-en estas formas. Su libro sobre el *xingyi* da instrucciones claras y
-directas para empezar con el *santishi* y las prácticas de *xingyi*
-relacionadas.
 
 ## Sitios web
 

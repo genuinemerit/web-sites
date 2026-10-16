@@ -379,6 +379,38 @@ and nothing deploys before step 8.
   - "part 1" / "primera parte" was dropped from the page's opening line.
   - The fingerprint checks flagged the Spanish as out of date until it
     was updated, as designed. All 15 checks pass.
+- 2026-10-16: committed and pushed (`e893ed2`), so GitHub is current.
+  Step 7 started.
+  - Automated audit of all 70 movement pages: one h1 each, no
+    heading-level jumps, every image has alt text, every page has a
+    title, the skip link has its target, and `lang` matches the locale.
+    Only gap: the two hub pages have no meta description. That comes
+    from the shared hub layout, so all four hubs lack one.
+  - External links (21): 18 fine.
+    - `www.mdpi.com` and `www.ymaa.com` answer 403 to scripts (bot
+      blocking, probably fine in a browser).
+    - `www.liangong.org` is gone: https doesn't answer, and http serves
+      a "404 Not Found" page.
+    - A web search found no official replacement, only academic
+      articles and a Qigong Institute abstract.
+  - David's decisions (2026-10-16), in both languages:
+    - The liangong.org link is dropped; the credit to Dr. Zhuang Yuan
+      Ming stays. (His clinics were closed in the general crackdown on
+      qigong groups; the site was probably run by followers in India.)
+    - The Singing Dragon link goes straight to Michael Davies' book, with
+      the shop's tracking parameters removed.
+    - The Scott Meredith entry is removed from References: his other
+      books stray too far, and David doesn't want to seem to endorse
+      them.
+    - David checked YMAA, MDPI, Ilchi Lee, Michael Davies, Mimi
+      Kuo-Deemer and Alex Hui in a browser: all fine.
+  - Hub descriptions (David: "best judgement"). The shared hub layout
+    now writes a meta description from a new `hub.description` string.
+    It covers five pages: the genuinemerit and davidstitt hubs and the
+    music, movement and comunidad indexes, each in both languages. The
+    sentences are written to stay true as "coming soon" items go live.
+    The four already-live sites pick it up at the movement go-live
+    deploy.
 
 ## Questions for David (answered 2026-10-15)
 

@@ -3,7 +3,7 @@ source: Lian_Gong_Shi_Ba_Fa_18_Exercises.pdf
 ---
 
 **Lian Gong Shi Ba Fa: 18-step therapeutic and health care
-exercises.** Dr. Zhuang Yuan Ming, <https://www.liangong.org>
+exercises.** Dr. Zhuang Yuan Ming.
 
 ## Section one: cervical area
 

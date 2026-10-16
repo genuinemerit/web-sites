@@ -10,6 +10,7 @@
 
 # Collections index (stand-in, shared hub layout).
 "hub.title" = "Comunidad"
+"hub.description" = "Community projects collected by David Stitt, starting with the Sandwich Open Mic."
 "hub.coming_soon" = "coming soon"
 "site.openmic" = "Sandwich Open Mic"
 "site.uah" = "UAH · Alcalingua"
