@@ -104,3 +104,15 @@ vhosts:
     media: sites/music/media
     locales: [en-US, es-ES]
     pages: [workbench/, workbench/bella/]
+
+  # Movement (design/movement.md): hub at /<locale>/, the qigong index at
+  # /<locale>/qigong/ with one page per exercise set and reference
+  # (translated from David's prototype PDFs, which are not published).
+  # The legacy qigong.genuinemerit.com is retired, not redirected
+  # (design/domains.md).
+  - name: movement
+    canonical: movement.davidstitt.net
+    aliases: []
+    source: sites/movement/build
+    locales: [en-US, es-ES]
+    pages: [qigong/, qigong/ba-duan-jin/, qigong/references-and-links/]

@@ -1,7 +1,7 @@
 # `movement` — rebuild plan (evaluation of the qigong prototype)
 
-2026-10-15. Status: **decided; in progress** (decisions below, David's
-answers at the end). Source: David's prototype `sites/movement/heirloom/qigong/`
+2026-10-15. Status: **live 2026-10-16** at movement.davidstitt.net
+(decisions below, David's answers at the end). Source: David's prototype `sites/movement/heirloom/qigong/`
 (a one-page static site, its README, 7 images, 33 PDFs, favicons).
 
 ## Target shape (from David's brief)
@@ -205,9 +205,9 @@ and nothing deploys before step 8.
 - [x] **5. Spanish glossary**, for David to approve:
   `design/movement-glossary.md`.
 - [x] **6. Spanish set pages**, one category per review batch.
-- [ ] **7. Polish**: accessibility, contrast, narrow screens, print
+- [x] **7. Polish**: accessibility, contrast, narrow screens, print
   check, David's manual review.
-- [ ] **8. Go-live**:
+- [x] **8. Go-live**:
   - DNS `movement.davidstitt.net` and its certificate;
   - deploy and smoke test;
   - the `davidstitt.net` hub entry goes live;
@@ -411,6 +411,23 @@ and nothing deploys before step 8.
     sentences are written to stay true as "coming soon" items go live.
     The four already-live sites pick it up at the movement go-live
     deploy.
+- 2026-10-16: step 7 committed and pushed (`1ee589e`). Step 8, go-live:
+  - `vhosts.yml` gained the `movement` entry. Its smoke pages are
+    `qigong/`, `qigong/ba-duan-jin/` and `qigong/references-and-links/`.
+    The `davidstitt.net` hub's Movement link is now live. Local check:
+    15/15, with the movement vhost in the local nginx smoke test.
+  - DNS: A `movement.davidstitt.net` → 157.245.25.141, TTL 3600, created
+    18:18 UTC. Within a minute it resolved on ns1, 1.1.1.1 and 8.8.8.8.
+  - Deploy: failed=0. The hostname probe passed, so the certificate was
+    issued in the same run (Let's Encrypt YE1, valid to 2027-01-14). The
+    four live hubs picked up their new descriptions.
+  - Public smoke test: 142/142, including movement's language
+    redirects, all its pages in both languages, the security headers and
+    the custom 404.
+  - Certificate renewal dry run: all 6 certificates succeed, movement
+    included.
+  - **movement.davidstitt.net is live.**
+  - Left for David: add the hostname to Red Sift Certificates Lite.
 
 ## Questions for David (answered 2026-10-15)
 

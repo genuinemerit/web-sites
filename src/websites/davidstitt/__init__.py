@@ -14,11 +14,11 @@ SITE = "davidstitt"
 LOCALES = ["en-US", "es-ES"]
 
 # (catalog tag, URL, live) - see websites.genuinemerit.LINKS. `music`
-# is live: the legacy site keeps serving it until its own rebuild.
+# (2026-10-10) and `movement` (2026-10-16) are live on the new droplet.
 LINKS = [
     ("site.music", "https://music.davidstitt.net/", True),
     ("site.callejerez", "https://callejerez.davidstitt.net/", False),
-    ("site.movement", "https://movement.davidstitt.net/", False),
+    ("site.movement", "https://movement.davidstitt.net/", True),
 ]
 
 
