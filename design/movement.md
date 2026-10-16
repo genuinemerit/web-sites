@@ -427,6 +427,11 @@ and nothing deploys before step 8.
   - Certificate renewal dry run: all 6 certificates succeed, movement
     included.
   - **movement.davidstitt.net is live.**
+- 2026-10-16: David reviewed the live site in a desktop browser and on
+  mobile: looks good. Red Sift picked up movement.davidstitt.net's
+  certificate by itself, as it did sask's (it reads the public
+  certificate logs for every name under davidstitt.net), so nothing
+  needed adding.
   - Left for David: add the hostname to Red Sift Certificates Lite.
 
 ## Questions for David (answered 2026-10-15)
