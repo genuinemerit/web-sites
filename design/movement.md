@@ -352,6 +352,11 @@ and nothing deploys before step 8.
     Approved by David; 26 pages to go. Pushed at David's request
     (session end), with the i18n check still failing on the 26 missing
     pages; deploy.sh would refuse until they exist.
+- 2026-10-16: batch 3, Focus: `conserve-and-nurture`,
+  `dredge-tone-root-relax`, `flex-and-stretch`, `preserve-and-strengthen`,
+  `stretchy-qigong`, `seven-stretches`, `shake-out-the-kinks`. Approved
+  by David, who now has high confidence in the Spanish and asked for all
+  remaining 19 pages in one round.
 
 ## Questions for David (answered 2026-10-15)
 
