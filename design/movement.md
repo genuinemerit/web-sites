@@ -204,7 +204,7 @@ and nothing deploys before step 8.
   descriptions), hub, About, and the medical note.
 - [x] **5. Spanish glossary**, for David to approve:
   `design/movement-glossary.md`.
-- [ ] **6. Spanish set pages**, one category per review batch.
+- [x] **6. Spanish set pages**, one category per review batch.
 - [ ] **7. Polish**: accessibility, contrast, narrow screens, print
   check, David's manual review.
 - [ ] **8. Go-live**:
@@ -357,6 +357,28 @@ and nothing deploys before step 8.
   `stretchy-qigong`, `seven-stretches`, `shake-out-the-kinks`. Approved
   by David, who now has high confidence in the Spanish and asked for all
   remaining 19 pages in one round.
+- 2026-10-16: batch 3 committed locally (`c9285f5`). Final round: the
+  other 19 pages, covering Healing, Seasonal, Dragon Spirit and
+  References.
+  - Qigong and ATP: the article's quotations are translated, with a note
+    saying so («traducción nuestra») and the links to the original.
+  - References: book descriptions translated, titles kept in English.
+  - All 33 Spanish pages exist, and the full pre-build check passes again
+    (all 15 checks). Each Spanish page is 1.09-1.38 times its English's
+    word count, so nothing was dropped.
+  - Approved by David (with the Lian Gong correction below). Step 6
+    done; the backlog was pushed.
+- 2026-10-16: David's correction. Lian Gong Shi Ba Fa is the complete
+  set of 18 exercises (Dr. Zhuang and his successors have two further
+  sets of 18, not mentioned here); it was developed in the 1980s,
+  officially approved, hence its pragmatic language.
+  - Its summary ("The first part of an 18-exercise…") is now empty, in
+    both languages. The templates leave an empty summary out (no line on
+    the index, no lead on the page; the meta description falls back to
+    the title).
+  - "part 1" / "primera parte" was dropped from the page's opening line.
+  - The fingerprint checks flagged the Spanish as out of date until it
+    was updated, as designed. All 15 checks pass.
 
 ## Questions for David (answered 2026-10-15)
 

@@ -4,7 +4,7 @@
     the pages replace the PDFs). -#}
 {% extends "qigong_base.html" %}
 {% block title %}{{ item.title }} · {{ t(locale, "qigong.title") }}{% endblock %}
-{% block description %}{{ item.summary }}{% endblock %}
+{% block description %}{{ item.summary or item.title }}{% endblock %}
 {% block locale_url %}{% if page_exists(loc, item.id) %}{{ url_for('qigong_page', locale=loc, page_id=item.id) }}{% else %}{{ url_for('qigong', locale=loc) }}{% endif %}{% endblock %}
 
 {% block content %}
@@ -19,7 +19,7 @@
     {% endif %}
   </nav>
   {{ fit_title([item.title]) }}
-  <p class="lead">{{ item.summary }}</p>
+  {% if item.summary %}<p class="lead">{{ item.summary }}</p>{% endif %}
 </header>
 
 <p class="note">{{ t(locale, "qigong.note") }}</p>

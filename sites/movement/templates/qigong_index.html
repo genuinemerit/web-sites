@@ -8,12 +8,12 @@
 {% macro entry(item, cls) -%}
 {% if page_exists(locale, item.id) %}
 <a class="{{ cls }}" href="{{ url_for('qigong', locale=locale) }}{{ item.id }}/">
-  <span class="entry-copy"><strong>{{ item.title }}</strong><span class="entry-desc">{{ item.summary }}</span></span>
+  <span class="entry-copy"><strong>{{ item.title }}</strong>{% if item.summary %}<span class="entry-desc">{{ item.summary }}</span>{% endif %}</span>
   <span class="entry-go" aria-hidden="true">→</span>
 </a>
 {% else %}
 <div class="{{ cls }} pending">
-  <span class="entry-copy"><strong>{{ item.title }}</strong><span class="entry-desc">{{ item.summary }}</span></span>
+  <span class="entry-copy"><strong>{{ item.title }}</strong>{% if item.summary %}<span class="entry-desc">{{ item.summary }}</span>{% endif %}</span>
   <span class="entry-go">{{ t(locale, "qigong.in_preparation") }}</span>
 </div>
 {% endif %}

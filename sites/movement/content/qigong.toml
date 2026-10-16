@@ -12,7 +12,7 @@
 #
 #   category   id, title, subtitle, image (file in static/img/), alt
 #              ("" = decorative, as in the prototype)
-#   set        id, category, title, summary, source (the prototype PDF
+#   set        id, category, title, summary ("" = none), source (the prototype PDF
 #              it comes from, heirloom/qigong/sets/ - for the record)
 #   reference  id, title, summary, source (heirloom/qigong/img/)
 #
@@ -237,7 +237,7 @@ source = "Preparing_for_Autumn.pdf"
 id = "lian-gong-shi-ba-fa"
 category = "dragon-spirit"
 title = "Lian Gong Shi Ba Fa — 18 Beneficial Exercises"
-summary = "The first part of an 18-exercise therapeutic sequence."
+summary = ""  # none needed: the title says it (David, 2026-10-16)
 source = "Lian_Gong_Shi_Ba_Fa_18_Exercises.pdf"
 
 [[set]]
